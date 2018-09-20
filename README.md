@@ -43,6 +43,7 @@ creative guide.
 - [ ] Be able to move cardinal directions, `n`, `s`, `w`, and `e`
 - [ ] Using the Pusher API, see when other people have entered the room
 - [ ] Using the Pusher API, see when other people have entered the room and what direction they came from
+- [ ] Be able to use a `say` command to say things that other people in the room will see
 
 Upon your first commit, please submit a Pull Request and add _both_ the
 **Trello Set Up** and **MVP Features** Task lists to your first Pull
