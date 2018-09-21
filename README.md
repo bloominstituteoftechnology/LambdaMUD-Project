@@ -59,6 +59,10 @@ creative guide.
 - [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
 - [ ] Deploy to Heroku
 
+#### General
+- [ ] Header comments in all source files that describe overall what the file does
+- [ ] Header comments on all functions that describe what the function does, function arguments, and return values
+
 Upon your first commit, please submit a Pull Request and add _both_ the
 **Trello Set Up** and **MVP Features** Task lists to your first Pull
 Request comment:
@@ -92,6 +96,9 @@ Request comment:
 - [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
 - [ ] Deploy to Heroku
 
+#### General
+- [ ] Header comments in all source files that describe overall what the file does
+- [ ] Header comments on all functions that describe what the function does, function arguments, and return values
 ```
 
 ---
