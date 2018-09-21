@@ -13,7 +13,7 @@ where WebSockets come in.
 WebSocket is a computer communications protocol, providing full-duplex
 communication channels over a single TCP connection. You will be using
 the Pusher service to handle the WebSocket connections for your project.
-You can read more about WebSockets [here](https://pusher.com/websockets).
+You can read more about them [here](https://pusher.com/websockets).
 
 You are to treat this week as if you are working at a company and the
 instructor is your client. The project managers will be your main
@@ -63,6 +63,7 @@ Request comment:
 
 #### Server
 - [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
+- [ ] Deploy to Heroku
 
 ```
 
@@ -77,7 +78,6 @@ the client would love to have completed. Your goal would be to finish
 MVP as soon as you can and get working the list of features.
 
 ## Extra Features:
-
 
 - [ ] Add a `shout` command that broadcasts a message to every player
 - [ ] Add a `whisper` command that sends a private message to a single player
@@ -156,7 +156,7 @@ MVP as soon as you can and get working the list of features.
 
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"direction":"s"}' localhost:8000/api/adv/move/`
+  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 
@@ -168,7 +168,8 @@ MVP as soon as you can and get working the list of features.
 
 ## Client Frontend
 * Create a new GitHub respository using the technology of your choice
-* Implement user registration and logins via server API calls
+* Implement user registration and login via calls to the server API
+  * Store the response token for subsequent API requests
 * Create a game view for a logged in user
   * Make an `init` request upon loading game view to receive the player's starting location and unique `id`
   * Subscribe to the pusher channel named `p-channel-<player_id>` and bind to `broadcast` events
