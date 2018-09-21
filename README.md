@@ -97,7 +97,6 @@ MVP as soon as you can and get working the list of features.
 
 # Directions
 
-
 ## Set up a Pusher account
 * Sign up for a free account on pusher.com
 * Create a new app
@@ -120,8 +119,8 @@ MVP as soon as you can and get working the list of features.
     DEBUG=True
     PUSHER_APP_ID=<your_app_id>
     PUSHER_KEY=<your_pusher_key>
-    PUSHER_SECRET=<your_secret_key>
-    PUSHER_CLUSTER=<your_cluster>
+    PUSHER_SECRET=<your_pusher_secret>
+    PUSHER_CLUSTER=<your_pusher_cluster>
     ```
 
 * Run database migrations
@@ -137,26 +136,42 @@ MVP as soon as you can and get working the list of features.
   * `./manage.py runserver`
 
 
-## Run API commands
+## Test API commands
 ### Registration
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
-* Response: `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
+* Response:
+  * `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
 
 ### Login
-* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
-* Response: `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
+* Request:
+  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
+* Response:
+  * `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
 
 ### Initialize
-* `curl -X GET -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' localhost:8000/api/adv/init/`
-  * NOTE: Use your own auth token here
-* Response: `{"id": 1, "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
+* Request:  (Replace token string with logged in user's auth token)
+  * `curl -X GET -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' localhost:8000/api/adv/init/`
+* Response:
+  * `{"id": 1, "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
 ### Move
-* `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"direction":"s"}' localhost:8000/api/adv/move/`
-  * NOTE: Use your own auth token here
-* Response: `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
+* Request:  (Replace token string with logged in user's auth token)
+  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"direction":"s"}' localhost:8000/api/adv/move/`
+* Response:
+  * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 
 ### Say (NOT YET IMPLEMENTED)
-* `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
-  * NOTE: Use your own auth token here
+* Request:  (Replace token string with logged in user's auth token)
+  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 
+## Deploy server to Heroku
+
+## Client Frontend
+* Create a new GitHub respository using the technology of your choice
+* Implement user registration and logins via server API calls
+* Create a game view for a logged in user
+  * Make an `init` request upon loading game view to receive the player's starting location and unique `id`
+  * Subscribe to the pusher channel named `p-channel-<player_id>` and bind to `broadcast` events
+    * Handle incoming `broadcast` messages by displaying them to the player
+  * Parse user commands, then make API calls based on valid inputs
+    * Handle valid API responses and update the display accordingly
