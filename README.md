@@ -193,6 +193,8 @@ MVP as soon as you can and get working the list of features.
 
 ## Deploy server to Heroku
 
+* Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
+
 ## Client Frontend
 * Create a new GitHub respository using the technology of your choice
 * Implement user registration and login via calls to the server API
