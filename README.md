@@ -56,7 +56,7 @@ Request comment:
 - [ ] Create an interface that displays the current room name, its description and the other players in the room
 - [ ] Be able to move between rooms and update the display accordingly (implemented on server)
 - [ ] Be able to use a `say` command to say things that other people in the room will see (server implementation incomplete)
-- [ ] Upon login, subscribe to a Pusher channel based on the player's id: `p-channel-<id>`
+- [ ] Upon login, subscribe to a Pusher channel based on the player's universally unique id: `p-channel-<uuid>`
 - [ ] Bind the player channel to `broadcast` events and display the messages to the player
 - [ ] Alert the player when someone enters and leaves the current room (implemented on server)
 - [ ] Alert the player when someone in the current room says something (server implementation incomplete)
@@ -140,29 +140,29 @@ MVP as soon as you can and get working the list of features.
 ### Registration
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
-  * `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
+  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Login
 * Request:
   * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
 * Response:
-  * `{"key":"2330ee38f77a42e2ef3799c4e9783662987e2347"}`
+  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
 * Response:
-  * `{"id": 1, "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
+  * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
+  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 2330ee38f77a42e2ef3799c4e9783662987e2347' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 
 ## Deploy server to Heroku
 
@@ -172,7 +172,7 @@ MVP as soon as you can and get working the list of features.
   * Store the response token for subsequent API requests
 * Create a game view for a logged in user
   * Make an `init` request upon loading game view to receive the player's starting location and unique `id`
-  * Subscribe to the pusher channel named `p-channel-<player_id>` and bind to `broadcast` events
+  * Subscribe to the pusher channel named `p-channel-<uuid>` and bind to `broadcast` events
     * Handle incoming `broadcast` messages by displaying them to the player
   * Parse user commands, then make API calls based on valid inputs
     * Handle valid API responses and update the display accordingly
