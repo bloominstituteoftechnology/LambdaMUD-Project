@@ -203,7 +203,7 @@ MVP as soon as you can and get working the list of features.
 * Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
 
 ## Client Frontend
-* Create a new GitHub respository using the technology of your choice
+* Fork the [LambdaMUD-Client](https://github.com/LambdaSchool/LambdaMUD-Client) repo and put your front-end code there. Back-end code goes in this repo.
 * Implement user registration and login via calls to the server API
   * Store the response token for subsequent API requests
 * Create a game view for a logged in user
