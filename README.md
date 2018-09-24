@@ -193,10 +193,15 @@ MVP as soon as you can and get working the list of features.
   * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
+* Pusher broadcast:
+  * Players in previous room receive a message: `<name> has walked north.`
+  * Players in next room receive a message: `<name> has entered from the south.`
 
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
   * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+* Pusher broadcast:
+  * Players in current room receive a message: `<name> says "Hello, world!"`
 
 ## Deploy server to Heroku
 
