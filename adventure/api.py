@@ -14,6 +14,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    print(request)
     user = request.user
     player = user.player
     player_id = player.id
