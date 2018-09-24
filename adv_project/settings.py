@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # }
 #for heroku
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES[‘default’] = dj_database_url.config(default=config(‘DATABASE_URL’), conn_max_age=600)
 
 
 # Password validation
