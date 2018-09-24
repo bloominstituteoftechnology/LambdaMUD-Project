@@ -20,7 +20,7 @@ def initialize(request):
     print(f'Player: {player}')
     player_id = player.id
     uuid = player.uuid
-    print(f'UUID: {uuid}'')
+    print(f'UUID: {uuid}')
     room = player.room()
     print(f'room: {room}')
     players = room.playerNames(player_id)
