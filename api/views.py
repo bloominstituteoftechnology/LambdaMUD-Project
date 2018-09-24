@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+#The @csrf_exempt utility disable csrf_protect for the following funtion-based views
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
