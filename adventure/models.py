@@ -15,7 +15,7 @@ class Room(models.Model):
     Room properties: 
         Title: text
         Description: text
-        Direction(n_to, s_to, e_to, w_to): boolean
+        Direction(n_to, s_to, e_to, w_to): int (connect to Room.id in corresponding direction)
     Room methods:
         connectRooms, playerNames, playerUUIDs
     """
@@ -29,8 +29,9 @@ class Room(models.Model):
         """
         This method defines connection to the current room.
         This method takes in 2 arguments:
-            destinationRoom: the Room object to which the current Room connect
+            destinationRoom: the Room object to which the current Room connect. If destinationRoom exists then connect with the corresponding direction, else return error.
             direction: which direct to connect. If direct is not (n, w, s, e) then return error message.
+        Save the result to db.
         """
         destinationRoomID = destinationRoom.id
         try:
@@ -51,8 +52,14 @@ class Room(models.Model):
                 return
             self.save()
     def playerNames(self, currentPlayerID):
+        """
+        This method returns all players' names in the current room except current player.
+        """
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
+        """
+        This method returns all players' ids in the current room except current player.
+        """
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
 
