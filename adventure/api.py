@@ -22,6 +22,7 @@ def initialize(request):
     This function handles initial user information when the game starts.
     Returns a JsonResponse of a user's information.
     """
+    
     user = request.user
     player = user.player
     player_id = player.id
@@ -38,6 +39,7 @@ def move(request):
     This function handles directional commands for all players.  
     Returns a JsonResponse for players that enter/leave a room or provide incorrect directions. 
     """
+    
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -79,7 +81,13 @@ def say(request):
     This function handles requests with user messages.
     Returns a JsonResponse of the user's message. 
     """
-    if request.message:
-        return JsonResponse(request.message, safe=True, status=200)
+    
+    data = json.loads(request.body)
+    player = request.user.player
+    username = player.user.username
+    message = data['message']
+
+    if message:
+        return JsonResponse({username:message}, safe=True, status=200)
     else: 
         return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
