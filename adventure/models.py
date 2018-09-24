@@ -76,10 +76,17 @@ class Player(models.Model):
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
+        """
+        This methods initialize Player and set the currentRoom to first room with id 0.
+        """
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
             self.save()
     def room(self):
+        """
+        This method returns the currentRoom object the Player is in.
+        If there is no current Room, then call initialize method to set the currentRoom, and return it.
+        """
         try:
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
@@ -88,12 +95,21 @@ class Player(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
+    """
+    This is a receiver function that executes when a save is executed by the User model.
+    This function will create new Player and Token objects that is associated with the calling User instance.
+    """
     if created:
         Player.objects.create(user=instance)
         Token.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_player(sender, instance, **kwargs):
+    """
+    This is a receiver function that executes when a save is executed by the User model.
+    This function will save the player to the User instance.
+
+    """
     instance.player.save()
 
 
