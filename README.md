@@ -206,6 +206,8 @@ MVP as soon as you can and get working the list of features.
 ## Deploy server to Heroku
 
 * Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
+* Add environment variables to heroku using `heroku config:set KEY=VALUE`
+* Run the code in create_world.py on your heroku server (`heroku run python manage.py shell`)
 
 ## Client Frontend
 * Fork the [LambdaMUD-Client](https://github.com/LambdaSchool/LambdaMUD-Client) repo and put your front-end code there. Back-end code goes in this repo.
