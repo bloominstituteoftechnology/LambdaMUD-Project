@@ -7,7 +7,7 @@ import json
 
 @csrf_exempt
 def register(request):
-    # request.body
+    # example: request.body
     # {
     # "username": "dragon",
     # "password1": "I am a password",
@@ -39,7 +39,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
-    # request.body
+    # example: request.body
     # {
     #   "username": "dragon",
     #   "password": "I am a password"
