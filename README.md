@@ -1,4 +1,5 @@
-# Adventure Project Week
+
+# Adventure Project Week - Trello Setup complete - https://trello.com/b/1KgCQSDW/lambdamud-jjashcraft
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
