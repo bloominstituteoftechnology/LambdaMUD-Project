@@ -1,3 +1,5 @@
+# This is the views file, for this app it handles all of the functions for register/login.
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse

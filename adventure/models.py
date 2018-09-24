@@ -1,3 +1,7 @@
+# This file houses the models of our data. "A model is the single, 
+# definitive source of information about your data. It contains the essential fields and behaviors 
+# of the data you’re storing. Generally, each model maps to a single database table."
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
