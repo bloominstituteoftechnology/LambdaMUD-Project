@@ -32,6 +32,7 @@ creative guide.
   company in a real world setting.
 
 ## Trello Set Up:
+https://trello.com/b/lTzUplkt/lambdamud-chheany-mok
 
 - [ ] Create a Trello account if you don't have one already
 - [ ] Create a new board called "LambdaMUD - {Your Name}"
