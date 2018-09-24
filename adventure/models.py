@@ -12,11 +12,11 @@ import uuid
 class Room(models.Model):
     """
     Create base models for Room.
-    Room properties: 
-        Title: text
-        Description: text
-        Direction(n_to, s_to, e_to, w_to): int (connect to Room.id in corresponding direction)
-    Room methods:
+    Room's properties: 
+        Title: text field, stores room's title.
+        Description: text field, stores room's description. 
+        Direction(n_to, s_to, e_to, w_to): int field, stores the Room.id connected to corresponding direction)
+    Room's methods:
         connectRooms, playerNames, playerUUIDs
     """
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -64,6 +64,14 @@ class Room(models.Model):
 
 
 class Player(models.Model):
+    """
+    Create base model for Player
+    Player's properties:
+        user: stores User object that Player connects to.
+        currentRoom: int field, stores id of the current Room the Player is in.
+        uuid: uuid field, stores id of current Player.
+    Player's methods: intialize, room.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
