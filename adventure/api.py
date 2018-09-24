@@ -19,16 +19,17 @@ def initialize(request):
     player_id = player.id
     uuid = player.uuid
     room = player.room()
-    players = room.players(player_id)
+    players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
+    player_id = player.id
     player_uuid = player.uuid
     data = json.loads(request.body)
     direction = data['direction']
@@ -46,21 +47,21 @@ def move(request):
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
         player.save()
-        players = nextRoom.players(player_uuid)
-        currentPlayerIDs = room.playerIDs(player_uuid)
-        nextPlayerIDs = nextRoom.playerIDs(player_uuid)
+        players = nextRoom.playerNames(player_id)
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+        nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
-        for pid in nextPlayerIDs:
+        for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
-        players = room.players(player_uuid)
+        players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-        print("NOT YET IMPLEMENTED!")
-        return JsonResponse({'error_msg':"Not yet implemented."}, safe=True)
+    # IMPLEMENT
+    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
