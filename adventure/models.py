@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
@@ -30,10 +31,10 @@ class Room(models.Model):
                 print("Invalid direction")
                 return
             self.save()
-    def players(self, currentPlayerID):
+    def playerNames(self, currentPlayerID):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
-    def playerIDs(self, currentPlayerID):
-        return [p.id for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+    def playerUUIDs(self, currentPlayerID):
+        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
 
 class Player(models.Model):
@@ -55,6 +56,7 @@ class Player(models.Model):
 def create_user_player(sender, instance, created, **kwargs):
     if created:
         Player.objects.create(user=instance)
+        Token.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_player(sender, instance, **kwargs):
