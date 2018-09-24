@@ -1,4 +1,4 @@
-# https://github.com/ekm79/LambdaMUD-Client.git
+# https://trello.com/b/Ywcid4lG/lambdamud-erin-meredith
 
 # Adventure Project Week
 
