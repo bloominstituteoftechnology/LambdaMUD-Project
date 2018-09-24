@@ -1,4 +1,4 @@
-Simon's Trello Link: https://trello.com/c/IUSlUnnK/4-make-a-mockup-of-the-game
+Simon's Trello Link: https://trello.com/b/faidU6jo/lambdamud-project-simon-davis
 
 
 # Adventure Project Week
