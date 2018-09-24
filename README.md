@@ -217,3 +217,7 @@ MVP as soon as you can and get working the list of features.
     * Handle incoming `broadcast` messages by displaying them to the player
   * Parse user commands, then make API calls based on valid inputs
     * Handle valid API responses and update the display accordingly
+
+
+##Trello
+https://trello.com/b/9Ld17YpK/lambdamud
