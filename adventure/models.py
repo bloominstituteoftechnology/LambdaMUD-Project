@@ -51,6 +51,9 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+    def say(self, command):
+        print(command)
+
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
