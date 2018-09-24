@@ -1,3 +1,13 @@
+"""
+Creates the views for a login page. 
+
+Register takes in the user request, roughly validates the username and password and returns a JSON
+object with an authorization token
+
+login Takes in request, parses username and password, and returns a JSON object with an authorization token 
+valid
+
+"""
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -7,6 +17,10 @@ import json
 
 @csrf_exempt
 def register(request):
+    """Registers a new user
+    Register takes in the user request, roughly validates the username and password and returns a JSON
+    object with an authorization token
+    """
     data = json.loads(request.body)
     username = data['username']
     password1 = data['password1']
@@ -31,6 +45,10 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    """Logs a user in
+    Takes in request, parses username and password, and returns a JSON object with an authorization token 
+    valid
+    """
     data = json.loads(request.body)
     username = data['username']
     password = data['password']

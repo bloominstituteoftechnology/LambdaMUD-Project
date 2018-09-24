@@ -1,3 +1,15 @@
+'''
+Configures API for adventure
+
+Instantiates a pusher instance (Used to communicate between users)
+
+initialize takes in user and player from the request and returns a JSON view (views are like controllers in django's MVC)
+with all needed info for the front end about the player and room.
+
+move takes in a player object and a direction from the request, validates the direction and updates players info in database
+
+'''
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -14,6 +26,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """Takes in User and player from the request and returns a JSON object for the front end to interpret"""
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +39,9 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    '''Takes in the player and a direction from the request, validates the direction has a valid room, and moves player.
+        returns JSON with updated info, or error if invalid room
+    '''
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
