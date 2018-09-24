@@ -1,4 +1,4 @@
-## Trello Board Link: https://trello.com/b/g56pfUc1/lambdamud-project-alec-jordan
+## [Trello Board Link](https://trello.com/b/g56pfUc1/lambdamud-project-alec-jordan)
 
 # Adventure Project Week
 
