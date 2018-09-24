@@ -71,7 +71,7 @@ ROOT_URLCONF = 'adv_project.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.Dj angoTemplates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 
 DATABASES = {}
 # DATABASES['default'] = dj_database_url.config(default='sqlite:///file.db', conn_max_age=600)
-DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL', cast=Csv()), conn_max_age=600)
+DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=600)
 
 
 # Password validation
