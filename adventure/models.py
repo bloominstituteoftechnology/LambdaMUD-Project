@@ -1,3 +1,7 @@
+"""
+This file defines the Room and Player models, as well as create_user_player and save_user_player methods.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -22,6 +26,12 @@ class Room(models.Model):
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
     def connectRooms(self, destinationRoom, direction):
+        """
+        This method defines connection to the current room.
+        This method takes in 2 arguments:
+            destinationRoom: the Room object to which the current Room connect
+            direction: which direct to connect. If direct is not (n, w, s, e) then return error message.
+        """
         destinationRoomID = destinationRoom.id
         try:
             destinationRoom = Room.objects.get(id=destinationRoomID)
