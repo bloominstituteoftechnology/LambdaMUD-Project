@@ -108,7 +108,6 @@ def save_user_player(sender, instance, **kwargs):
     """
     This is a receiver function that executes when a save is executed by the User model.
     This function will save the player to the User instance.
-
     """
     instance.player.save()
 
