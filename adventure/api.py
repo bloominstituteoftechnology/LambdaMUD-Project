@@ -17,9 +17,12 @@ def initialize(request):
     print(request)
     user = request.user
     player = user.player
+    print(f'Player: {player}')
     player_id = player.id
     uuid = player.uuid
+    print(f'UUID: {uuid}'')
     room = player.room()
+    print(f'room: {room}')
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
