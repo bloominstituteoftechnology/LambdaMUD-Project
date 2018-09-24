@@ -1,3 +1,5 @@
+Trello Board URL:
+https://trello.com/b/OGwiJL28/lambdamud-marco-guzman
 
 # Adventure Project Week
 
