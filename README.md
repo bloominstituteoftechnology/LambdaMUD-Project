@@ -44,6 +44,7 @@ creative guide.
 ## MVP Features:
 
 #### Client
+
 - [ ] Create a standalone frontend app that communicates with the server via API calls
 - [ ] Be able to create a new account on the server (implemented on server)
 - [ ] Be able to log in to the server (implemented on server)
@@ -56,10 +57,12 @@ creative guide.
 - [ ] Alert the player when someone in the current room says something (server implementation incomplete)
 
 #### Server
+
 - [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
 - [ ] Deploy to Heroku
 
 #### General
+
 - [ ] Header comments in all source files that describe overall what the file does
 - [ ] Header comments on all functions that describe what the function does, function arguments, and return values
 
@@ -81,6 +84,7 @@ Request comment:
 ## MVP Features:
 
 #### Client
+
 - [ ] Create a standalone frontend app that communicates with the server via API calls
 - [ ] Be able to create a new account on the server (implemented on server)
 - [ ] Be able to log in to the server (implemented on server)
@@ -93,10 +97,12 @@ Request comment:
 - [ ] Alert the player when someone in the current room says something (server implementation incomplete)
 
 #### Server
+
 - [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
 - [ ] Deploy to Heroku
 
 #### General
+
 - [ ] Header comments in all source files that describe overall what the file does
 - [ ] Header comments on all functions that describe what the function does, function arguments, and return values
 ```
@@ -126,28 +132,30 @@ MVP as soon as you can and get working the list of features.
 - [ ] Add combat with NPCs
 - [ ] Add PvP combat
 
-
 ---
 
 # Directions
 
 ## Set up a Pusher account
-* Sign up for a free account on pusher.com
-* Create a new app
-* Take note of your credentials
-  * app_id, key, secret, cluster
-* Look through the provided sample code and documentation
 
+- Sign up for a free account on pusher.com
+- Create a new app
+- Take note of your credentials
+  - app_id, key, secret, cluster
+- Look through the provided sample code and documentation
 
 ## Set up your local server
-* Set up your virtual environment
-  * `pipenv --three`
-  * `pipenv install`
-  * `pipenv shell`
 
-* Add your secret credentials
-  * Create `.env` in the root directory of your project
-  * Add your pusher credentials and secret key
+- Set up your virtual environment
+
+  - `pipenv --three`
+  - `pipenv install`
+  - `pipenv shell`
+
+- Add your secret credentials
+
+  - Create `.env` in the root directory of your project
+  - Add your pusher credentials and secret key
     ```
     SECRET_KEY='<your_secret_key>'
     DEBUG=True
@@ -157,58 +165,66 @@ MVP as soon as you can and get working the list of features.
     PUSHER_CLUSTER=<your_pusher_cluster>
     ```
 
-* Run database migrations
-  * `./manage.py makemigrations`
-  * `./manage.py migrate`
+- Run database migrations
 
-* Add rooms to your database
-  * `./manage.py shell`
-  * Copy/paste the contents of `util/create_world.py` into the Python interpreter
-  * Exit the interpreter
+  - `./manage.py makemigrations`
+  - `./manage.py migrate`
 
-* Run the server
-  * `./manage.py runserver`
+- Add rooms to your database
 
+  - `./manage.py shell`
+  - Copy/paste the contents of `util/create_world.py` into the Python interpreter
+  - Exit the interpreter
+
+- Run the server
+  - `./manage.py runserver`
 
 ## Test API commands
+
 ### Registration
-* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
-* Response:
-  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
+
+- `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
+- Response:
+  - `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Login
-* Request:
-  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
-* Response:
-  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
+
+- Request:
+  - `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
+- Response:
+  - `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Initialize
-* Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
-* Response:
-  * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
+
+- Request: (Replace token string with logged in user's auth token)
+  - `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
+- Response:
+  - `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
 ### Move
-* Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
-* Response:
-  * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
+
+- Request: (Replace token string with logged in user's auth token)
+  - `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
+- Response:
+  - `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 
 ### Say (NOT YET IMPLEMENTED)
-* Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+
+- Request: (Replace token string with logged in user's auth token)
+  - `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 
 ## Deploy server to Heroku
 
-* Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
+- Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
 
 ## Client Frontend
-* Fork the [LambdaMUD-Client](https://github.com/LambdaSchool/LambdaMUD-Client) repo and put your front-end code there. Back-end code goes in this repo.
-* Implement user registration and login via calls to the server API
-  * Store the response token for subsequent API requests
-* Create a game view for a logged in user
-  * Make an `init` request upon loading game view to receive the player's starting location and unique `id`
-  * Subscribe to the pusher channel named `p-channel-<uuid>` and bind to `broadcast` events
-    * Handle incoming `broadcast` messages by displaying them to the player
-  * Parse user commands, then make API calls based on valid inputs
-    * Handle valid API responses and update the display accordingly
+
+- Fork the [LambdaMUD-Client](https://github.com/LambdaSchool/LambdaMUD-Client) repo and put your front-end code there. Back-end code goes in this repo.
+- Implement user registration and login via calls to the server API
+  - Store the response token for subsequent API requests
+- Create a game view for a logged in user
+  - Make an `init` request upon loading game view to receive the player's starting location and unique `id`
+  - Subscribe to the pusher channel named `p-channel-<uuid>` and bind to `broadcast` events
+    - Handle incoming `broadcast` messages by displaying them to the player
+  - Parse user commands, then make API calls based on valid inputs \* Handle valid API responses and update the display accordingly
+    :)
