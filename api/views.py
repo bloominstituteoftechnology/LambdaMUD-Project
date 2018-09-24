@@ -7,6 +7,14 @@ import json
 
 @csrf_exempt
 def register(request):
+    # request.body
+    # {
+    # "username": "dragon",
+    # "password1": "I am a password",
+    # "password2": "I am a password"
+    # }
+    # Two passwords are needed to ensure user entered the password
+    # they have in mind
     data = json.loads(request.body)
     username = data['username']
     password1 = data['password1']
@@ -31,6 +39,11 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    # request.body
+    # {
+    #   "username": "dragon",
+    #   "password": "I am a password"
+    # }
     data = json.loads(request.body)
     username = data['username']
     password = data['password']
