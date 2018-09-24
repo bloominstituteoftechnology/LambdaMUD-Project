@@ -1,5 +1,7 @@
 # Trello Link --> https://trello.com/b/28AZiAf7/lambdamud-tristan-linehan
 
+python manage.py 
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
