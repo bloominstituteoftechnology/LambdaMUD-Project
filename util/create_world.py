@@ -1,4 +1,5 @@
 """
+Clears existing rooms from the database
 Creates several instances of Room, saves them to the databases and links them together
 Gets all players from the database and sets their current room to outside
 """
