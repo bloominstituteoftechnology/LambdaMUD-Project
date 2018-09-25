@@ -79,7 +79,7 @@ def say(request):
     if message:
 	    for p_uuid in playerUUIDs:
 	        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{message}'})
-	    return JsonResponse({'namez':player.user.username, 'message':message, 'error_msg':""}, safe=True)
+	    return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':""}, safe=True)
     else:
 	    return JsonResponse({'error':"Something is wrong"}, safe=True, status=500)
 
