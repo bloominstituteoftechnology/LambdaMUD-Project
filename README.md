@@ -1,4 +1,8 @@
+# Trello
 https://trello.com/b/imxDlZrR/lambdamud-arthur-pisakhov
+
+# LambdaMUD-Client
+https://github.com/LambdaSchool/LambdaMUD-Client/pull/19
 
 # Adventure Project Week
 
