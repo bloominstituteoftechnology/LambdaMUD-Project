@@ -56,7 +56,7 @@ class Player(models.Model):
 
     def room(self):
         ''' return current room'''
-        
+
         try:
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
@@ -74,8 +74,3 @@ def create_user_player(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_player(sender, instance, **kwargs):
     instance.player.save()
-
-
-
-
-

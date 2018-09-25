@@ -46,3 +46,15 @@ def login(request):
         else:
             response = JsonResponse({"error": "Unable to log in with provided credentials."}, safe=True, status=500)
     return response
+
+# Login
+# curl -X POST -H "Content-Type: application/json" -d '{"username": "sibhat", "password":"sibhat"}' localhost:8800/api/login/
+
+# registration
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser3", "password1":"testpassword3", "password2":"testpassword3"}' localhost:8800/api/registration/
+
+# Login
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser3", "password":"testpassword3"}' localhost:8800/api/login/
+
+# Initialize
+# curl -X GET -H 'Authorization: Token 08b2021a6d1072bb4384ef9a5f5974b1833fd637' localhost:8800/api/adv/init/
