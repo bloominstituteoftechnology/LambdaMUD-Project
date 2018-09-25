@@ -1,4 +1,4 @@
-pi[[source]]
+[[source]]
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -14,6 +14,9 @@ django-cors-headers = "*"
 gunicorn = "*"
 django-heroku = "*"
 django-rest-api = "*"
+"psycopg2-binary" = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
