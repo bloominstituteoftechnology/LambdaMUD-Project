@@ -1,1 +1,1 @@
-web: gunicorn lambdamudproj.wsgi
+web: gunicorn lambdamud-app.wsgi
