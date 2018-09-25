@@ -1,6 +1,6 @@
 # Trello Link --> https://trello.com/b/28AZiAf7/lambdamud-tristan-linehan
 
-python manage.py 
+python manage.py  
 
 # Adventure Project Week
 
