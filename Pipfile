@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
 djangorestframework = "*"
 python-decouple = "*"
 django-rest-auth = "*"
@@ -17,6 +16,7 @@ django-rest-api = "*"
 "psycopg2-binary" = "*"
 dj-database-url = "*"
 whitenoise = "*"
+django = "==2.1.1"
 
 [dev-packages]
 pylint = "*"
