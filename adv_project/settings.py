@@ -151,7 +151,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
-STATIC_DIRS = os.path.join(BASE_DIR, 'staticfiles') 
 
 # Extra places for collectstatic to find static files.
 
