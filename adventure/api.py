@@ -83,3 +83,22 @@ def say(request):
     else:
 	    return JsonResponse({'error':"Something is wrong"}, safe=True, status=500)
 
+"""Allows a player to broadcast a message to all players in game
+receives a request object containing message info and returns a JSON response with the message info"""
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    playerUUIDs = room.playerUUIDs(player_id)
+    if message:
+	    for p_uuid in playerUUIDs:
+	        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{message}'})
+	    return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':""}, safe=True)
+    else:
+	    return JsonResponse({'error':"Something is wrong"}, safe=True, status=500)
+
