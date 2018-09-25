@@ -69,6 +69,16 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player_uuid
+    data = json.loads(request.body)
+    room = player.room()
+    message = data['message']
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+
     # IMPLEMENT
 
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    return JsonResponse({'message': message}, safe=True, status=500)
