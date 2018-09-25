@@ -68,4 +68,7 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error': "Not yet implemented"}, safe=True, status=500)
+    data = json.loads(request.body)
+    player = request.user.player
+    message = data['message']
+    return JsonResponse({'name': player.user.username, 'message': message}, safe=True, status=500)
