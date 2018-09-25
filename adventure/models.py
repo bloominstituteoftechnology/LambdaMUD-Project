@@ -9,7 +9,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
 
-#the room class controls the creation of rooms, and assigning the default room characteristics.
+#the room class controls the creation of rooms, takes in a title and description and assigns the default room characteristics.
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
