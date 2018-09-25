@@ -14,7 +14,8 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 
 @csrf_exempt
 @api_view(["GET"])
-# Puts the player into the game inside of whatever room they were in when they were last in the game
+"""Puts the player into the game inside of whatever room they were in when they were last in the game
+takes a request as argment and returns a json value with player name, uuid and room location"""
 def initialize(request):
     user = request.user
     player = user.player
@@ -27,7 +28,8 @@ def initialize(request):
 
 # @csrf_exempt
 @api_view(["POST"])
-# Moves the player from one room to another and broadcasts player's movement throughout rooms
+"""Moves the player from one room to another and broadcasts player's movement throughout rooms
+takes in a request object and returns a json response with player and room info"""
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
@@ -65,7 +67,8 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
-# Allows a player to broadcast a message to other players in the room
+"""Allows a player to broadcast a message to other players in the room
+receives a request object containing message info and returns a JSON response with the message info"""
 def say(request):
     player = request.user.player
     player_id = player.id
