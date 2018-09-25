@@ -219,3 +219,88 @@ MVP as soon as you can and get working the list of features.
     * Handle incoming `broadcast` messages by displaying them to the player
   * Parse user commands, then make API calls based on valid inputs
     * Handle valid API responses and update the display accordingly
+
+## Troubleshooting
+
+### `/admin` gives nondescript `500` error
+* Set up whitenoise or a `STATIC_ROOT`.
+* Run `create_world.py` on the server:
+  ```
+  heroku run python manage.py shell
+  python util/create_world.py
+  ```
+
+### Generator expression must be parenthesized (option A)
+
+If you get this error on the server while it's trying to run `collectstatic`,
+see the next section.
+
+```
+File "/home/example/.local/share/virtualenvs/LambdaMUD-Project-xxxxxxxx/lib/python3.7/site-packages/django/contrib/admin/widgets.py", line 152
+    '%s=%s' % (k, v) for k, v in params.items(),
+    ^
+SyntaxError: Generator expression must be parenthesized
+```
+
+This is caused by running Django version 1 with Python version 3.7.
+
+Upgrade Django to version 2.x.
+
+An apparently foolproof way to do this is (in your virtual environment):
+
+```
+pipenv uninstall django
+```
+
+Then manually edit your `Pipfile` in the `[packages]` section to include:
+
+```
+[packages]
+django = "2"
+```
+
+Then run `pipenv install`.
+
+### Generator expression must be parenthesized (option B)
+
+```
+         File "/app/.heroku/python/lib/python3.7/site-packages/django/contrib/admin/widgets.py", line 152
+           '%s=%s' % (k, v) for k, v in params.items(),
+           ^
+       SyntaxError: Generator expression must be parenthesized
+ !     Error while running '$ python manage.py collectstatic --noinput'.
+       See traceback above for details.
+       You may need to update application code to resolve this error.
+       Or, you can disable collectstatic for this application:
+          $ heroku config:set DISABLE_COLLECTSTATIC=1
+       https://devcenter.heroku.com/articles/django-assets
+ !     Push rejected, failed to compile Python app.
+ !     Push failed
+ ```
+
+Try this on the command line:
+
+```
+heroku config:set DISABLE_COLLECTSTATIC=1
+```
+
+If it persists, try adding this to the end of `settings.py`:
+
+```python
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+```
+
+### Pusher: `Invalid app id`
+
+When using `config('PUSHER_APP_ID')`:
+
+```
+  File "/app/.heroku/python/lib/python3.7/site-packages/pusher/client.py", line 25, in __init__
+    raise ValueError("Invalid app id")
+ValueError: Invalid app id
+```
+
+This one remains unsolved.
+
+Hardcoding the app ID into the app (not using `config()`) seems to be a
+workaround.
