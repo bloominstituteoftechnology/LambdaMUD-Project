@@ -1,3 +1,4 @@
+# API used for all player commands/actions in the game
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -13,6 +14,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 
 @csrf_exempt
 @api_view(["GET"])
+# Puts the player into the game inside of whatever room they were in when they were last in the game
 def initialize(request):
     user = request.user
     player = user.player
@@ -25,6 +27,7 @@ def initialize(request):
 
 # @csrf_exempt
 @api_view(["POST"])
+# Moves the player from one room to another and broadcasts player's movement throughout rooms
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
@@ -62,8 +65,8 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
+# Allows a player to broadcast a message to other players in the room
 def say(request):
-    # IMPLEMENT
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid

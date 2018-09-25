@@ -1,3 +1,4 @@
+# Url patterns used to access our api
 from django.conf.urls import url
 from . import api
 
