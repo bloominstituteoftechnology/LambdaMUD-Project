@@ -11,6 +11,7 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+# this converts the player and room data into a JSON object for the front end
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
