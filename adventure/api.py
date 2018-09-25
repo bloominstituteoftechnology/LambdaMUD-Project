@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
-pusher = Pusher(app_id="607070", key="dac79d52d64228f70d36", secret="98284b58f3fbcc102c4e", cluster=config('PUSHER_CLUSTER'))
+pusher = Pusher(app_id="607070", key="dac79d52d64228f70d36", secret="98284b58f3fbcc102c4e", cluster="us2")
 
 @csrf_exempt
 @api_view(["GET"])
