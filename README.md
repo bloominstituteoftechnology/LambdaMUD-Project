@@ -177,32 +177,54 @@ MVP as soon as you can and get working the list of features.
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
+<!-- Heroku Test User Registration -->
+<!-- key returned for above test user: 8b66231ed5b3817d0eac1442080f3ee23a07937a -->
+
 ### Login
 * Request:
   * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
+  <!-- Heroku Test User Login -->
+  <!-- key returned successfully - 8b66231ed5b3817d0eac1442080f3ee23a07937a -->
+
+
+
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token fd832f82df0543199c4e98d3f5a97c93c0427ea9' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 8b66231ed5b3817d0eac1442080f3ee23a07937a' localhost:8000/api/adv/init/`
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
+
+<!-- Heroku Test Initialize -->
+curl -X GET -H 'Authorization: Token 8b66231ed5b3817d0eac1442080f3ee23a07937a' mud-jjashcraft.herokuapp.com/api/adv/init/
+<!-- response -->
+{"uuid": "664e7239-2ef8-4630-a0e1-8408b09adb83", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": ["admin"]}
 
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
   * `curl -X POST -H 'Authorization: Token fd832f82df0543199c4e98d3f5a97c93c0427ea9' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
+
 * Pusher broadcast:
   * Players in previous room receive a message: `<name> has walked north.`
   * Players in next room receive a message: `<name> has entered from the south.`
+
+<!-- Test Heroku Player Move  -->
+curl -X POST -H 'Authorization: Token 8b66231ed5b3817d0eac1442080f3ee23a07937a' -H "Content-Type: application/json" -d '{"direction":"n"}' mud-jjashcraft.herokuapp.com/api/adv/move/
+<!-- Response -->
+{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}(LambdaMUD-Project-flUxzLH-) bash-3.2$
 
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
   * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 * Pusher broadcast:
   * Players in current room receive a message: `<name> says "Hello, world!"`
+
+  <!-- Test Heroku Player Say -->
+  curl -X POST -H 'Authorization: Token 8b66231ed5b3817d0eac1442080f3ee23a07937a' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' mud-jjashcraft.herokuapp.com/api/adv/say/
 
 ## Deploy server to Heroku
 
