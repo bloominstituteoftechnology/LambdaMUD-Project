@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
-
+"""
+This creates room instances that will save() to the databases and then link rooms together.
+"""
 Room.objects.all().delete()
 
 r_outside = Room(title="Outside Cave Entrance",
@@ -39,6 +41,10 @@ r_narrow.connectRooms(r_foyer, "w")
 
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
+
+"""
+gets all players and sets their current room to outside and saves to database
+"""
 
 players=Player.objects.all()
 for p in players:

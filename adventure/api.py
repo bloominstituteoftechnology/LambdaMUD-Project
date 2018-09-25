@@ -11,6 +11,10 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+"""
+This will initiate a api GET request to api/adv/init and will return a json repsonse for uuid, all players, names, room names, room description.
+"""
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -21,8 +25,10 @@ def initialize(request):
     room = player.room()
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
-
-
+"""
+This will initiate a api POST request to api/adv/move and will post a players move request, get new direction to a room and updates players current room.
+Pusher will broadcast when player enters, moves and leaves and error messages if player goes in wrong direction.
+"""
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):

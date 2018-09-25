@@ -5,6 +5,10 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
 
+"""
+This class defines the Room model.  Creates room properties and how it will connect with players.
+"""
+
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
@@ -36,6 +40,9 @@ class Room(models.Model):
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
+"""
+This class defines the Player model.
+"""
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -51,6 +58,10 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+
+"""
+This creates and saves players in database
+"""
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):

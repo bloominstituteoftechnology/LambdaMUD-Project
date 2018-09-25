@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+"""
+This is will create view for a player registered, checks for username and password in database and returns data with auth token and error messages.
+"""
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -28,6 +31,10 @@ def register(request):
           user.save()
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
+
+"""
+This will take a user request for access and checks for existing username and password in database and will return with auth token or if not existed, then return error message.
+"""
 
 @csrf_exempt
 def login(request):
