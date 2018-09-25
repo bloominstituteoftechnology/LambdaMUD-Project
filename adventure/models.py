@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
 
+#the room class controls the creation of rooms, and assigning the default room characteristics.
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
@@ -40,7 +41,7 @@ class Room(models.Model):
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
-
+#the player class is responsible for creating a player for a new user. assigns default values to new player.
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
@@ -55,7 +56,6 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
-
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
     if created:

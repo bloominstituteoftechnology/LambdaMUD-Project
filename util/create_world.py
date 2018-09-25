@@ -1,3 +1,4 @@
+#this file removes all current rooms, and loads the default rooms for the MUD game.
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 

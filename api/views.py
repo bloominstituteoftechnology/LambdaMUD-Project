@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+#the register class takes in a username/password, validates info and adds new user to the db
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -31,6 +32,7 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+#login function takes in username and password, checks against db and returns auth token if user found.
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)

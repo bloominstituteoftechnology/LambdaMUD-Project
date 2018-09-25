@@ -13,6 +13,8 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+#this function sets the user, player, initial room and uuid on startup
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -26,6 +28,7 @@ def initialize(request):
 
 
 # @csrf_exempt
+#this function controls how the player moves through the world based on a given directional command
 @api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
@@ -61,7 +64,7 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+#this function will allow you to talk to other characters in the room
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
