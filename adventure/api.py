@@ -12,10 +12,10 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
-@csrf_exempt
-@api_view(["GET"])
 """Puts the player into the game inside of whatever room they were in when they were last in the game
 takes a request as argment and returns a json value with player name, uuid and room location"""
+@csrf_exempt
+@api_view(["GET"])
 def initialize(request):
     user = request.user
     player = user.player
@@ -25,11 +25,10 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
-
-# @csrf_exempt
-@api_view(["POST"])
 """Moves the player from one room to another and broadcasts player's movement throughout rooms
 takes in a request object and returns a json response with player and room info"""
+# @csrf_exempt
+@api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
@@ -65,10 +64,10 @@ def move(request):
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
-@csrf_exempt
-@api_view(["POST"])
 """Allows a player to broadcast a message to other players in the room
 receives a request object containing message info and returns a JSON response with the message info"""
+@csrf_exempt
+@api_view(["POST"])
 def say(request):
     player = request.user.player
     player_id = player.id

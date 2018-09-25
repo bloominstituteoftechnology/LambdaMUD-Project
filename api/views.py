@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+# API for registering a new player to the game
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -29,6 +30,7 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+# API for login functionality
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
