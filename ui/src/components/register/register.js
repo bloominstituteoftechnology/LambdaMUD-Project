@@ -66,6 +66,7 @@ function Register(props) {
                 name="password1"
                 type="password"
                 id="password1"
+                autoComplete="new-password"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -74,6 +75,7 @@ function Register(props) {
                 name="password2"
                 type="password"
                 id="password2"
+                autoComplete="new-password"
               />
             </FormControl>
             <Button
