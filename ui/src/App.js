@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 import SignIn from './components/sign-in/signin'
+import Register from './components/register/register'
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <SignIn />
+        <Register />
       </div>
     );
   }
