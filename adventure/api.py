@@ -1,4 +1,4 @@
-# This is the API file - it is where the functions are kept for the endpoints.
+# This is the API file - it is where the functions are kept for the endpoints in the actual game itself.
 
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
