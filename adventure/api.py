@@ -71,14 +71,10 @@ def move(request):
 def say(request):
     player = request.user.player
     player_id = player.id
-    player_uuid = player_uuid
-    data = json.loads(request.body)
     room = player.room()
+    data = json.loads(request.body)
     message = data['message']
-        currentPlayerUUIDs = room.playerUUIDs(player_id)
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
-
-    # IMPLEMENT
-
-    return JsonResponse({'message': message}, safe=True, status=500)
+    return JsonResponse({'username': player.user.username, 'message': message}, safe=True)
