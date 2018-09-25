@@ -1,3 +1,6 @@
+"""
+API Routing for /api/adv
+"""
 from django.conf.urls import url
 from . import api
 

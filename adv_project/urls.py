@@ -1,3 +1,6 @@
+"""
+Main API Routing for adv_project.
+"""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import include
