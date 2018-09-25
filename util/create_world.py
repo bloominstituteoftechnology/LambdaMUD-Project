@@ -1,3 +1,8 @@
+"""
+Clears existing rooms from the database
+Creates several instances of Room, saves them to the databases and links them together
+Gets all players from the database and sets their current room to outside
+"""
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 

@@ -1,3 +1,6 @@
+"""
+Links url's to valid endpoints in views.py
+"""
 from django.urls import include, path
 from django.conf.urls import url
 from . import views
