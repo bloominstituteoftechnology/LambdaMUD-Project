@@ -19,6 +19,16 @@ def setup_periodic_tasks(sender, **kwargs):
     )
 
 
+app.conf.beat_schedule = {
+    'add-every-30-seconds': {
+        'task': 'tasks.add',
+        'schedule': 10.0,
+        'args': (16, 16)
+    },
+}
+
+
 @app.task
 def test(arg):
+    print('hello')
     print(arg)
