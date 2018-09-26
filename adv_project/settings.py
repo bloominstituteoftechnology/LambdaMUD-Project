@@ -56,7 +56,7 @@ SITE_ID = 1
 
 BROKER_URL = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
 broker_url = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
-CELERY_TASK_SERIALIZER = json
+CELERY_TASK_SERIALIZER = 'json'
 BROKER_POOL_LIMIT = 3
 
 
