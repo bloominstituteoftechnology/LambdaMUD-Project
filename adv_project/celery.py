@@ -6,9 +6,10 @@ from celery.schedules import crontab
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'adv_project.settings')
 
-app = Celery('adv_project',
-             broker='amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor')
+app = Celery('adv_project')
 
+app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
+                CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
