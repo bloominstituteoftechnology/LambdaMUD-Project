@@ -156,3 +156,5 @@ CORS_ORIGIN_ALLOW_ALL =True
 
 import django_heroku
 django_heroku.settings(locals())
+if DEBUG == True:
+    del DATABASES['default']['OPTIONS']['sslmode']
