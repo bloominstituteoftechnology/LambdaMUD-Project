@@ -71,4 +71,4 @@ def say(request):
     data = json.loads(request.body)
     player = request.user.player
     message = data['message']
-    return JsonResponse({'name': player.user.username, 'message': message}, safe=True, status=500)
+    return JsonResponse({'name': player.user.username, 'message': message}, safe=True)
