@@ -84,11 +84,15 @@ def say(request):
     
     data = json.loads(request.body)
     player = request.user.player
+    player_id = player.id
     username = player.user.username
     message = data['message']
+    room = player.room()
 
     if message:
-        pusher.trigger(f'p-channel-{player.uuid}', u'broadcast', {'message':f'{username} says {message}'})
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+            for p_uuid in currentPlayerUUIDs:
+                pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{username} says {message}'})
         return JsonResponse({username:message}, safe=True, status=200)
     else: 
         return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
