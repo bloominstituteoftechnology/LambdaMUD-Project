@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router,Route, Link } from "react-router-dom";
+import { Redirect } from 'react-router'
 
 import SignIn from './components/sign-in/signin'
 import Register from './components/register/register'
@@ -21,9 +22,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route exact path="/" render={(props) => <SignIn {...props} getKey={this.setKey} />} />
+        <Route exact path="/" render={(props) => this.state.key ? (<Redirect to="/game"/>) : <SignIn {...props} getKey={this.setKey} />} />
         <Route path="/register" render={(props) => <Register {...props} getKey={this.setKey} />} />
-        <Route path="/game" component={Game} />
+        <Route path="/game" render={(props) => <Game {...props} UserKey={this.state.key} />} />
       </div>
     );
   }

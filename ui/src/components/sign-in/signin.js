@@ -64,7 +64,9 @@ class SignIn extends React.Component {
       username: username,
       password: password,
     })
-    .then(response => this.props.getKey(response.data.key))
+    .then(response => {
+      this.props.getKey(response.data.key)
+    })
     .catch(error => console.log(`${error}`))
   }
 render(){
