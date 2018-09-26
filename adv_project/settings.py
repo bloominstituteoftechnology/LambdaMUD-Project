@@ -16,13 +16,13 @@ import pusher
 import dj_database_url
 import whitenoise
 
-pusher_client = pusher.Pusher(
-  app_id='607082',
-  key='10e2e15a32a50a232621',
-  secret='a3742c0261143170ecca',
-  cluster='us2',
-  ssl=True
-)
+pusher_client = pusher.Pusher[
+  app_id = '607082',
+  key = '10e2e15a32a50a232621',
+  secret = 'a3742c0261143170ecca',
+  cluster = 'us2',
+  ssl = True
+]
 
 pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
 
