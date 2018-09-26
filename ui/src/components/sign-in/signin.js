@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import axios from 'axios';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -43,22 +45,42 @@ const styles = theme => ({
   },
 });
 
-function SignIn(props) {
-  const { classes } = props;
-
+class SignIn extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      username: '',
+      password: '',
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+  }
+  handleChange(event) {
+    this.setState({[event.target.id]: event.target.value});
+  }
+  submitForm(event){
+    const {username, password} = this.state;
+    axios.post('http://localhost:8000/api/login/', {
+      username: username,
+      password: password,
+    })
+    .then(response => this.props.getKey(response.data.key))
+    .catch(error => console.log(`${error}`))
+  }
+render(){
   return (
     <React.Fragment>
       <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
+      <main className={this.props.classes.layout}>
+        <Paper className={this.props.classes.paper}>
+          <Avatar className={this.props.classes.avatar}>
             <LockIcon />
           </Avatar>
           <Typography variant="headline">Sign in</Typography>
-          <form className={classes.form}>
+          <form className={this.props.classes.form}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" autoComplete="email" autoFocus />
+              <InputLabel htmlFor="username">Email Address</InputLabel>
+              <Input id="username" autoComplete="email" autoFocus onChange={this.handleChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
@@ -66,15 +88,15 @@ function SignIn(props) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={this.handleChange}
               />
             </FormControl>
             <Button
-              type="submit"
               fullWidth
               variant="raised"
               color="primary"
-              className={classes.submit}
-              onClick={() => console.log(this)}
+              className={this.props.classes.submit}
+              onClick={this.submitForm}
             >
               Sign in
             </Button>
@@ -82,7 +104,7 @@ function SignIn(props) {
         </Paper>
       </main>
     </React.Fragment>
-  );
+  );}
 }
 
 SignIn.propTypes = {

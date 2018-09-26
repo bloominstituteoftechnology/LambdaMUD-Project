@@ -21,7 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/" render={(props) => <SignIn {...props} getKey={this.setKey} />} />
         <Route path="/register" render={(props) => <Register {...props} getKey={this.setKey} />} />
         <Route path="/game" component={Game} />
       </div>

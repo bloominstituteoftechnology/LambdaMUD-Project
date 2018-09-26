@@ -60,7 +60,7 @@ class Register extends React.Component {
   }
 
 handleChange(event) {
-  this.setState({[event.target.name]: event.target.value});
+  this.setState({[event.target.id]: event.target.value});
 }
 submitForm(event){
   const {username, password1, password2} = this.state;
@@ -86,13 +86,12 @@ render(){
           <form className={this.props.classes.form}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="username">Email Address</InputLabel>
-              <Input id="username" name="username" autoComplete="email" autoFocus onChange={this.handleChange} />
+              <Input id="username" autoComplete="email" autoFocus onChange={this.handleChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password1">Password</InputLabel>
               <Input
                 onChange={this.handleChange}
-                name="password1"
                 type="password"
                 id="password1"
                 autoComplete="new-password"
@@ -102,7 +101,6 @@ render(){
               <InputLabel htmlFor="password2">Password Verification</InputLabel>
               <Input
                 onChange={this.handleChange}
-                name="password2"
                 type="password"
                 id="password2"
                 autoComplete="new-password"
