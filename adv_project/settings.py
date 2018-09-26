@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from decouple import config
 import dj_database_url
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -93,7 +91,6 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 DATABASES = {
     'default': dj_database_url.config(default=config('DATABASE_URL')),
     }
@@ -118,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
@@ -153,4 +151,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
+
+import django_heroku
 django_heroku.settings(locals())
