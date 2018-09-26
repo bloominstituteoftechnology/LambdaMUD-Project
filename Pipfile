@@ -17,6 +17,7 @@ django-rest-api = "*"
 "psycopg2-binary" = "*"
 dj-database-url = "*"
 whitenoise = "*"
+celery = "*"
 
 [dev-packages]
 "flake8" = "*"
