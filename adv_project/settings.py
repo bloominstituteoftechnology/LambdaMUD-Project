@@ -157,5 +157,5 @@ django_heroku.settings(locals())
 
 if DEBUG == True:
     del DATABASES['default']['OPTIONS']['sslmode']
-For whitenoise forever-cachable files and compression storage http://whitenoise.evans.io/en/stable/
+# For whitenoise forever-cachable files and compression storage http://whitenoise.evans.io/en/stable/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
