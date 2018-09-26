@@ -13,6 +13,17 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from decouple import config
 import dj_database_url
+import pusher
+
+pusher_client = pusher.Pusher(
+    app_id= config('PUSHER_APP_ID'),
+    key=config('PUSHER_KEY'),
+    secret=config('PUSHER_SECRET'),
+    cluster=config('PUSHER_CLUSTER'),
+    ssl=True
+)
+
+pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
