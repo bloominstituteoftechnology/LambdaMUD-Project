@@ -68,7 +68,7 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     player = request.user.player
-    print(f'Player: {player}``)
+    print(f'Player: {player}')
     player_id = player.id
     player_uuid = player.uuid
     room = player.room()
