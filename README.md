@@ -222,8 +222,23 @@ MVP as soon as you can and get working the list of features.
 
 ## Troubleshooting
 
-### `/admin` gives nondescript `500` error
+### Nondescript `500` error
+* [JavaScript] If this is an axios call, you can get more information by
+  catching the error and printing out `error.response` instead of just printing
+  `error`:
+
+  ```javascript
+  axios.post(`${...}/api/registration`, this.state)
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error.response)
+    });
+  ```
+
 * Set up whitenoise or a `STATIC_ROOT`.
+
 * Run `create_world.py` on the server:
   ```
   heroku run python manage.py shell
@@ -305,7 +320,9 @@ This one remains unsolved.
 Hardcoding the app ID into the app (not using `config()`) seems to be a
 workaround.
 
-### JavaScript: username and password appearing in the URL
+### Username and password appearing in the URL
+
+[JavaScript]
 
 If you log in and your URL changes to:
 
@@ -339,4 +356,3 @@ django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 ```
-
