@@ -55,9 +55,9 @@ def move(request):
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{ player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{ player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, 'error_msg': ""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
@@ -67,13 +67,16 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # player = request.user.player
-    # data = json.loads(request.body)
-    # say = data['say']
-    # room = player.room()
+    player = request.user.player
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
     # currentRoomId = player.currentRoom
     # currentRoom = Room.objects.get(id=currentRoomId)
-    # playerUUIDs = room.playerUUIDs(player.id)
-    # print("room is,", room)
-    # print("playerUUIDs is,", playerUUIDs)
-    return JsonResponse({'error': "Not yet implemented"}, safe=True, status=500)
+    playerUUIDs = room.playerUUIDs(player.uuid)
+    print("currentRoom is,", room.title)
+    print("playerUUIDs is,", playerUUIDs)
+    for p_uuid in playerUUIDs:
+        print('channel uuid: ', p_uuid)
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username} says {message}.'})
+    return JsonResponse({"worked": message}, safe=True)
