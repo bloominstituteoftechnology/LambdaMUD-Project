@@ -1,3 +1,5 @@
+> https://trello.com/b/28AZiAf7/lambdamud-tristan-linehan
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
@@ -214,7 +216,7 @@ MVP as soon as you can and get working the list of features.
 * Implement user registration and login via calls to the server API
   * Store the response token for subsequent API requests
 * Create a game view for a logged in user
-  * Make an `init` request upon loading game view to receive the player's starting location and unique `id`
+  * Make an `init` request upon loa ding game view to receive the player's starting location and unique `id`
   * Subscribe to the pusher channel named `p-channel-<uuid>` and bind to `broadcast` events
     * Handle incoming `broadcast` messages by displaying them to the player
   * Parse user commands, then make API calls based on valid inputs
