@@ -94,11 +94,10 @@ def shout(request):
     data = json.loads(request.body)
     message = data['message']
     players = Player.objects.all()
-    #return JsonResponse({'something': message})
     if message:
 	    for playerMod in players:
 	        pusher.trigger(f'p-channel-{playerMod.uuid}', u'broadcast', {'message':f'{message}'})
-	    return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':"", 'extra':message}, safe=True)
+	    return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':""}, safe=True)
     else:
 	    return JsonResponse({'error':"Something is wrong"}, safe=True, status=500)
 
