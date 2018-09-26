@@ -1,7 +1,6 @@
 # Adventure Project Week
 Trello URL = https://trello.com/b/5yQeSzlf/lambdamud-lonnie-davis
 
-Heroku Sevre URL = https://mysterious-basin-11324.herokuapp.com
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
