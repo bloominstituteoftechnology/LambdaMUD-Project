@@ -29,6 +29,8 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    channel = pusher.subscribe(f'p-channel-{uuid}')
+    channel.bind(u'broadcast', lambda x: x)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
