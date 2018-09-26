@@ -3,6 +3,8 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Input from '@material-ui/core/Input';
 
+import axios from 'axios';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -25,6 +27,21 @@ const styles = theme => ({
 })
 
 class Game extends React.Component {
+
+  componentDidMount(){
+    axios.get('http://localhost:8000/api/adv/init/', {
+      headers: {
+        Authorization: `Token ${this.props.UserKey}`
+      }
+    })
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   render(){
     return(
       <main className={this.props.classes.layout}>
@@ -35,15 +52,5 @@ class Game extends React.Component {
     )
   }
 }
-// function Game(props){
-//   const { classes } = props;
-//   return(
-//   <React.Fragment>
-//     <CssBaseline />
-//     <Paper className={classes.paper}>
-//       Hello World
-//     </Paper>
-//   </React.Fragment>)
-// }
 
 export default withStyles(styles)(Game);

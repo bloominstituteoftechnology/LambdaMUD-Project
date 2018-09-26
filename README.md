@@ -184,7 +184,8 @@ MVP as soon as you can and get working the list of features.
 
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 9f6ffc72060ca36eca031846a12f6f8f5749f0d4' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 02122fe96a100dbab94118402ad66d5cd199e6d6' localhost:8000/api/adv/init/`
+  "02122fe96a100dbab94118402ad66d5cd199e6d6"
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
