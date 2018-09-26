@@ -6,11 +6,23 @@ import Register from './components/register/register'
 import Game from './components/game/game'
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      key: ''
+    }
+    this.setKey = this.setKey.bind(this);
+  }
+  setKey(value){
+    this.setState({
+      key: value
+    })
+  }
   render() {
     return (
       <div className="App">
         <Route exact path="/" component={SignIn} />
-        <Route path="/register" component={Register} />
+        <Route path="/register" render={(props) => <Register {...props} getKey={this.setKey} />} />
         <Route path="/game" component={Game} />
       </div>
     );

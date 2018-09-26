@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import axios from 'axios';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -43,26 +45,53 @@ const styles = theme => ({
   },
 });
 
-function Register(props) {
-  const { classes } = props;
 
+
+class Register extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      username: '',
+      password1: '',
+      password2: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+  }
+
+handleChange(event) {
+  this.setState({[event.target.name]: event.target.value});
+}
+submitForm(event){
+  const {username, password1, password2} = this.state;
+  axios.post('http://localhost:8000/api/registration/', {
+    username: username,
+    password1: password1,
+    password2: password2
+  })
+  .then(response => this.props.getKey(response.data.key))
+  .catch(error => console.log(`${error}`))
+}
+
+render(){
   return (
     <React.Fragment>
       <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
+      <main className={this.props.classes.layout}>
+        <Paper className={this.props.classes.paper}>
+          <Avatar className={this.props.classes.avatar}>
             <LockIcon />
           </Avatar>
           <Typography variant="headline">Register</Typography>
-          <form className={classes.form}>
+          <form className={this.props.classes.form}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
+              <InputLabel htmlFor="username">Email Address</InputLabel>
+              <Input id="username" name="username" autoComplete="email" autoFocus onChange={this.handleChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password1">Password</InputLabel>
               <Input
+                onChange={this.handleChange}
                 name="password1"
                 type="password"
                 id="password1"
@@ -72,6 +101,7 @@ function Register(props) {
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password2">Password Verification</InputLabel>
               <Input
+                onChange={this.handleChange}
                 name="password2"
                 type="password"
                 id="password2"
@@ -79,11 +109,11 @@ function Register(props) {
               />
             </FormControl>
             <Button
-              type="submit"
               fullWidth
               variant="raised"
               color="primary"
-              className={classes.submit}
+              className={this.props.classes.submit}
+              onClick={this.submitForm}
             >
               Sign in
             </Button>
@@ -91,7 +121,7 @@ function Register(props) {
         </Paper>
       </main>
     </React.Fragment>
-  );
+  );}
 }
 
 Register.propTypes = {
