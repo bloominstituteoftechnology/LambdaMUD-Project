@@ -6,6 +6,7 @@ from decouple import config
 from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
+from .tasks import add
 import json
 
 # instantiate pusher
@@ -28,6 +29,7 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    print(add.delay(1, 2))
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
