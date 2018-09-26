@@ -23,8 +23,8 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" render={(props) => this.state.key ? (<Redirect to="/game"/>) : <SignIn {...props} getKey={this.setKey} />} />
-        <Route path="/register" render={(props) => <Register {...props} getKey={this.setKey} />} />
-        <Route path="/game" render={(props) => <Game {...props} UserKey={this.state.key} />} />
+        <Route path="/register" render={(props) => this.state.key ? (<Redirect to="/game"/>) : <Register {...props} getKey={this.setKey} />} />
+        <Route path="/game" render={(props) => !this.state.key ? (<Redirect to="/"/>) : <Game {...props} UserKey={this.state.key} />} />
       </div>
     );
   }
