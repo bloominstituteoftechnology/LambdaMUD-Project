@@ -91,6 +91,7 @@ def say(request):
 
     if message:
         currentPlayerUUIDs = room.playerUUIDs(player_id)
+        currentPlayerUUIDs.push(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{username} says {message}'})
         return JsonResponse({username:message}, safe=True, status=200)
