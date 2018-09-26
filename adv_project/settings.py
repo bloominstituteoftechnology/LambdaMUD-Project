@@ -16,7 +16,7 @@ import pusher
 import dj_database_url
 import whitenoise
 
-import pusher
+from pusher import Pusher
 
 pusher_client = pusher.Pusher(
   app_id='607082',
