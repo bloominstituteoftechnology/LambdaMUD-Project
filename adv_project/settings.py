@@ -100,7 +100,6 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -156,5 +155,7 @@ STATIC_URL = '/static/'
 import django_heroku
 django_heroku.settings(locals())
 
-# For whitenoise forever-cachable files and compression storage http://whitenoise.evans.io/en/stable/
+if DEBUG == True:
+    del DATABASES['default']['OPTIONS']['sslmode']
+For whitenoise forever-cachable files and compression storage http://whitenoise.evans.io/en/stable/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
