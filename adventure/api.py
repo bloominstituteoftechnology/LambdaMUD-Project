@@ -60,8 +60,31 @@ def move(request):
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
+# @csrf_exempt
+# @api_view(["POST"])
+# def say(request):
+#     # IMPLEMENT
+#     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    # TODO IMPLEMENT
+    # GET PLAYER INFO FROM REQUEST 
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    # GET THE CURRENT ROOM OF THE PLAYER
+    room = player.room()
+    # GET ALL THE PLAYERS IN THAT ROOM
+    playersUUIDs = room.playerUUIDs(player_id)
+
+    # GET USER MESSAGE FROM REQ 
+    data = json.loads(request.body)
+    user_message = data.get('message')
+    
+    for p_uuid in playersUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} said {user_message}'})
+
+    return JsonResponse({'name':player.user.username, 'message': user_message, 'error_msg':""}, safe=True, status=200)
+
