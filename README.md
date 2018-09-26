@@ -173,12 +173,12 @@ MVP as soon as you can and get working the list of features.
 
 
 ## Test API commands
-### Registration
+### Registration WORKED
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
-### Login
+### Login WORKED
 * Request:
   * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
 * Response:

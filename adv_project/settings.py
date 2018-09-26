@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config
+import pusher
+import dj_database_url
+import whitenoise
+
+pusher_client = pusher.Pusher(
+  app_id='607082',
+  key='10e2e15a32a50a232621',
+  secret='a3742c0261143170ecca',
+  cluster='us2',
+  ssl=True
+)
+
+pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,6 +68,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
