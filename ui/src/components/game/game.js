@@ -14,7 +14,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import axios from 'axios';
 
 const styles = theme => ({
@@ -54,6 +57,16 @@ const styles = theme => ({
   },
   listFormat: {
     marginTop: '20px'
+  },
+  controlNav: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  controlNavLeft: {
+    marginRight: '24px'
   }
 })
 
@@ -66,17 +79,37 @@ class Game extends React.Component {
       open: false,
       players: []
     }
+    this.updateDirection = this.updateDirection.bind(this);
   }
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
+  updateDirection(direction) {
+    let data = JSON.stringify({
+        direction: direction
+    })
+    axios.post('http://localhost:8000/api/adv/move/', data, {
+      headers: {
+        Authorization: `Token ${this.props.UserKey}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      this.setState(response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   componentDidMount(){
     axios.get('http://localhost:8000/api/adv/init/', {
       headers: {
         Authorization: `Token ${this.props.UserKey}`
-      }
+      },
+
     })
     .then(response => {
       this.setState(response.data)
@@ -102,6 +135,14 @@ class Game extends React.Component {
                 {this.state.title}
             </div>
           </Tooltip>
+          <div className={this.props.classes.controlNav}>
+            <KeyboardArrowUp onClick={() => this.updateDirection('n')}/>
+            <div>
+              <KeyboardArrowLeft onClick={() => this.updateDirection('w')} className={this.props.classes.controlNavLeft}/>
+              <KeyboardArrowRight onClick={() => this.updateDirection('e')} />
+            </div>
+            <KeyboardArrowDown onClick={() => this.updateDirection('s')} />
+          </div>
           <List className={this.props.classes.listFormat}>
             <ListItem button onClick={this.handleClick}>
               <ListItemIcon>
@@ -112,9 +153,9 @@ class Game extends React.Component {
             </ListItem >
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {this.state.players.map(function(ele){
+              {this.state.players.map(function(ele, index){
                 return(
-                  <ListItem button className={this.props.classes.nested}>
+                  <ListItem button className={this.props.classes.nested} key={index}>
                     <ListItemIcon>
                       <Person />
                     </ListItemIcon>
