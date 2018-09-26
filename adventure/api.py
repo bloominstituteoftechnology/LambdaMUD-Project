@@ -61,17 +61,15 @@ def move(request):
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 #sends message to all players in user's current room
-#@csrf_exempt
+@csrf_exempt
 @api_view(["POST"])
 def say(request):
     player = request.user.player
     player_id = player.id
-    player_uuid = player.uuid
     data = json.loads(request.body)
     message = data['message']
     room = player.room()
     players = room.playerUUIDs(player.id)
-    currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in players:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{message}'})
     return JsonResponse({'name':player.name, 'message':message, 'error_msg':""}, safe=True)
