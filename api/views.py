@@ -47,5 +47,6 @@ def login(request):
             response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
         else:
             response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
+    print(response)
     return response
 

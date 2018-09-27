@@ -61,7 +61,7 @@ def move(request):
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
-        players = room.playerNames(player_uuid)
+        players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 #this function will allow you to talk to other characters in the room
@@ -71,7 +71,7 @@ def say(request):
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
-    data = json.loads(request.body)
+    data = json.loads(request.body)x
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
