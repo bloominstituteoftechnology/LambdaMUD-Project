@@ -59,9 +59,11 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+#broadcasts the message to other players in the current room
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    data = json.loads(request.body)
+    message = data['message']
+
+    return JsonResponse({'message':message}, safe=True)
