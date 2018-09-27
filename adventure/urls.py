@@ -10,6 +10,6 @@ urlpatterns = [
     url('say', api.say),
     url('shout', api.shout),
     url('pm', api.pm),
-    url('who', api.who),
-    url('whois', api.whois)
+    url('whois', api.whois),
+    url('who', api.who)
 ]

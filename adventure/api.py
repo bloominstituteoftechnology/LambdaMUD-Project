@@ -125,15 +125,6 @@ def pm(request):
         return JsonResponse({'target_username': target_username, 'message': msg}, safe=True)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
-    
-# @csrf_exempt
-@api_view(["GET"])
-def who(request):
-    """
-    This function view will return the message that user say when there is a POST request to api/adv/who
-    """
-    usernames = [user.username for user in User.objects.all()]
-    return JsonResponse({'usernames': usernames}, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -141,10 +132,20 @@ def whois(request):
     """
     This function view will return the message that user say when there is a POST request to api/adv/whois
     """
+    data = json.loads(request.body)
     username = data['username']
     try:
-        user = User.objects.get(username = target_username)
+        user = User.objects.get(username = username)
         player = user.player
         return JsonResponse({'username': username, 'location': player.room().title}, safe=True)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
+    
+# @csrf_exempt
+@api_view(["GET"])
+def who(request):
+    """
+    This function view will return the message that user say when there is a GET request to api/adv/who
+    """
+    usernames = [user.username for user in User.objects.all()]
+    return JsonResponse({'usernames': usernames}, safe=True)
