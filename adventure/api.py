@@ -73,8 +73,8 @@ def say(request):
     player_uuid = player.uuid
     room = player.room()
     data = json.loads(request.body)
+    print(f'Data: {data}')
     message = data['message']
-    print(f'Message: {message}')
     playerNames = room.playerNames(player_uuid)
     playerUuids = room.playerUUIDs(player_uuid)
     # pusher_client = pusher.Pusher(
