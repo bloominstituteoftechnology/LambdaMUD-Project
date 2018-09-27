@@ -1,7 +1,6 @@
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Input from '@material-ui/core/Input';
 import Avatar from '@material-ui/core/Avatar';
 import Face from '@material-ui/icons/Face';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -18,27 +17,31 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
 
 import axios from 'axios';
 import Pusher from 'pusher-js';
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
-    display: 'block', // Fix IE11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+    width: '100%',
+    height: '100%',
+    display: 'block',
+    [theme.breakpoints.up(700)]: {
+      marginLeft: '30%',
+      width: '100%'
+    }
   },
   paper: {
-    marginTop: '70%',
+    minHeight: 'auto',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
+    [theme.breakpoints.up(700)]: {
+      width: '35%'
+    }
   },
   avatarDiv: {
     display: 'flex',
@@ -78,7 +81,8 @@ class Game extends React.Component {
       title: '',
       description: '',
       open: false,
-      players: []
+      players: [],
+      messageRec: 'Room'
     }
     this.updateDirection = this.updateDirection.bind(this);
     this.testCode = this.testCode.bind(this);
@@ -137,7 +141,6 @@ class Game extends React.Component {
   render(){
     return(
       <main className={this.props.classes.layout}>
-        <Backdrop open={true}/>
         <Paper className={this.props.classes.paper}>
           <div className={this.props.classes.avatarDiv}>
             <Avatar className={this.props.classes.avatarName}>
@@ -167,21 +170,27 @@ class Game extends React.Component {
               {this.state.open ? <ExpandLess /> : <ExpandMore />}
             </ListItem >
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+              <List component="div" disablePadding>
               {this.state.players.map(function(ele, index){
                 return(
                   <ListItem button className={this.props.classes.nested} key={index}>
                     <ListItemIcon>
                       <Person />
                     </ListItemIcon>
-                    <ListItemText inset primary={ele} />
+                    <ListItemText inset primary={ele} onClick={() => this.setState({messageRec: ele})}/>
                   </ListItem>
                 )
               }.bind(this))}
             </List>
           </Collapse>
           </List>
-          <Input/>
+          <TextField InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              {`${this.state.messageRec}: `  }
+            </InputAdornment>
+          ),
+        }}/>
         </Paper>
       </main>
     )

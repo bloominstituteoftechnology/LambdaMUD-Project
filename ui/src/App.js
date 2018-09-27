@@ -5,6 +5,14 @@ import { Redirect } from 'react-router'
 import SignIn from './components/sign-in/signin'
 import Register from './components/register/register'
 import Game from './components/game/game'
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = theme => ({
+  appBody: {
+    height: '100vh',
+    backgroundColor: '#BCBCBC'
+  }
+})
 
 class App extends Component {
   constructor(){
@@ -21,7 +29,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className={`App ${this.props.classes.appBody}`}>
         <Route exact path="/" render={(props) => this.state.key ? (<Redirect to="/game"/>) : <SignIn {...props} getKey={this.setKey} />} />
         <Route path="/register" render={(props) => this.state.key ? (<Redirect to="/game"/>) : <Register {...props} getKey={this.setKey} />} />
         <Route path="/game" render={(props) => !this.state.key ? (<Redirect to="/"/>) : <Game {...props} UserKey={this.state.key} />} />
@@ -30,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
