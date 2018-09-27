@@ -1,23 +1,18 @@
 from celery import Celery
-from adventure.api import move
+from adventure.api import move_npc
 from django.contrib.auth.models import User
-from io import StringIO
-from django.core.handlers.wsgi import WSGIRequest
 
 app = Celery('adv_project')
 
 
+@app.on_after_configure.connect
+def setup_periodic_tasks(sender, **kwargs):
+    # Calls test('hello') every 10 seconds.
+    sender.add_periodic_task(10.0, test.s(), name='add every 10')
+
+
 @app.task
 def test():
-    req = WSGIRequest({
-        'REQUEST_METHOD': 'POST',
-        'PATH': '/api/adv/move',
-        'PATH_INFO': '/api/adv/move',
-        'wsgi.input': StringIO(),
-        'body': b'{"directions": "n"}'
-    })
-    req.user = User.objects.get(username='dirupt')
-    move(req)
-
-
-test()
+    user = User.objects.get(username='dirupt')
+    direction = 's'
+    move_npc(user, direction)
