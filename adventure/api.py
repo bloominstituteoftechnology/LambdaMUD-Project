@@ -93,7 +93,7 @@ def say(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
                        {'message': f'{player.user.username} says "{said}".'})
         pusher.trigger(f'p-channel-{uuid}', u'broadcast',
-                       {'message': '{You} said "{said}".'})
+                       {'message': f'You said "{said}".'})
     return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players}, safe=True)
 
 
