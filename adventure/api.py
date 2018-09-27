@@ -69,5 +69,11 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    user = request.user
+    player = user.player
+    room = player.room()
+    data = json.loads(request.body)
+    message = data['message']
+    return JsonResponse({ 'player': player.user.username, 'message': message,
+        'error':"",
+        }, safe=True, status=500)
