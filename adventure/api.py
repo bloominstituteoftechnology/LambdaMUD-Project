@@ -64,6 +64,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    print("Here!")
     player = request.user.player
     player_id = player.id
     data = json.loads(request.body)
