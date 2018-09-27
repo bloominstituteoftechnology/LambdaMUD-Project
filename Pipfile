@@ -20,6 +20,7 @@ whitenoise = "*"
 celery = "*"
 django-celery-results = "*"
 django-celery-beat = "*"
+redis = "*"
 
 [dev-packages]
 "flake8" = "*"
