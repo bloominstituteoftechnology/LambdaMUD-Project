@@ -74,7 +74,7 @@ def move(request):
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(["POST"])
 def say(request):
     """
@@ -88,4 +88,20 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {msg}.'})
+    return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
+
+# @csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/say
+    """
+    data = json.loads(request.body)
+    msg = data['message']
+    player = request.user.player
+    player_id = player.id
+    players = Player.objects.all()
+    currentPlayerUUIDs =  [p.uuid for p in players if p.id != player_id]
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {msg}.'})
     return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
