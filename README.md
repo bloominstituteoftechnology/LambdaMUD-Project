@@ -41,6 +41,8 @@ creative guide.
 - [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
 - [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
 
+TRELLO URL: https://trello.com/invite/b/zHkbBXPy/4e33575a2d7e3c7a8054414fc0b42b6f/lambdamud-nick-smith
+
 ## MVP Features:
 
 #### Client
@@ -171,12 +173,12 @@ MVP as soon as you can and get working the list of features.
 
 
 ## Test API commands
-### Registration
+### Registration WORKED
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
-### Login
+### Login WORKED
 * Request:
   * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
 * Response:
