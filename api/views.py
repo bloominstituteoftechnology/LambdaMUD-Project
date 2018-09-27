@@ -60,3 +60,5 @@ def login(request):
 # curl -X GET -H 'Authorization: Token 91f11c58f22101dbee9fe74154ea43c2564013d1' https://sibhat-lambdamud.herokuapp.com/api/adv/init/
 # 3a94d205b2ec799d243817bceccb82ea5fa27100
 # curl -X POST -H 'Authorization: Token 3a94d205b2ec799d243817bceccb82ea5fa27100' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8800/api/adv/say/
+
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"sibhat", "password1":"sibhat", "password2":"sibhat"}' https://sibhat-lambdamud.herokuapp.com/api/registration/
