@@ -88,7 +88,7 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says: {msg}.'})
-    return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
+    return JsonResponse({'username': player.user.username, 'message': f'You say: {msg}'}, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -104,7 +104,7 @@ def shout(request):
     currentPlayerUUIDs =  [p.uuid for p in players if p.id != player_id]
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts: {msg}.'})
-    return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
+    return JsonResponse({'username': player.user.username, 'message': f'You shout: {msg}'}, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -122,7 +122,7 @@ def pm(request):
         target_uuid = target_player.player.uuid
         target_uuid = target_player.player.uuid
         pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
-        return JsonResponse({'target_username': target_username, 'message': msg}, safe=True)
+        return JsonResponse({'target_username': target_username, 'message': f'To {target_username}: {msg}'}, safe=True)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
 
