@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/Users/tyson/.local/share/virtualenvs/Intro-Django-LskZxUSZ/bin/python"
+  "python.pythonPath": "/Users/tyson/.local/share/virtualenvs/Intro-Django-LskZxUSZ/bin/python",
+  "python.linting.enabled": false
 }
