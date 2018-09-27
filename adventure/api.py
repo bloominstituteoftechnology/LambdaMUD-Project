@@ -71,7 +71,7 @@ def say(request):
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
-    data = json.loads(request.body)x
+    data = json.loads(request.body)
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
