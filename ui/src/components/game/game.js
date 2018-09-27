@@ -3,7 +3,6 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Avatar from '@material-ui/core/Avatar';
 import Face from '@material-ui/icons/Face';
-import Backdrop from '@material-ui/core/Backdrop';
 import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -97,7 +96,8 @@ class Game extends React.Component {
       description: '',
       open: false,
       players: [],
-      messageRec: 'Room'
+      messageRec: 'Room',
+      newMessage: ''
     }
     this.updateDirection = this.updateDirection.bind(this);
     this.testCode = this.testCode.bind(this);
@@ -117,7 +117,9 @@ class Game extends React.Component {
       console.log(err)
     })
   }
-
+  handleChange = (event) => {
+    this.setState({newMessage: event.target.value})
+  }
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
   };
@@ -140,7 +142,6 @@ class Game extends React.Component {
       console.log(err)
     })
   }
-
   testCode = () => {
     console.log(this.state.title)
     Pusher.logToConsole = true;
@@ -153,6 +154,23 @@ class Game extends React.Component {
       this.setState({pusher: data.message});
     });
   }
+  sendMessage = () => {
+    let data = JSON.stringify({
+      message: this.state.newMessage
+    })
+    axios.post('http://localhost:8000/api/adv/say/', data, {
+      headers: {
+        Authorization: `Token ${this.props.UserKey}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(this.setState({newMessage: ''}))
+    .catch(response => console.log(response))
+  }
+  alertMessage = () => {
+    alert(this.state.pusher)
+    this.setState({pusher: ''})
+  }
   render(){
     return(
       <main className={this.props.classes.layout}>
@@ -162,7 +180,7 @@ class Game extends React.Component {
               <Face />
             </Avatar>
             {this.state.name}
-            <ChatBubbleOutline className={this.state.pusher? this.props.classes.chatBubbleActive : this.props.classes.chatBubble}/>
+            <ChatBubbleOutline onClick={this.alertMessage} className={this.state.pusher? this.props.classes.chatBubbleActive : this.props.classes.chatBubble}/>
           </div>
           <Tooltip title={this.state.description} placement="top">
             <div className={this.props.classes.location}>
@@ -200,7 +218,7 @@ class Game extends React.Component {
             </List>
           </Collapse>
           </List>
-          <TextField InputProps={{
+          <TextField value={this.state.newMessage} onChange={this.handleChange} InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               {`${this.state.messageRec}: `  }
@@ -208,7 +226,7 @@ class Game extends React.Component {
           ),
           endAdornment: (
             <InputAdornment>
-              <Button>
+              <Button onClick={this.sendMessage}>
                 <Send />
               </Button>
             </InputAdornment>
