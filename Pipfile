@@ -18,6 +18,7 @@ django-rest-api = "*"
 dj-database-url = "*"
 whitenoise = "*"
 celery = "*"
+django-celery-results = "*"
 
 [dev-packages]
 "flake8" = "*"
