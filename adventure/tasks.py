@@ -20,5 +20,5 @@ def setup_periodic_tasks(sender, **kwargs):
 
 
 @app.task
-def test(arg):
-    print(arg)
+def test():
+    print('hi')
