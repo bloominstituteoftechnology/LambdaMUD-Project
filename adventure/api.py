@@ -16,6 +16,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config(
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """creates an instance of the game with the player, title, description"""
     user = request.user
     player = user.player
     player_id = player.id
@@ -28,6 +29,7 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """changes the room based on the input from the user"""
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -67,6 +69,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    """display messages to talk to other players"""
     # IMPLEMENT
     data = json.loads(request.body)
     player = request.user.player

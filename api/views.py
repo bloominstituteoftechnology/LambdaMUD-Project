@@ -8,6 +8,7 @@ import json
 
 @csrf_exempt
 def register(request):
+    """logs a user into the database"""
     data = json.loads(request.body)
     username = data['username']
     password1 = data['password1']
@@ -38,6 +39,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    """returns a key to be able to do move/say"""
     data = json.loads(request.body)
     username = data['username']
     password = data['password']
