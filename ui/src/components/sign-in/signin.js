@@ -81,7 +81,7 @@ render(){
           <Typography variant="headline">Sign in</Typography>
           <form className={this.props.classes.form}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="username">Email Address</InputLabel>
+              <InputLabel htmlFor="username">Username</InputLabel>
               <Input id="username" autoComplete="email" autoFocus onChange={this.handleChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
