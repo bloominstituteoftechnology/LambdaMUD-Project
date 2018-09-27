@@ -91,7 +91,7 @@ def shout(request):
     for p in players:
         pusher.trigger(f'p-channel-{p.uuid}', u'broadcast', {'message': f'{player.user.username} shouts {message}.'})
 
-    return JsonResponse({"message": message}, safe=True)
+    return JsonResponse({"worked": message}, safe=True)
 
 
 @csrf_exempt
@@ -107,7 +107,7 @@ def whisper(request):
     if player.uuid != message__reciver__player[0].uuid:
         pusher.trigger(f'p-channel-{message__reciver__player[0].uuid}', u'broadcast', {'message': f'{player.user.username} whisper {message}.'})
 
-        return JsonResponse({"message": message}, safe=True)
+        return JsonResponse({"worked": message}, safe=True)
     else:
         return JsonResponse({'error_msg': "You cannot whisper to yourself."}, safe=True)
 
@@ -116,7 +116,10 @@ def whisper(request):
 @api_view(["GET"])
 def rooms(request):
     rooms = Room.objects.filter()
-    rooms_list = [list((x.title, x.description)) for x in rooms]
-    print(rooms_list)
+    rooms_list = []
+    # rooms_list = [list((x.title, x.description)) for x in rooms]
+    for room in rooms:
+        players = room.playerNames(0)
+        rooms_list.append(list((room.title, room.description, players)))
 
     return JsonResponse({'rooms': rooms_list}, safe=True)
