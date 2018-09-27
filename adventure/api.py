@@ -28,7 +28,6 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
-    print(request)
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
