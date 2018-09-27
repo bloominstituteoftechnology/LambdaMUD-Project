@@ -68,14 +68,12 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     player = request.user.player
-    print(f'Player: {player}')
     player_id = player.id
     player_uuid = player.uuid
     room = player.room()
     data = json.loads(request.body)
     message = data['message']
-    rv = (f'{player} says {message}')
-    print(f'RV: {rv}')
+    rv = (f'{player.user.username} says {message}')
     playerNames = room.playerNames(player_uuid)
     playerUuids = room.playerUUIDs(player_uuid)
     # pusher_client = pusher.Pusher(
