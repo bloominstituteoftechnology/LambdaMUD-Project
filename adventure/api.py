@@ -10,6 +10,13 @@ import json
 
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+pusher_client = pusher.Pusher(
+    app_id='606892',
+    key='93535f5176522c04b743',
+    secret='f7350faecbb13d6ad718',
+    cluster='us2',
+    ssl=True
+)
 
 @csrf_exempt
 @api_view(["GET"])
@@ -69,19 +76,22 @@ def move(request):
 def say(request):
     player = request.user.player
     player_id = player.id
-    player_uuid = player.uuid
+    # player_uuid = player.uuid
     room = player.room()
     data = json.loads(request.body)
     message = data['message']
+    playerUuids = room.playerUUIDs(player_id)
     rv = (f'{player.user.username} says {message}')
-    playerNames = room.playerNames(player_uuid)
-    playerUuids = room.playerUUIDs(player_uuid)
-    # pusher_client = pusher.Pusher(
-    #     app_id='606892',
-    #     key='93535f5176522c04b743',
-    #     secret='f7350faecbb13d6ad718',
-    #     cluster='us2',
-    #     ssl=True
-    # )
-    # pusher_client.trigger('my-channel', 'say', {'message': message})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':rv}, safe=True)
+    for p_uuid in playerUuids:
+        pusher_client.trigger('p-channel-' + p_uuid, 'message', {'message': message})
+    return JsonResponse({'name':player.user.username, 'message':rv}, safe=True)
+
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    players = room.playerUUIDs(player.id)
+    for p_uuid in players:
+        pusher.trigger(f's', u'broadcast', {'message':f'{message}'})
+    return JsonResponse({'name':player.name, 'message':message, 'error_msg':""}, safe=True)
