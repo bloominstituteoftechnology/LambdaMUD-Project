@@ -14,7 +14,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config(
 
 @app.task
 def move_npc():
-    user = User.objects.get(username='dirupt')
+    user = User.objects.get(username='Bob the Salesman')
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = user.player
