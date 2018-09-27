@@ -69,12 +69,18 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+
     user = request.user
     player = user.player
-    p_uuid = player.uuid
+
     data = json.loads(request.body)
     message = data['message']
-    pusher.trigger(f'p-channel-{p_uuid}', 'say', {'player_message': f'{player.user.username}: {message}'})
+    room = player.room()
+    player_id = player.id
+    currentPlayerUUIDS = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDS:
+        pusher.trigger(f'p-channel-{p_uuid}', 'say', {'player_message': f'{player.user.username}: {message}'})
+    
     return JsonResponse({ 'player_message': message,
         'error':"",
-        }, safe=True, status=500)
+        }, safe=True)
