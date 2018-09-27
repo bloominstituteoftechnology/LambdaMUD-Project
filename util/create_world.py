@@ -1,3 +1,5 @@
+""" Initializes game environment """
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
