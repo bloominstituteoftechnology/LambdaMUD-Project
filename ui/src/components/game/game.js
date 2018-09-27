@@ -19,6 +19,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
+import ChatBubbleOutline from '@material-ui/icons/ChatBubbleOutline'
 
 import axios from 'axios';
 import Pusher from 'pusher-js';
@@ -47,6 +48,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     fontSize: '20px',
+    position: 'relative'
   },
   avatarName: {
     marginRight: '5%'
@@ -71,6 +73,17 @@ const styles = theme => ({
   },
   controlNavLeft: {
     marginRight: '24px'
+  },
+  chatBubble: {
+  position: 'absolute',
+  top: '0px',
+  right: '0px',
+  },
+  chatBubbleActive: {
+    color: 'gold',
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
   }
 })
 
@@ -147,6 +160,7 @@ class Game extends React.Component {
               <Face />
             </Avatar>
             {this.state.name}
+            <ChatBubbleOutline className={this.state.pusher? this.props.classes.chatBubbleActive : this.props.classes.chatBubble}/>
           </div>
           <Tooltip title={this.state.description} placement="top">
             <div className={this.props.classes.location}>
