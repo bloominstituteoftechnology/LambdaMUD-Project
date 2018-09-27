@@ -137,7 +137,8 @@ def whois(request):
     try:
         user = User.objects.get(username = username)
         player = user.player
-        return JsonResponse({'username': username, 'location': player.room().title}, safe=True)
+        message = f'{username} is currently in {player.room().title}'
+        return JsonResponse({'message': message}, safe=True)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
     
@@ -148,4 +149,5 @@ def who(request):
     This function view will return the message that user say when there is a GET request to api/adv/who
     """
     usernames = [user.username for user in User.objects.all()]
-    return JsonResponse({'usernames': usernames}, safe=True)
+    message = ', '.join(usernames)
+    return JsonResponse({'message': 'Players current online: ' + message}, safe=True)
