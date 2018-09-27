@@ -13,7 +13,6 @@ def setup_periodic_tasks(sender, **kwargs):
 
 @app.task
 def test():
-    print('hi')
     user = User.objects.get(username='dirupt')
-    direction = 'n'
+    direction = 's'
     move_npc(user, direction)
