@@ -31,6 +31,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    print(request.body)
     data = json.loads(request.body)
     username = data['username']
     password = data['password']
