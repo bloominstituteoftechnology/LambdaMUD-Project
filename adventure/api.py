@@ -77,12 +77,12 @@ def say(request):
     print(f'Message: {message}')
     playerNames = room.playerNames(player_uuid)
     playerUuids = room.playerUUIDs(player_uuid)
-    pusher_client = pusher.Pusher(
-        app_id='606892',
-        key='93535f5176522c04b743',
-        secret='f7350faecbb13d6ad718',
-        cluster='us2',
-        ssl=True
-    )
-    pusher_client.trigger('my-channel', 'say', {'message': message})
+    # pusher_client = pusher.Pusher(
+    #     app_id='606892',
+    #     key='93535f5176522c04b743',
+    #     secret='f7350faecbb13d6ad718',
+    #     cluster='us2',
+    #     ssl=True
+    # )
+    # pusher_client.trigger('my-channel', 'say', {'message': message})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':message}, safe=True)
