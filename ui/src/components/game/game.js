@@ -20,6 +20,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import ChatBubbleOutline from '@material-ui/icons/ChatBubbleOutline'
+import Button from '@material-ui/core/Button';
+import Send from '@material-ui/icons/Send'
 
 import axios from 'axios';
 import Pusher from 'pusher-js';
@@ -204,7 +206,15 @@ class Game extends React.Component {
               {`${this.state.messageRec}: `  }
             </InputAdornment>
           ),
-        }}/>
+          endAdornment: (
+            <InputAdornment>
+              <Button>
+                <Send />
+              </Button>
+            </InputAdornment>
+          )
+        }}>
+      </TextField>
         </Paper>
       </main>
     )
