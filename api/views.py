@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+""" Function registeres player with name and password and returns a token if previously unregistered """
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -31,6 +32,8 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+
+"""" Function logs player in if previously registered and returns a token """
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
