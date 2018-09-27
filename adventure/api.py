@@ -74,6 +74,7 @@ def say(request):
     room = player.room()
     data = json.loads(request.body)
     message = data['message']
+    rv = (f'{player} says {message}')
     print(f'Message: {message}')
     playerNames = room.playerNames(player_uuid)
     playerUuids = room.playerUUIDs(player_uuid)
