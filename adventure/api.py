@@ -86,4 +86,4 @@ def say(request):
     #     ssl=True
     # )
     # pusher_client.trigger('my-channel', 'say', {'message': message})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':message}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':rv}, safe=True)
