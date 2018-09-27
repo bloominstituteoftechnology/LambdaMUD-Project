@@ -50,13 +50,14 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'django_celery_results',
+    'django_celery_beat',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
 CELERY_RESULT_BACKEND = 'django-db'
-BROKER_URL = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
+CELERY_BROKER_URL = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

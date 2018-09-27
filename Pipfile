@@ -19,6 +19,7 @@ dj-database-url = "*"
 whitenoise = "*"
 celery = "*"
 django-celery-results = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 "flake8" = "*"
