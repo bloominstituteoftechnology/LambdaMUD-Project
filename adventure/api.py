@@ -71,7 +71,7 @@ def move(request):
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg': "You cannot move that way."}, safe=True)
 
 
 # @csrf_exempt
@@ -94,7 +94,7 @@ def say(request):
 @api_view(["POST"])
 def shout(request):
     """
-    This function view will return the message that user say when there is a POST request to api/adv/say
+    This function view will return the message that user say when there is a POST request to api/adv/shout
     """
     data = json.loads(request.body)
     msg = data['message']
@@ -110,15 +110,41 @@ def shout(request):
 @api_view(["POST"])
 def pm(request):
     """
-    This function view will return the message that user say when there is a POST request to api/adv/say
+    This function view will return the message that user say when there is a POST request to api/adv/pm
     """
     data = json.loads(request.body)
     msg = data['message']
     player = request.user.player
     player_id = player.id
     target_username = data['username']
-    target_player = User.objects.get(username = target_username)
-    target_uuid = target_player.player.uuid
-    pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
-    return JsonResponse({'target_username': target_username, 'message': msg}, safe=True)
+    try:
+        target_player = User.objects.get(username = target_username)
+        target_uuid = target_player.player.uuid
+        target_uuid = target_player.player.uuid
+        pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
+        return JsonResponse({'target_username': target_username, 'message': msg}, safe=True)
+    except User.DoesNotExist:
+        return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
+    
+# @csrf_exempt
+@api_view(["GET"])
+def who(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/who
+    """
+    usernames = [user.username for user in User.objects.all()]
+    return JsonResponse({'usernames': usernames}, safe=True)
 
+# @csrf_exempt
+@api_view(["POST"])
+def whois(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/whois
+    """
+    username = data['username']
+    try:
+        user = User.objects.get(username = target_username)
+        player = user.player
+        return JsonResponse({'username': username, 'location': player.room().title}, safe=True)
+    except User.DoesNotExist:
+        return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
