@@ -122,7 +122,7 @@ def pm(request):
         target_uuid = target_player.player.uuid
         target_uuid = target_player.player.uuid
         pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
-        return JsonResponse({'target_username': target_username, 'message': f'To {target_username}: {msg}'}, safe=True)
+        return JsonResponse({'target_username': target_username, 'message': f'You whisper {target_username}: {msg}'}, safe=True)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
 
