@@ -222,8 +222,23 @@ MVP as soon as you can and get working the list of features.
 
 ## Troubleshooting
 
-### `/admin` gives nondescript `500` error
+### Nondescript `500` error
+* [JavaScript] If this is an axios call, you can get more information by
+  catching the error and printing out `error.response` instead of just printing
+  `error`:
+
+  ```javascript
+  axios.post(`${...}/api/registration`, this.state)
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error.response)
+    });
+  ```
+
 * Set up whitenoise or a `STATIC_ROOT`.
+
 * Run `create_world.py` on the server:
   ```
   heroku run python manage.py shell
@@ -304,3 +319,40 @@ This one remains unsolved.
 
 Hardcoding the app ID into the app (not using `config()`) seems to be a
 workaround.
+
+### Username and password appearing in the URL
+
+[JavaScript]
+
+If you log in and your URL changes to:
+
+```
+http://localhost:3000/?username=testuser&password=testpassword
+```
+
+you need to add a `preventDefault()` in your login form handler.
+
+```javascript
+handleLogin = e => {
+  e.preventDefault(); // <-- Add this
+
+  // ... axios and the rest of it ...
+```
+
+### `'sslmode' is an invalid keyword argument for this function`
+
+If you get this:
+
+```
+File "C:\Users\example\.virtualenvs\LambdaMUD-Project-xxxxxxxxx\lib\site-packages\django\db\backends\sqlite3\base.py", line 159, in get_new_connection
+    conn = Database.connect(**conn_params)
+TypeError: 'sslmode' is an invalid keyword argument for this function
+```
+
+then add this line to **the bottom of the file**:
+
+```
+django_heroku.settings(locals())
+
+del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
+```
