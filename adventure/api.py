@@ -87,7 +87,7 @@ def say(request):
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {msg}.'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says: {msg}.'})
     return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
 
 # @csrf_exempt
@@ -103,5 +103,22 @@ def shout(request):
     players = Player.objects.all()
     currentPlayerUUIDs =  [p.uuid for p in players if p.id != player_id]
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {msg}.'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts: {msg}.'})
     return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
+
+# @csrf_exempt
+@api_view(["POST"])
+def pm(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/say
+    """
+    data = json.loads(request.body)
+    msg = data['message']
+    player = request.user.player
+    player_id = player.id
+    target_username = data['username']
+    target_player = User.objects.get(username = target_username)
+    target_uuid = target_player.player.uuid
+    pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
+    return JsonResponse({'target_username': target_username, 'message': msg}, safe=True)
+
