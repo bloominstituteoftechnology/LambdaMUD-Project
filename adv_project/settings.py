@@ -49,16 +49,14 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
+    'django_celery_results',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
+CELERY_RESULT_BACKEND = 'django-db'
 BROKER_URL = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
-broker_url = 'amqp://oebxxhor:z1mwatxVqVltnFVaa8wyvCQqCgBUx8lh@clam.rmq.cloudamqp.com/oebxxhor'
-CELERY_TASK_SERIALIZER = 'json'
-BROKER_POOL_LIMIT = 3
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
