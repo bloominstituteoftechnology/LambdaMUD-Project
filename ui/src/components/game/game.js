@@ -18,7 +18,9 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+
 import axios from 'axios';
+import Pusher from 'pusher-js';
 
 const styles = theme => ({
   layout: {
@@ -42,7 +44,6 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     fontSize: '20px',
-    border: '#e6e8ed 1px solid'
   },
   avatarName: {
     marginRight: '5%'
@@ -80,6 +81,22 @@ class Game extends React.Component {
       players: []
     }
     this.updateDirection = this.updateDirection.bind(this);
+    this.testCode = this.testCode.bind(this);
+  }
+  componentDidMount(){
+    this.testCode()
+    axios.get('http://localhost:8000/api/adv/init/', {
+      headers: {
+        Authorization: `Token ${this.props.UserKey}`
+      },
+
+    })
+    .then(response => {
+      this.setState(response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   handleClick = () => {
@@ -104,28 +121,24 @@ class Game extends React.Component {
     })
   }
 
-  componentDidMount(){
-    axios.get('http://localhost:8000/api/adv/init/', {
-      headers: {
-        Authorization: `Token ${this.props.UserKey}`
-      },
+  testCode = () => {
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('4cfbe190ec6e8e3b3534', {
+      cluster: 'us2',
+    });
 
-    })
-    .then(response => {
-      this.setState(response.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('say', (data) => {
+      this.setState({pusher: data.message});
+    });
   }
-
   render(){
     return(
       <main className={this.props.classes.layout}>
         <Backdrop open={true}/>
         <Paper className={this.props.classes.paper}>
           <div className={this.props.classes.avatarDiv}>
-            <Avatar className={this.props.classes.avatarName}>
+            <Avatar className={this.props.classes.avatarName} onClick={this.testCode}>
               <Face />
             </Avatar>
             {this.state.name}

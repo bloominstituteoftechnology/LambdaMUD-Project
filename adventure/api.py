@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_APP_KEY'), secret=config('PUSHER_APP_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 @csrf_exempt
 @api_view(["GET"])
@@ -63,5 +63,13 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    room = player.room()
+    data = json.loads(request.body)
+    message = data['message']
+    playerNames = room.playerNames(player_uuid)
+    playerUuids = room.playerUUIDs(player_uuid)
+    pusher.trigger('my-channel', 'say', {'message': message})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':message}, safe=True)
