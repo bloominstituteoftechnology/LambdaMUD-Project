@@ -14,10 +14,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 import axios from 'axios';
 import Pusher from 'pusher-js';
@@ -84,7 +84,6 @@ class Game extends React.Component {
     this.testCode = this.testCode.bind(this);
   }
   componentDidMount(){
-    this.testCode()
     axios.get('http://localhost:8000/api/adv/init/', {
       headers: {
         Authorization: `Token ${this.props.UserKey}`
@@ -93,6 +92,7 @@ class Game extends React.Component {
     })
     .then(response => {
       this.setState(response.data)
+      this.testCode()
     })
     .catch(err => {
       console.log(err)
@@ -115,6 +115,7 @@ class Game extends React.Component {
     })
     .then(response => {
       this.setState(response.data)
+      this.testCode()
     })
     .catch(err => {
       console.log(err)
@@ -122,12 +123,13 @@ class Game extends React.Component {
   }
 
   testCode = () => {
+    console.log(this.state.title)
     Pusher.logToConsole = true;
     var pusher = new Pusher('4cfbe190ec6e8e3b3534', {
       cluster: 'us2',
     });
 
-    var channel = pusher.subscribe('my-channel');
+    var channel = pusher.subscribe(this.state.title.split(" ").join(''));
     channel.bind('say', (data) => {
       this.setState({pusher: data.message});
     });
@@ -138,7 +140,7 @@ class Game extends React.Component {
         <Backdrop open={true}/>
         <Paper className={this.props.classes.paper}>
           <div className={this.props.classes.avatarDiv}>
-            <Avatar className={this.props.classes.avatarName} onClick={this.testCode}>
+            <Avatar className={this.props.classes.avatarName}>
               <Face />
             </Avatar>
             {this.state.name}

@@ -71,5 +71,5 @@ def say(request):
     message = data['message']
     playerNames = room.playerNames(player_uuid)
     playerUuids = room.playerUUIDs(player_uuid)
-    pusher.trigger('my-channel', 'say', {'message': message})
+    pusher.trigger(room.title.replace(" ", ""), 'say', {'message': message})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'playerNames':playerNames, 'playerUuids':playerUuids, 'message':message}, safe=True)
