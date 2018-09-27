@@ -21,6 +21,7 @@ celery = "*"
 django-celery-results = "*"
 django-celery-beat = "*"
 redis = "*"
+kombu = "*"
 
 [dev-packages]
 "flake8" = "*"

@@ -57,7 +57,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = 'redis://h:p818a7b00f9fc9a2bdc7b2e1638972bbba080a12d6d4b79aa1c19c4d6391a36ac@ec2-18-213-248-121.compute-1.amazonaws.com:35949'
+CELERY_BROKER_URL = 'amqp://bddruech:DiJ098d-pyzygwlz7R7VOkOrlpFUwYWT@clam.rmq.cloudamqp.com/bddruech'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
