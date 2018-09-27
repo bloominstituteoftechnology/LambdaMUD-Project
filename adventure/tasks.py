@@ -1,17 +1,23 @@
 from celery import Celery
-from .api import move
+from adventure.api import move
+from django.contrib.auth.models import User
+from io import StringIO
+from django.core.handlers.wsgi import WSGIRequest
+
 app = Celery('adv_project')
 
 
 @app.task
 def test():
-    request = {
-        'headers': {
-            'Authorization': 'Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66'
-        },
-        'body': {
-            {'direction': 'n'}
-        }
-    }
-    move(request)
-    print('hi')
+    req = WSGIRequest({
+        'REQUEST_METHOD': 'POST',
+        'PATH': '/api/adv/move',
+        'PATH_INFO': '/api/adv/move',
+        'wsgi.input': StringIO(),
+        'body': b'{"directions": "n"}'
+    })
+    req.user = User.objects.get(username='dirupt')
+    move(req)
+
+
+test()
