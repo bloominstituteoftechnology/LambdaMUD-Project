@@ -11,6 +11,7 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+#initializes game for logged in user in current room
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -22,7 +23,7 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
-
+#moves player in direction requested if allowed and sends message to other players; if not allowed, returns error message 
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -59,9 +60,20 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+#sends message to all players in user's current room
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    print("Here!")
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    players = room.playerUUIDs(player.id)
+    for p_uuid in players:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{message}'})
+    return JsonResponse({'name':player.name, 'message':message, 'error_msg':""}, safe=True)
+    #else:
+        #return JsonResponse({'error':'There was an error submitting your message'}, safe=True, status=500)
+    

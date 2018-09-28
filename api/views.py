@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+
+#registers new user and assigns a key
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -29,6 +31,7 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+#logs in user if user exists and assigns a new key
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)

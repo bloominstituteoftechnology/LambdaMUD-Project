@@ -1,3 +1,5 @@
+# https://trello.com/b/Ywcid4lG/lambdamud-erin-meredith
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
@@ -172,19 +174,19 @@ MVP as soon as you can and get working the list of features.
 
 ## Test API commands
 ### Registration
-* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
+* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' https://vast-caverns-12453.herokuapp.com/api/registration/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Login
 * Request:
-  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
+  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' https://vast-caverns-12453.herokuapp.com/api/login/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token b9d7c50bda88567b0da4b5c86e1c49828e6c9605' https://vast-caverns-12453.herokuapp.com/api/adv/init/`
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
@@ -199,7 +201,7 @@ MVP as soon as you can and get working the list of features.
 
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+  * `curl -X POST -H 'Authorization: Token b9d7c50bda88567b0da4b5c86e1c49828e6c9605' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' https://vast-caverns-12453.herokuapp.com/api/adv/say/`
 * Pusher broadcast:
   * Players in current room receive a message: `<name> says "Hello, world!"`
 
