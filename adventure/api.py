@@ -114,3 +114,22 @@ def shout(request):
     pusher.trigger('p-channel-all', u'broadcast',
                    {'message': f'{player.user.username} shouted "{shouted}".'})
     return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players}, safe=True)
+
+
+"""
+shout via Alec
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    players = Player.objects.all() # the magic line
+    if message:
+        for playerMod in players:
+            pusher.trigger(f'p-channel-{playerMod.uuid}',
+                           u'broadcast', {'message': f'{message}'})
+        return JsonResponse({'name': player.user.username, 'message': message, 'error_msg': ""}, safe=True)
+    else:
+        return JsonResponse({'error': "Something is wrong"}, safe=True, status=500)
+"""
