@@ -1,6 +1,6 @@
-## [Trello Board Link](https://trello.com/b/g56pfUc1/lambdamud-project-alec-jordan)
+## [LIVE DEMO](https://awesome-wozniak-747290.netlify.com/) [VIDEO DEMO](https://youtu.be/d2wGptKFMsw?t=230)
 
-## [Front-End](https://github.com/TheDeterminator/LambdaMUD-Client)
+## [Client-Side Code](https://github.com/TheDeterminator/LambdaMUD-Client)
 
 # Adventure Project Week
 
