@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Login from './Login/Login.js';
 import Routes from "./Routes/Routes";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
@@ -7,6 +6,7 @@ import './App.css';
 import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
+
   render() {
     return (
       <div className="App container">

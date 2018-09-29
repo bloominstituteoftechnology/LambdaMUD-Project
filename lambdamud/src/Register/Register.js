@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../LoaderButton/LoaderButton";
 import "./Register.css";
+import axios from 'axios';
 
 export default class Register extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Register extends Component {
 
     this.state = {
       isLoading: false,
-      email: "",
+      username: "",
       password: "",
       confirmPassword: "",
       confirmationCode: "",
@@ -24,7 +25,7 @@ export default class Register extends Component {
 
   validateForm() {
     return (
-      this.state.email.length > 0 &&
+      this.state.username.length > 0 &&
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword
     );
@@ -35,19 +36,60 @@ export default class Register extends Component {
   }
 
   handleChange = event => {
+    console.log("Value: ", event.target.value,"ID: ", event.target.id);
     this.setState({
       [event.target.id]: event.target.value
     });
   }
 
-  handleSubmit = async event => {
-    event.preventDefault();
+  // handleSubmit = async event => {
+  //   event.preventDefault();
 
-    this.setState({ isLoading: true });
+  //   this.setState({ isLoading: true });
 
-    this.setState({ newUser: "test" });
+  //   console.log(this.state.newUser, this.state.username);
+  //   // this.setState({ newUser: this.state.username });
+  //   this.setState(prevState => this.state.newUser : prevState.username)
+  //   console.log(this.state.newUser, this.state.username, "After");
 
-    this.setState({ isLoading: false });
+  //   this.setState({ isLoading: false });
+  // }
+
+  handleSubmit = async e => {
+    e.preventDefault();
+
+    const apiUrl = 'http://localhost:8000';
+     
+    // axios
+    //     // .get('http://localhost:8888/notes')
+    //     .get(apiUrl+`/notes`)
+    //     .then(response => {
+    //         console.log("GET", response);
+    //         this.setState({notes: response.data.notes });
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     })
+    const user = { "username": this.state.username, "password1": this.state.password, "password2": this.state.confirmPassword }
+
+    axios
+        // .post('http://localhost:8888/notes', note)
+        .post(apiUrl+`/api/registration`, user)
+        .then(response => {
+          // console.log("POST Response", response);
+          localStorage.setItem("key", response.data.key);
+          console.log(response.data.key);
+          console.log(localStorage.getItem("key"));
+            this.setState({
+                user: {
+                    "username": '',
+                    "password1": '',
+                    "password2": ''
+                }
+            });
+            // this.props.history.push('/');
+        })
+        .catch( error => console.log(error));
   }
 
   handleConfirmationSubmit = async event => {
@@ -67,7 +109,7 @@ export default class Register extends Component {
             value={this.state.confirmationCode}
             onChange={this.handleChange}
           />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
+          <HelpBlock>Please check your username for the code.</HelpBlock>
         </FormGroup>
         <LoaderButton
           block
@@ -85,12 +127,12 @@ export default class Register extends Component {
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
+        <FormGroup controlId="username" bsSize="large">
+          <ControlLabel>Username</ControlLabel>
           <FormControl
             autoFocus
-            type="email"
-            value={this.state.email}
+            type="text"
+            value={this.state.username}
             onChange={this.handleChange}
           />
         </FormGroup>
