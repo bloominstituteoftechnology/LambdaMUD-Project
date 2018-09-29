@@ -1,4 +1,4 @@
-## [LIVE DEMO](https://awesome-wozniak-747290.netlify.com/) [VIDEO DEMO](https://youtu.be/d2wGptKFMsw?t=230)
+## [LIVE DEMO](https://awesome-wozniak-747290.netlify.com/), [VIDEO DEMO](https://youtu.be/d2wGptKFMsw?t=230)
 
 ## [Client-Side Code](https://github.com/TheDeterminator/LambdaMUD-Client)
 
