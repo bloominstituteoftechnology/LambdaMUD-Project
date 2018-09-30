@@ -64,4 +64,14 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['say']
+    room = player.room()
+    players = room.playerUUIDs(player.id)
+
+    for p_uuid in players:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{message}'})
+    return JsonResponse({'name':player.name, 'message':message, 'error_msg':""}, safe=True)
