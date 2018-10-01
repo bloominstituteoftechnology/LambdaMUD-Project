@@ -1,5 +1,7 @@
 # Adventure Project Week
 
+Trello link - https://trello.com/invite/b/YWY9J1sh/c2298ecb573e596a617598bcc436f7aa/randy-calderon-lambdamud-project
+
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
 but needs to be completed.
