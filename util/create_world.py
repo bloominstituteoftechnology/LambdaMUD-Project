@@ -24,7 +24,7 @@ earlier adventurers. The only exit is to the south.""")
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
-r_narrow.save()
+r_narrow.save(
 r_treasure.save()
 
 # Link rooms together
