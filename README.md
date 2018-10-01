@@ -223,6 +223,7 @@ MVP as soon as you can and get working the list of features.
 - Implement user registration and login via calls to the server API
   - Store the response token for subsequent API requests
 - Create a game view for a logged in user
+
   - Make an `init` request upon loading game view to receive the player's starting location and unique `id`
   - Subscribe to the pusher channel named `p-channel-<uuid>` and bind to `broadcast` events
     - Handle incoming `broadcast` messages by displaying them to the player
