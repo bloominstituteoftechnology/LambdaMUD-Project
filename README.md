@@ -148,6 +148,7 @@ MVP as soon as you can and get working the list of features.
 * Add your secret credentials
   * Create `.env` in the root directory of your project
   * Add your pusher credentials and secret key
+  * 'python manage.py shell'
     ```
     SECRET_KEY='<your_secret_key>'
     DEBUG=True
