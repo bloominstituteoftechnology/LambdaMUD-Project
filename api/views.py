@@ -1,3 +1,5 @@
+# This is the views file, for this app it handles all of the functions for register/login.
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -5,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+#the register class takes in a username/password, validates info and adds new user to the db
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -29,6 +32,7 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+#login function takes in username and password, checks against db and returns auth token if user found.
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
@@ -43,5 +47,6 @@ def login(request):
             response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
         else:
             response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
+    print(response)
     return response
 

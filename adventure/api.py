@@ -1,3 +1,5 @@
+# This is the API file - it is where the functions are kept for the endpoints in the actual game itself.
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -11,6 +13,8 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+#this function sets the user, player, initial room and uuid on startup
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -23,7 +27,8 @@ def initialize(request):
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
-# @csrf_exempt
+@csrf_exempt
+#this function controls how the player moves through the world based on a given directional command
 @api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
@@ -56,12 +61,19 @@ def move(request):
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
-        players = room.playerNames(player_uuid)
+        players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+#this function will allow you to talk to other characters in the room
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {data}'})
+    return JsonResponse({'Success':"Your message was sent."}, safe=True, status=200)
