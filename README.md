@@ -1,3 +1,7 @@
+## [LIVE DEMO](https://awesome-wozniak-747290.netlify.com/), [VIDEO DEMO](https://youtu.be/d2wGptKFMsw?t=230)
+
+## [Client-Side Code](https://github.com/TheDeterminator/LambdaMUD-Client)
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user

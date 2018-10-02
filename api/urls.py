@@ -1,3 +1,4 @@
+# Url patterns used to access login and registrations parts of our API
 from django.urls import include, path
 from django.conf.urls import url
 from . import views

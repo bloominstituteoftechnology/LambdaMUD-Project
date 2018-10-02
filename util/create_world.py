@@ -1,3 +1,4 @@
+# Utility that creates the world map used by the game and saves it in the database
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
