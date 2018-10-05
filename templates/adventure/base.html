@@ -20,6 +20,13 @@
                 <li><a class="navbar-brand" href={% url 'index' %}>MUD Django</a></li>
                 <li><a class="nav-link" href={% url 'admin:index' %}>Admin</a></li>
                 <li><a class="nav-link" href={% url 'adventure:register' %}>Register</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a class="nav-link" href={% url 'logout' %}>Logout</a></li>
+            {% else %}
+                <li><a class="nav-link" href={% url 'adventur:user_login' %}>Login</a></li>
+            {% endif %}
+
             </ul>
         </div>
     </nav>
