@@ -168,7 +168,7 @@ STATIC_URL = '/static/'
 #! MEDIA
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
-LOGIN_URL = '/adventure/user_login'
+LOGIN_URL = '/adventure/user_login/'
 
 
 import django_heroku
