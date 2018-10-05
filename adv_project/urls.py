@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/', include('adventure.urls')),
     path('logout/', views.user_logout, name='logout'),
     path('adventure/', views.adventure, name='adventure'),
+    path('pusher_auth', views.pusher_auth, name='pusher_auth'),
     
 ]

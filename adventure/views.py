@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from adventure.forms import UserForm, UserProfileInfoForm
+from pusher import Pusher
 
 # Extra Imports for the Login and Logout Capabilities
 from django.contrib.auth import authenticate, login, logout
@@ -88,3 +89,19 @@ def user_login(request):
     else:
         #Nothing has been provided for username or password.
         return render(request, 'adventure/login.html', {})
+
+def pusher_auth(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    if not request.user.is_member_of_team('designers'):
+        return HttpResponseForbidden()
+    
+    pusher_client = Pusher(APP_ID, API_KEY, SECRET_KEY, CLUSTER)
+
+    # We must generate the token with pusher's service
+    payload = pusher_client.authenticate(
+        channel=request.POST['channel_name'],
+        socket_id=request.POST['socket_id'])
+        
+    return JsonResponse(payload)
