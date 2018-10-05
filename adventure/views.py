@@ -19,6 +19,10 @@ def user_logout(request):
     # Return to homepage.
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
+def adventure(request):
+    return render(request, 'adventure/adventure.html', {})
+
 def register(request):
     registered = False
 
