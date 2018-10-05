@@ -78,9 +78,9 @@ def user_login(request):
                 return HttpResponse("Your account is not active.")
         else:
             print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".format(username,password))
+            # print("They used username: {} and password: {}".format(username,password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
         #Nothing has been provided for username or password.
-        return render(request, 'adventure/login.html')
+        return render(request, 'adventure/login.html', {})
