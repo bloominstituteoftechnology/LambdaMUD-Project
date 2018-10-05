@@ -4,7 +4,7 @@ from adventure.forms import UserForm, UserProfileInfoForm
 # Extra Imports for the Login and Logout Capabilities
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.url import reverse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 #Views
