@@ -1,0 +1,7 @@
+Deployed to Heroku
+
+curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' mud-backend.herokuapp.com/api/registration/
+
+Fixed: Exception Value:	
+'Player' object has no attribute 'urls'
+Needs to be on seprate lines in admin.py
