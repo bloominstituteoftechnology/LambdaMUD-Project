@@ -72,13 +72,13 @@ def user_login(request):
                 login(request,user)
                 # Send the user back to some page.
                 # In this case their homepage.
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('adventure/adventure.html'))
             else:
                 # If account is not active:
                 return HttpResponse("Your account is not active.")
         else:
             print("Someone tried to login and failed.")
-            # print("They used username: {} and password: {}".format(username,password))
+            print("They used username: {} and password: {}".format(username,password))
             return HttpResponse("Invalid login details supplied.")
 
     else:

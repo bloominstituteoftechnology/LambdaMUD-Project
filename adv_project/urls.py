@@ -10,5 +10,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('register/', include('adventure.urls')),
     path('logout/', views.user_logout, name='logout'),
+    path('adventure/', views.adventure, name='adventure'),
     
 ]
