@@ -18,6 +18,8 @@ django-rest-api = "*"
 dj-database-url = "*"
 whitenoise = "*"
 Pillow = "*"
+pylint = "*"
+"autopep8" = "*"
 
 [dev-packages]
 pylint = "*"
