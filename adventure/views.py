@@ -31,7 +31,7 @@ def register(request):
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
+        profile_form = UserProfileInfoForm()
 
     return render(request, 'adventure/registration.html', 
     {
