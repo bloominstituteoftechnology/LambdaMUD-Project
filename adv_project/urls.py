@@ -8,6 +8,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('api/adv/', include('adventure.urls')),
     path('', views.index, name='index'),
-    path('adventure/', include('adventure.urls')),
+    path('register/', include('adventure.urls')),
     path('logout/', views.user_logout, name='logout'),
 ]
