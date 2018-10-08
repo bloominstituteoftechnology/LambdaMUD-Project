@@ -1,3 +1,6 @@
+"""
+Register Models to admin dashboard
+"""
 from django.contrib import admin
 from .models import Room, Player
 

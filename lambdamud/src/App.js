@@ -6,7 +6,6 @@ import './App.css';
 import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
-
   render() {
     return (
       <div className="App container">

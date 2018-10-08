@@ -1,3 +1,6 @@
+"""
+Create API Routing for user registration and login
+"""
 from django.urls import include, path
 from django.conf.urls import url
 from . import views
