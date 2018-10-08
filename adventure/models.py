@@ -6,6 +6,15 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
+    """
+    Create base models for Room.
+    Room has these properties:
+        title: text
+        description: text
+        direction(n_to, s_to, e_to, w_to): boolean
+    Room methods:
+        connectRooms, playerNames, playerUUIDs
+    """
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
