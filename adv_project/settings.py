@@ -156,6 +156,8 @@ STATIC_URL = '/static/'
 import django_heroku
 django_heroku.settings(locals())
 
+if DEBUG == True:
+    del DATABASES['default']['OPTIONS']['sslmode']
 # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
