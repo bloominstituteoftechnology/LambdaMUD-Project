@@ -88,7 +88,7 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says: {msg}'})
-    return JsonResponse({ 'username': player.user.username, 'message': msg }, safe=True, status=200)
+    return JsonResponse({ 'username': player.user.username, 'message': f'You say: {msg}'}, safe=True, status=200)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -121,7 +121,7 @@ def whisper(request):
         target_player = User.objects.get(username = target_username)
         target_uuid = target_player.player.uuid
         pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}'})
-        return JsonResponse({'target_username': target_username, 'message': msg}, safe=True, status=200)
+        return JsonResponse({'target_username': target_username, 'message': f'You whisper to {target_username}: {msg}'}, safe=True, status=200)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
 
@@ -130,11 +130,13 @@ def whois(request):
     """
     This function view will return the username and location of a user when there is a POST request to api/adv/whois
     """
+    data = json.loads(request.body)
     username = data['username']
     try:
-        user = User.objects.get(username = target_username)
+        user = User.objects.get(username = username)
         player = user.player
-        return JsonResponse({'username': username, 'location': player.room().title}, safe=True, status=200)
+        message = f'{username} is currently in {player.room().title}'
+        return JsonResponse({'message': message}, safe=True, status=200)
     except User.DoesNotExist:
         return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
 
@@ -144,6 +146,7 @@ def who(request):
     This function will return the names of users when there is a GET request to api/adv/who
     """
     usernames = [user.username for user in User.objects.all()]
-    return JsonResponse({'usernames': usernames}, safe=True) 
+    message = ', '.join(usernames)
+    return JsonResponse({'message': 'Players currently online: ' + f'{message}'}, safe=True) 
 
 
