@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -54,6 +54,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -96,6 +97,9 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -115,6 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 
 REST_FRAMEWORK = {
@@ -127,6 +133,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
+
+
 
 CORS_ORIGIN_ALLOW_ALL=True
 
@@ -151,3 +159,6 @@ STATIC_URL = '/static/'
 
 import django_heroku
 django_heroku.settings(locals())
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.COmpressedManifestStaticFilesStorage'
