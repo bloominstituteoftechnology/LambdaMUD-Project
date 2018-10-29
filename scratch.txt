@@ -1,0 +1,8 @@
+c7e06a7fa8f659c3d49d8b1edac433e6e21787bd
+
+
+curl -X GET -H 'Authorization: Token c7e06a7fa8f659c3d49d8b1edac433e6e21787bd' localhost:8000/api/adv/init/
+
+------
+
+curl -X POST -H 'Authorization: Token c7e06a7fa8f659c3d49d8b1edac433e6e21787bd' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/
