@@ -1,3 +1,5 @@
+Trello Link: https://trello.com/b/HzVjmcPB/lambdamud-fred-sohn
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
