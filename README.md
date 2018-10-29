@@ -66,6 +66,7 @@ creative guide.
 Upon your first commit, please submit a Pull Request and add _both_ the
 **Trello Set Up** and **MVP Features** Task lists to your first Pull
 Request comment:
+https://trello.com/b/TSKLAgX1/lambdamud-tim-zulf
 
 ```markdown
 ## Trello Set Up:
