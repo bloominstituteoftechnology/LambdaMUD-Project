@@ -1,3 +1,5 @@
+https://trello.com/b/yt1GYBK6/lambdamud-mike-kerbleski
+
 # Adventure Project Week  
 
 This week you'll be implementing a frontend interface for a multi-user
@@ -82,7 +84,7 @@ Request comment:
 
 #### Client
 - [ ] Create a standalone frontend app that communicates with the server via API calls
-- [ ] Be able to create a new account on the server (implemented on server)
+- [ ] Create a standalone frontend app that communicates with the server via API calls
 - [ ] Be able to log in to the server (implemented on server)
 - [ ] Create an interface that displays the current room name, its description and the other players in the room
 - [ ] Be able to move between rooms and update the display accordingly (implemented on server)
