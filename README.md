@@ -1,3 +1,5 @@
+Trello Board URL - https://trello.com/invite/b/VxpxCp4D/ba748818d53883cbf03a72a10343a169/lambdamud-adam-lee
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
