@@ -72,7 +72,7 @@ Upon your first commit, please submit a Pull Request and add _both_ the
 **Trello Set Up** and **MVP Features** Task lists to your first Pull
 Request comment:
 
-```markdown
+```markdown`
 ## Trello Set Up:
 
 - [ ] Create a Trello account if you don't have one already
