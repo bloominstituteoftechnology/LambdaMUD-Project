@@ -6,6 +6,7 @@ from decouple import config
 from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
+
 import json
 
 # instantiate pusher
@@ -59,9 +60,13 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', f'{data}')
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
