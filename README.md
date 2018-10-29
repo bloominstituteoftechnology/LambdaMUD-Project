@@ -1,3 +1,6 @@
+# Trello Board
+https://trello.com/invite/b/49BnoVNx/d7f8aa2605ab4cce5ac15f702bee8b67/lambda-mud-carey-baldwin
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
