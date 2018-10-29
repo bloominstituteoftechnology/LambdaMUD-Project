@@ -1,5 +1,5 @@
 # Trello URL
-https://github.com/cwinslow22/LambdaMUD-Project
+https://trello.com/b/dC9n8cW2/lambdamud-charlie-winslow
 
 # Adventure Project Week
 
