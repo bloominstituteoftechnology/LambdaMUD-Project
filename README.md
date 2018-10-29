@@ -1,3 +1,5 @@
+trello: https://trello.com/invite/b/Gcexw5Z4/bd9f3c9d98942df826c0737dc4ca469e/lambdamud-joseph-stossmeister
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
