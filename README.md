@@ -1,4 +1,4 @@
-Trello Link: https://trello.com/b/HzVjmcPB/lambdamud-fred-sohn
+Trello Link: https://trello.com/b/HzVjmcPB
 
 # Adventure Project Week
 
