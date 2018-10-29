@@ -1,5 +1,3 @@
-import django_heroku
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 """
 Django settings for adv_project project.
 
@@ -117,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
@@ -151,4 +150,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+import django_heroku
 django_heroku.settings(locals())
