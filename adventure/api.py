@@ -63,11 +63,12 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    data = json.loads(request.body)
+    message = data['message']
     player = request.user.player
-    player_id = player.id
-    message = request.message
-    p_uuid = player.uuid
-    pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {f'<{player.user.username}> says {message}.'})
+    print(f'{player.user.username}')
+    player_uuid = player.uuid
+    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {'message': f'<{player.user.username}> says {message}.'})
     return JsonResponse({'Success':"You spoke"}, safe=True, status=201)
     #else:    
     #    return JsonResponse({'error':"No message content"}, safe=True, status=500)
