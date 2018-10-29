@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97a4cdc7-3bd8-4712-825b-1c7057f2f23f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv-project-designs/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv-project-designs/adventure_screenshot.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv-project-designs/login.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv-project-designs/main-screen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv-project-designs/new-acct.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_project/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_project/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_project/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adv_project/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/api.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adventure/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/create_world.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,27 +20,54 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="gitignore" value="1" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="gitignore" value="13" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="13" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pull_request_etc.txt">
           <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
@@ -153,6 +150,13 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/pull_request_etc.txt">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
