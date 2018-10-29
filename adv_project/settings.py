@@ -70,7 +70,7 @@ ROOT_URLCONF = 'adv_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join('c:', )],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
