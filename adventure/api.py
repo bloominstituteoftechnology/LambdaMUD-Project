@@ -71,8 +71,8 @@ def say(request):
     room = player.room()
     playerUUIDs = room.playerUUIDs(player_id)
     if message:
-        for roomplayer in playerUUIDs:
-            pusher.trigger(f'p-channel-{roomplayer}', u'broadcast', {'message':f'{player.user.username}: {message}'})
+        for p_uuid in playerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
             print("PUSHER SHOULD BE HERE")
         return JsonResponse({'name':player.user.username, 'message':message}, safe=True)
     else:
