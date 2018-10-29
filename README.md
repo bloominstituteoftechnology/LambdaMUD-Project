@@ -156,7 +156,7 @@ MVP as soon as you can and get working the list of features.
     PUSHER_SECRET=<your_pusher_secret>
     PUSHER_CLUSTER=<your_pusher_cluster>
     ```
-
+ 
 * Run database migrations
   * `./manage.py makemigrations`
   * `./manage.py migrate`
