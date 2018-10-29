@@ -31,7 +31,7 @@ creative guide.
   help. This also allows the client to get progress reports from the
   company in a real world setting.
 
-## Trello Set Up:
+## Trello SetUp:
 
 - [ ] Create a Trello account if you don't have one already
 - [ ] Create a new board called "LambdaMUD - {Your Name}"
