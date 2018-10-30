@@ -20,6 +20,8 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has appeared from the ether.'})
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
@@ -70,4 +72,4 @@ def say(request):
     message = data['message']
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has said "{message}".'})
-    return JsonResponse({'message':f'You have said {message}'}, safe=True)
+    return JsonResponse({'message':f'You have said "{message}"'}, safe=True)
