@@ -19,6 +19,7 @@ def initialize(request):
     player_id = player.id
     uuid = player.uuid
     room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player.id)
     players = room.playerNames(player_id)
     for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has appeared from the ether.'})
