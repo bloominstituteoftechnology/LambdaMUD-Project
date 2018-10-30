@@ -15,6 +15,7 @@ gunicorn = "*"
 django-heroku = "*"
 django-rest-api = "*"
 django-rest-framework = "*"
+django-extensions = "*"
 
 [dev-packages]
 

@@ -58,6 +58,25 @@ def move(request):
     else:
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+ 
+ 
+@csrf_exempt
+@api_view(["POST"])
+def say(request):
+    # IMPLEMENT
+    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    current_players_UUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+     for p in current_players_UUIDs:
+        pusher.trigger(f'p-channel-{p}', u'broadcast', {'message': f'"{username}" says {message}.'})
+     return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
+
 
 
 @csrf_exempt
@@ -65,11 +84,12 @@ def move(request):
 def say(request):
     player = request.user.player
     player_id = player.id
-    room = player.room()
-    currentPlayerUUIDs = room.playerUUIDs(player_id)
-    players = room.playerNames(player_id)
+    username = player.user.username
     data = json.loads(request.body)
-    message =  data['message']
-    for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username} says {message}'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    message = data['message']
+    room = player.room()
+    current_players_UUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+     for p in current_players_UUIDs:
+        pusher.trigger(f'p-channel-{p}', u'broadcast', {'message': f'"{username}" says {message}.'})
+     return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
