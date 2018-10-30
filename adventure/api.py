@@ -103,6 +103,8 @@ def say(request):
     msg = data['message']
     playerUUIDs = room.playerUUIDs(player_id)
     print(playerUUIDs)
+    print(f"{player.user.username} says {msg}")
+
     for p_uuid in playerUUIDs:
         # pusher.trigger(room, u'broadcast', {'message': msg})
         print(f"{player.user.username} says {msg}")
