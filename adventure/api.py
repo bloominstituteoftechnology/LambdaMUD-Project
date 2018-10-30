@@ -49,6 +49,7 @@ def move(request):
         player.save()
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
+        print(f'currentPlayerUUIDs >>>>>> {currentPlayerUUIDs}')
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
@@ -63,5 +64,15 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    player_message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    if player_message:
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {player_message}'})
+        return JsonResponse({f'{player.user.username}': f'{player_message}'}, safe=True)
+    else:
+        return JsonResponse({'error' : 'Empty message'}, safe=True, status=500)
