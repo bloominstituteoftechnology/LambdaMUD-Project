@@ -63,5 +63,22 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
+    # words = ["hi", f"move {}"]
+    player = request.user.player
+    player_id = player.id
+    play_uuid = player.uuid
+    data = json.loads(request.body)
+    voice = data['voice']
+    room = player.room()
+    nextRoomID = None
+    if voice:
+        # print(f"hi {player.user.username}")
+        return JsonResponse({"name": player.user.username,
+        "voice": voice})
+    else:
+        players = room.playerNames(play_uuid)
+        return JsonResponse({"name": player.user.username,"response": "what was that?"}, safe=True)
+
+
+
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
