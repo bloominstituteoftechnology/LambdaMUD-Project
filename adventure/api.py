@@ -85,5 +85,6 @@ def say(request):
         # "message": message})
     # else:
     #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"name":  player.user.username,"response": "what was that?"})
-    return JsonResponse({f"{player.user.username}: {message}"}, safe=True)
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    
+    return JsonResponse({'name': player.user.username, "message": message}, safe=True)
+    
