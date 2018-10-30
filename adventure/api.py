@@ -73,5 +73,5 @@ def say(request):
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'LambdaMUD', u'my-event', {'message':f'{player.user.username} says {message}.'})
+            pusher.trigger(f'LambdaMUD-{p_uuid}', u'my-event', {'message':f'{player.user.username} says {message}.'})
     return JsonResponse({'response':f"Success. You said {message}"}, safe=True, status=500)
