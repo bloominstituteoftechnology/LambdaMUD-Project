@@ -64,7 +64,6 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    def say(request):
     player = request.user.player
     player_id = player.id
     data = json.loads(request.body)
