@@ -4,7 +4,10 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
+#handles login and registration requests
 
+#function handles registration. checks if username is unique and has enough characters, checks if password is fits criteria and uses 
+# second password field for confirmation 
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -29,6 +32,8 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+#Handles login requests, checks if username and password match existing user and password. If successful, logs the user in and returns
+#a session key. 
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
@@ -37,7 +42,7 @@ def login(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        response = JsonResponse({"error":"User does not exist."}, safe=True, status=500)
+        response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
     else:
         if user.check_password(password):
             response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)

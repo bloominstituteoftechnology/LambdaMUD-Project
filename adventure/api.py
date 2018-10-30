@@ -8,9 +8,12 @@ from .models import *
 from rest_framework.decorators import api_view
 import json
 
+#API calls used by the player as they navigate the dungeon and interact with other players
+
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+#Initializes players' starting location when first logging in
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -22,7 +25,8 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
-
+# Handles player movement, players can move north (n), south (s), east (e), and west (w). Also responsible for notifying players
+# when other players move to and from the area they're currently in
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -59,7 +63,7 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+# Say function, allows players to send a message to other players in the vicinity by using the say command
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
