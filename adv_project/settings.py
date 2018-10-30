@@ -18,7 +18,7 @@ import pusher
 pusher_client = pusher.Pusher(
   app_id= config('PUSHER_APP_ID'),
   key= config('PUSHER_KEY'),
-  secret= config('PUSHER_SECRET'),
+  secret= config('SECRET_KEY'),
   cluster= config('PUSHER_CLUSTER'),
   ssl=True
 )
