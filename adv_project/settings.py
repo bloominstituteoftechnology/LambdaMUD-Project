@@ -18,7 +18,7 @@ import pusher
 pusher_client = pusher.Pusher(
   app_id= config('PUSHER_APP_ID'),
   key= config('PUSHER_KEY'),
-  secret= config('SECRET_KEY'),
+  secret= config('PUSHER_SECRET'),
   cluster= config('PUSHER_CLUSTER'),
   ssl=True
 )
@@ -106,7 +106,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
 
 # Password validation
