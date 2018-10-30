@@ -96,16 +96,22 @@ def say(request):
     room = player.room()
     print("Player:", player)
     player_id = player.id
+    print(room)
     players = room.playerNames(player_id)
+    print("players0dsajfopjdasfj", players)
     data = json.loads(request.body)
     msg = data['message']
     playerUUIDs = room.playerUUIDs(player_id)
+    print(playerUUIDs)
     for p_uuid in playerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': msg})
+        # pusher.trigger(room, u'broadcast', {'message': msg})
+        print(f"{player.user.username} says {msg}")
+        print("The most important print", pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', f"{player.user.username} says {msg}"))
     return JsonResponse({"message":"yay"}, safe=True, status=200)
 
+
     #skipping the hard part and writing the return real fast
-    print(f"{player.user.username} says {msg}")
+    
     
     # JsonResponse({'message': data,})
 
