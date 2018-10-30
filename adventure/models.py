@@ -23,13 +23,13 @@ class Room(models.Model):
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
 
-        """
+    """
         This method defines connection to the current room.
         This method takes in 2 arguments:
             destinationRoom: the Room object to which the current Room connect. If destinationRoom exists then connect with the corresponding direction, else return error.
             direction: which direct to connect. If direct is not (n, w, s, e) then return error message.
         Save the result to db.
-        """
+    """
 
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
