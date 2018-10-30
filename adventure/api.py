@@ -118,9 +118,9 @@ def say(request):
     players = room.playerNames(player_id)
 
     for p in current_players_UUIDs:
-        print("Test")
+        print(f'p-channel-{p}')
         pusher.trigger(
-            f"p-channel-{p}", "broadcast", {"message": f'"{username}" says {message}.'}
+            f'p-channel-{p}', u'broadcast', {'message': f'"{username}" says {message}.'}
         )
     return JsonResponse(
         {
@@ -131,4 +131,5 @@ def say(request):
             "message": message,
         },
         safe=True,
+        status=500
     )
