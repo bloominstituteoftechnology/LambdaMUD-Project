@@ -12,12 +12,11 @@ import json
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 
-    """
-    will execute this initialize view when there is a GET request to api/adv/init
-    This view gets user from request.user, which is an instance of django.contrib.auth.models.User.
-    Get player object from request.user.
-    Returns player's uuid, username, current room's title, description, and all players in the room.
-    """
+    # will execute this initialize view when there is a GET request to api/adv/init
+    # This view gets user from request.user, which is an instance of django.contrib.auth.models.User.
+    # Get player object from request.user.
+    # Returns player's uuid, username, current room's title, description, and all players in the room.
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -32,11 +31,11 @@ def initialize(request):
 
 # @csrf_exempt
 
-    """
-    will execute this initialize view when there is a POST request to api/adv/move 
-    When a player post a move request, get the new room in that direction, and update player's current Room to new Room. 
-    Also announces that player has left current room and has entered new room.
-    """
+    
+    # will execute this initialize view when there is a POST request to api/adv/move 
+    # When a player post a move request, get the new room in that direction, and update player's current Room to new Room. 
+    # Also announces that player has left current room and has entered new room.
+    
 @api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
@@ -75,9 +74,6 @@ def move(request):
 
 @csrf_exempt
 
-    """
-    This function view will return the message that user say when there is a POST request to api/adv/say
-    """
 @api_view(["POST"])
 def say(request):
     data = json.loads(request.body)
@@ -93,9 +89,9 @@ def say(request):
 # @csrf_exempt
 @api_view(["POST"])
 def shout(request):
-    """
-    This function view will return the message that user say when there is a POST request to api/adv/shout
-    """
+    
+    # This function view will return the message that user say when there is a POST request to api/adv/shout
+    
     data = json.loads(request.body)
     msg = data['message']
     player = request.user.player
