@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['muddy-screams.herokuapp.com']
 
 PUSHER_APP_ID=config('PUSHER_APP_ID')
 PUSHER_KEY=config('PUSHER_KEY')
