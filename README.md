@@ -1,4 +1,6 @@
-https://trello.com/b/ZSxT7X8W/lambdamud-luis-f-salazar
+Trello board link: https://trello.com/b/ZSxT7X8W/lambdamud-luis-f-salazar
+
+Backend link: https://advbackend.herokuapp.com/admin/
 
 # Adventure Project Week
 
