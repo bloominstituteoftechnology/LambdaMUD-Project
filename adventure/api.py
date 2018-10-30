@@ -54,7 +54,7 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
-        for p_uuid in nextPlayerUUIDs:
+        for p_uuid in nextPlayerUUIDs: 
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
@@ -70,17 +70,20 @@ def say(request):
     player_id = player.id
     play_uuid = player.uuid
     data = json.loads(request.body)
-    voice = data['voice']
+    message = data['message']
     room = player.room()
-    nextRoomID = None
-    if voice:
+    # nextRoomID = None
+    if message:
+
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {f"{player}: {message}"})
+
         # print(f"hi {player.user.username}")
-        return JsonResponse({"name": player.user.username,
-        "voice": voice})
-    else:
-        players = room.playerNames(play_uuid)
-        return JsonResponse({"name": player.user.username,"response": "what was that?"}, safe=True)
-
-
-
+        # pusher.trigger({"name": player.user.username,
+        # "message": message})
+    # else:
+    #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"name":  player.user.username,"response": "what was that?"})
+    return JsonResponse({f"{player.user.username}: {message}"}, safe=True)
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
