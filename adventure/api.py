@@ -75,5 +75,6 @@ def say(request):
     if message is not None:
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'LambdaMUD-{p_uuid}', u'my-event', {'message':f'{player.user.username} says {message}.'})
+        return JsonResponse({'message': message}, safe=True)
     else:
         return JsonResponse({'error':f"You did not send a message"}, safe=True, status=500)
