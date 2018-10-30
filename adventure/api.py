@@ -65,5 +65,11 @@ def move(request):
 def say(request):
     player_name = request.user.username
     player_uuid = request.user.player.uuid
-    pusher.trigger(f'mudappchannel-{player_uuid}', u'broadcast', {'message':f'{player_name} says "Hello, world!"'})
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'mudappchannel-{player_uuid}', u'broadcast', {'message':f'{player_name} says "Hello, world!"'})
+    for p_uuid in nextPlayerUUIDs:
+        pusher.trigger(f'mudappchannel-{player_uuid}', u'broadcast', {'message':f'{player_name} says "Hello, world!"'})
     return JsonResponse({'success':"Message Sent"}, safe=True)
