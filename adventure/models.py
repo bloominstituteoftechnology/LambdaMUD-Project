@@ -6,12 +6,31 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
+
+    """
+    base models for Room.
+    Room's properties: 
+        Title: text field, stores room's title.
+        Description: text field, stores room's description. 
+        Direction(n_to, s_to, e_to, w_to): int field, stores the Room.id connected to corresponding direction)
+    Room's methods:
+        connectRooms, playerNames, playerUUIDs
+    """
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+
+        """
+        This method defines connection to the current room.
+        This method takes in 2 arguments:
+            destinationRoom: the Room object to which the current Room connect. If destinationRoom exists then connect with the corresponding direction, else return error.
+            direction: which direct to connect. If direct is not (n, w, s, e) then return error message.
+        Save the result to db.
+        """
+
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
