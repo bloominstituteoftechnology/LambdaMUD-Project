@@ -78,7 +78,6 @@ def say(request):
      return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
 
 
-
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
@@ -90,6 +89,6 @@ def say(request):
     room = player.room()
     current_players_UUIDs = room.playerUUIDs(player_id)
     players = room.playerNames(player_id)
-     for p in current_players_UUIDs:
-        pusher.trigger(f'p-channel-{p}', u'broadcast', {'message': f'"{username}" says {message}.'})
-     return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
+    for p_uuid in current_players_UUIDs:
+    pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'"{username}" says {message}.'})
+    return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
