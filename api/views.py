@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+# this is the url endpoint for createing a user 
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
