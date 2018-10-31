@@ -82,7 +82,7 @@ def say(request):
 @csrf_exempt
 @api_view(["POST"])
 def shout(request):
-    allRooms = Room.objects.get()
+    allRooms = Room.objects.all()
     player = request.user.player
     allUUIDs = []
     for room in allRooms:
