@@ -98,7 +98,7 @@ def shout(request):
 @csrf_exempt
 @api_view(["POST"])
 def whisper(request):
-    print(request)
+    print(request.keys())
     player = request.user.player
     player_id = player.id
     toUser = request.data.toUser
