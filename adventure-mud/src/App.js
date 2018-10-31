@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Login from './components/Login/Login';
+import NewAcct from './components/Create-Acct/Create-acct';
 import Authenticate from "./components/Authenticate/Authenticate";
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
     return (
       <div className="App">
         <Login />
+        <NewAcct />
       </div>
     );
   }
