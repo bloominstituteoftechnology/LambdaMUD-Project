@@ -102,6 +102,49 @@ def shout(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts: {msg}.'})
     return JsonResponse({'username': player.user.username, 'message': f'You shout: {msg}'}, safe=True)
 
-# @csrf_exempt
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/pm
+    """
+    data = json.loads(request.body)
+    msg = data['message']
+    player = request.user.player
+    player_id = player.id
+    target_username = data['username']
+    try:
+        target_player = User.objects.get(username = target_username)
+        target_uuid = target_player.player.uuid
+        pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers: {msg}.'})
+        return JsonResponse({'target_username': target_username, 'message': f'You whisper {target_username}: {msg}'}, safe=True)
+    except User.DoesNotExist:
+        return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def playerlocation(request):
+    """
+    This function view will return the message that user say when there is a POST request to api/adv/whois
+    """
+    data = json.loads(request.body)
+    username = data['username']
+    try:
+        user = User.objects.get(username = username)
+        player = user.player
+        message = f'{username} is currently in {player.room().title}'
+        return JsonResponse({'message': message}, safe=True)
+    except User.DoesNotExist:
+        return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
+    
+@csrf_exempt
+@api_view(["GET"])
+def showplayers(request):
+    """
+    This function view will return the message that user say when there is a GET request to api/adv/who
+    """
+    usernames = [user.username for user in User.objects.all()]
+    message = ', '.join(usernames)
+    return JsonResponse({'message': 'Players current online: ' + message}, safe=True)
 
 
