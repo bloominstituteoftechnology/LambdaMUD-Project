@@ -51,9 +51,9 @@ def move(request):
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'movementBroadcast':f'{player.user.username} has walked {dirs[direction]}.'})
+            pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'exitMovementBroadcast':f'{player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'movementBroadcast':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
+            pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'enterMovementBroadcast':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
