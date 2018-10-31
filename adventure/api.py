@@ -78,7 +78,7 @@ def say(request):
         currentPlayerUUIDs = room.playerUUIDs(player_id)
 
         for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"message":f"{player}: {message}"})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"message":f"{player.user.username}: {message}"})
 
         # print(f"hi {player.user.username}")
         # pusher.trigger({"name": player.user.username,
