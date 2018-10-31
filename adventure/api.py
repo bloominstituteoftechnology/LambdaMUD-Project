@@ -77,7 +77,7 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {request.data["message"]}.'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You said:' + request.data['message']}, safe=True)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -93,19 +93,18 @@ def shout(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You shouted:' + request.data['message']}, safe=True)
 
 @csrf_exempt
 @api_view(["POST"])
 def whisper(request):
-    print(dir(request.data.keys))
-    print(dir(request.data.values))
-    print(dir(request.data.items))
+    for key, value in request.data:
+        print(key, value)
     player = request.user.player
     player_id = player.id
-    toUser = request.data.toUser
+    toUser = request.data["toUser"]
     toUser_uuid = User.objects.get(name=toUser).uuid
     room = player.room()
     players = room.playerNames(player_id)
     pusher.trigger(f'p-channel-{toUser_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {request.data["message"]}!'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You whispered:' + request.data['message']}, safe=True)
