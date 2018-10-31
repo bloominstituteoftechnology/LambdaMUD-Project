@@ -83,13 +83,12 @@ def say(request):
 @api_view(["POST"])
 def shout(request):
     player = request.user.player
+    player_id = player.id
     room = player.room()
-    users = User.objects.all()
-    players = []
+    allRooms = Room.object.all()
     allUUIDs = []
-    for user in users:
-        players.append(user.player)
-        allUUIDs.append(user.id)
+    for room in allRooms:
+        allUUIDs.append(room.playerUUIDs(player_id))
     for p_uuid in allUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
