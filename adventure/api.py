@@ -1,3 +1,4 @@
+"""The purpose of this file is to peform the POST and GET methods required to run the game"""
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -14,6 +15,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """This method will be used once the game starts and provide the initial room for the user"""
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +28,7 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """This POST method accepts a direction and then navigates depending on that direction."""
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,6 +66,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    """ This file will work with the POST method to send a message a user wants to say to other users"""
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
