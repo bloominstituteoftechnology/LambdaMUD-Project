@@ -29,7 +29,7 @@ def initialize(request):
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
-# @csrf_exempt
+@csrf_exempt
 
     
     # will execute this initialize view when there is a POST request to api/adv/move 
@@ -86,7 +86,7 @@ def say(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says: {msg}.'})
     return JsonResponse({'username': player.user.username, 'message': f'You say: {msg}'}, safe=True)
 
-# @csrf_exempt
+@csrf_exempt
 @api_view(["POST"])
 def shout(request):
     
