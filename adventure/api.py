@@ -85,7 +85,7 @@ def shout(request):
     player = request.user.player
     player_id = player.id
     room = player.room()
-    allRooms = Room.object.all()
+    allRooms = Room.objects.all()
     allUUIDs = []
     for room in allRooms:
         allUUIDs.append(room.playerUUIDs(player_id))
