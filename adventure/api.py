@@ -71,5 +71,5 @@ def say(request):
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'message':f'{player_name}, {chatMessage}'})
+        pusher.trigger(f'mudappchannel-{p_uuid}', u'broadcast', {'chatMessage':f'{player_name}, {chatMessage}'})
     return JsonResponse({'success':"Message Sent"}, safe=True)
