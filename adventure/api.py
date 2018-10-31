@@ -76,3 +76,16 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has said "{message}".'})
     return JsonResponse({'message':f'You have said "{message}"'}, safe=True)
+
+# the say command
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    currentPlayer = Player.objects.all()
+    data = json.loads(request.body)
+    message = data['message']
+    for otherplayer in currentPlayer:
+        if player.uuid != otherplayer.uuid:
+            pusher.trigger(f'p-channel-{otherplayer.uuid}', u'broadcast', {'message':f'{player.user.username} has shouter "{message}".'})
+    return JsonResponse({'message':f'You have shouted "{message}"'}, safe=True)
