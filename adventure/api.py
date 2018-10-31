@@ -77,7 +77,7 @@ def say(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has said "{message}".'})
     return JsonResponse({'message':f'You have said "{message}"'}, safe=True)
 
-# the say command
+# the shout command
 @csrf_exempt
 @api_view(["POST"])
 def shout(request):
@@ -89,3 +89,22 @@ def shout(request):
         if player.uuid != otherplayer.uuid:
             pusher.trigger(f'p-channel-{otherplayer.uuid}', u'broadcast', {'message':f'{player.user.username} has shouter "{message}".'})
     return JsonResponse({'message':f'You have shouted "{message}"'}, safe=True)
+
+# the shout command
+@csrf_exempt
+@api_view(["POST"])
+def whispher(request):
+    player = request.user.player
+    data = json.loads(request.body)
+    message = data['message']
+    if 'player' not in data:
+        return JsonResponse({"error":"No player name provided"}, safe=True, status=500)
+    targetplayer = data['player']
+
+    currentPlayer = User.objects.filter(username = targetplayer)
+    print(currentPlayer)
+    if len(currentPlayer) == 0: 
+         return JsonResponse({"error":"No player found by that name"}, safe=True, status=500)
+    pusher.trigger(f'p-channel-{currentPlayer[0].player.uuid}', u'broadcast', {'message':f'{player.user.username} has whisphered "{message}".'})
+   
+    return JsonResponse({'message':f'You have whisphered "{message}" to {currentPlayer[0].player.user.username}'}, safe=True)
