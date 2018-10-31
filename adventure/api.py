@@ -1,5 +1,5 @@
 # api.py
-#  Provides endpoints for client to connect to
+# Provides endpoints for client to connect to
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -77,4 +77,16 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {request.data["message"]}.'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    allRooms = Room.objects.get()
+    player = request.user.player
+    allUUIDs = []
+    for room in allRooms:
+        allUUIDs.append(room.playerUUIDS())
+    for p_uuid in allUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
