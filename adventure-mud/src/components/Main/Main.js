@@ -15,13 +15,13 @@ function MainPage() {
 
     return (
         <MUDContainer>
-            <div className='headline'>title</div>
+            <div className='headline'>Main Screen</div>
             <div className='content'>content</div>
             <FormGroup>
                 <Input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
+                    type="text"
+                    placeholder="User Input"
+                    name="input"
                 />
                 <Button color="success" size="large">
                     Send

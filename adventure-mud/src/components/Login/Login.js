@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 import './Login.css';
+import axios from 'axios';
 
-class Login extends Component {
+export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: "",
             password: ""
         };
+    }
+
+    componentDidMount() {
+        axios
+            .post('http://adventure-mud-app.herokuapp.com/api/login')
+            .then(response => {
+                this.setState(() => (response.data));
+            })
+            .catch(error => {
+                console.error('Server Error', error);
+            });
     }
 
     handleInputChange = e => {
@@ -52,5 +64,3 @@ class Login extends Component {
         );
     }
 }
-
-export default Login;

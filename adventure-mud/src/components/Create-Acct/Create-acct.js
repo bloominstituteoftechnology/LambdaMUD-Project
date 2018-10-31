@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 import './Create-Acct.css';
+import axios from 'axios';
 
-class NewAcct extends Component {
+export default class NewAcct extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: "",
             password: ""
         };
+    }
+
+    componentDidMount() {
+        axios
+            .post('http://adventure-mud-app.herokuapp.com/api/registration')
+            .then(response => {
+                this.setState(() => (response.data));
+            })
+            .catch(error => {
+                console.error('Server Error', error);
+            });
     }
 
     handleInputChange = e => {
@@ -61,5 +73,3 @@ class NewAcct extends Component {
         );
     }
 }
-
-export default NewAcct;
