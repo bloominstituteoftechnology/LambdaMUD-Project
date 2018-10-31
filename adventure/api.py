@@ -100,7 +100,7 @@ def shout(request):
 def whisper(request):
     player = request.user.player
     player_id = player.id
-    toUser = request.data["toUser"]
+    toUser = request.data['toUser']
     toUser_uuid = User.objects.get(name=toUser).uuid
     room = player.room()
     players = room.playerNames(player_id)
