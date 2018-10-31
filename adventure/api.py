@@ -1,3 +1,5 @@
+# api.py
+#  Provides endpoints for client to connect to
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -14,6 +16,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """Initializes the player in the game, this is the init endpoint"""
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +29,9 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """Moves the player in one of four directions, 
+    shows error is that move is not available in the current room
+    """
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,6 +69,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    """Broadcasts players' messages via Pusher when in same room"""
     player = request.user.player
     player_id = player.id
     room = player.room()
