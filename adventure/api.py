@@ -82,4 +82,4 @@ def say(request):
 
     # add  a response saying "You say hello"
     # return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'error_msg':""}, safe=True, status=500)
-    return JsonResponse({'message': f'You say, \'{player_message}\'', 'error_msg': ""}, safe=True, status=500)
+    return JsonResponse({'message': f'You say, \'{player_message}\'', 'error_msg': ""}, safe=True)
