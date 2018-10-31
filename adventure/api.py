@@ -87,7 +87,7 @@ def shout(request):
     message = data['message']
     for otherplayer in currentPlayer:
         if player.uuid != otherplayer.uuid:
-            pusher.trigger(f'p-channel-{otherplayer.uuid}', u'broadcast', {'message':f'{player.user.username} has shouter "{message}".'})
+            pusher.trigger(f'p-channel-{otherplayer.uuid}', u'broadcast', {'message':f'{player.user.username} has shouted "{message}".'})
     return JsonResponse({'message':f'You have shouted "{message}"'}, safe=True)
 
 # the shout command
