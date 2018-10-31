@@ -84,6 +84,10 @@ def say(request):
 def shout(request):
     allRooms = Room.objects.all()
     player = request.user.player
+    users = User.objects.all()
+    players = []
+    for user in users:
+        players.append(user.player)
     allUUIDs = []
     for room in allRooms:
         allUUIDs.append(room.playerUUIDS())
