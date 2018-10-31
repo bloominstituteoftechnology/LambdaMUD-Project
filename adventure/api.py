@@ -99,6 +99,8 @@ def shout(request):
 @api_view(["POST"])
 def whisper(request):
     print(dir(request.data.keys))
+    print(dir(request.data.values))
+    print(dir(request.data.items))
     player = request.user.player
     player_id = player.id
     toUser = request.data.toUser
