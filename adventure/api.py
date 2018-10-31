@@ -89,7 +89,7 @@ def shout(request):
     allUUIDs = []
     for user in users:
         players.append(user.player)
-        allUUIDs.append(user.uuid)
+        allUUIDs.append(user.id)
     for p_uuid in allUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
