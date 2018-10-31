@@ -82,15 +82,14 @@ def say(request):
 @csrf_exempt
 @api_view(["POST"])
 def shout(request):
-    allRooms = Room.objects.all()
     player = request.user.player
+    room = player.room()
     users = User.objects.all()
     players = []
+    allUUIDs = []
     for user in users:
         players.append(user.player)
-    allUUIDs = []
-    for room in allRooms:
-        allUUIDs.append(room.playerUUIDS())
+        allUUIDs.append(user.uuid)
     for p_uuid in allUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':request.data['message']}, safe=True)
