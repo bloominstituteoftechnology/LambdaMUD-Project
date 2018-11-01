@@ -111,13 +111,3 @@ def shout(request):
     return JsonResponse({'name':player.user.username, 'message':f'shouts {message}'}, safe=True)
 
 
-@csrf_exempt
-@api_view(["GET"])
-def allplayers(request):
-    user = request.user
-    player = user.player
-    player_id = player.id
-    uuid = player.uuid
-    room = player.room()
-    players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'players':players}, safe=True)
