@@ -1,3 +1,7 @@
+"""
+creates the rooms and hooks them all up
+"""
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
@@ -5,7 +9,7 @@ from adventure.models import Player, Room
 Room.objects.all().delete()
 
 r_outside = Room(title="Outside Cave Entrance",
-               description="North of you, the cave mount beckons")
+                 description="North of you, the cave mount beckons")
 
 r_foyer = Room(title="Foyer", description="""Dim light filters in from the south. Dusty
 passages run north and east.""")
@@ -40,8 +44,7 @@ r_narrow.connectRooms(r_foyer, "w")
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
 
-players=Player.objects.all()
+players = Player.objects.all()
 for p in players:
-  p.currentRoom=r_outside.id
-  p.save()
-
+    p.currentRoom = r_outside.id
+    p.save()

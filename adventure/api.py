@@ -1,3 +1,7 @@
+"""
+contains the methods for controlling the game server side
+"""
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -16,6 +20,9 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'),
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """
+    receives a token and returns the initial values for front end
+    """
     user = request.user
     player = user.player
     player_id = player.id
@@ -28,6 +35,10 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """
+    receives a direction and moves the player between rooms, triggering an
+    update on all subscribed players in those rooms
+    """
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -67,6 +78,10 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    """
+    receives a token and a message and broadcasts it to all players currently
+    listening in player's room.
+    """
     # IMPLEMENT
     player = request.user.player
     player_id = player.id
