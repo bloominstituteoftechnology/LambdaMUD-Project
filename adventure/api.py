@@ -54,14 +54,10 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
-                           {'message': f'{player.user.username} has walked {dirs[direction]}.'})
-            pusher.trigger(f'p-channel-{p_uuid}' u'removePlayer',
-                           {'player': f'{player.user.username}'})
+                           {'message': f'{player.user.username} has walked {dirs[direction]}.', 'remove': f'{player.user.username}'})
         for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
-                           'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-            pusher.trigger(f'p-channel-{p_uuid}' u'addPlayer',
-                           {'player': f'{player.user.username}'})
+                           'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.', 'add': f'{player.user.username}'})
         return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, 'error_msg': ""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
