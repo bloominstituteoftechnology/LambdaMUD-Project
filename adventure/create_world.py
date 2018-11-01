@@ -5,43 +5,46 @@ from adventure.models import Player, Room
 Room.objects.all().delete()
 
 r_jappartment = Room(title="Jerry's Appartment",
-               description="You find yourself on Jerry's couch with no memory of how you got there. You look around, and it's, uhhh, it's an apartment. You hear Jerry snoring in the other room. Possible Moves: (s to leave apartment, n to go into Jerry's room, w to go to the kitchen) ")
+               description="""You find yourself on Jerry's couch with no memory of how you got there. 
+You look around, and it's, uhhh, it's an apartment. You hear Jerry snoring in the other room. 
+Possible Moves: (n to go into Jerry's room, s to leave apartment, e to go sit at the dinning table, w to go to the kitchen) """)
 
 r_jroom = Room(title="Jerry's Room", 
-description="""You walk groggly into Jerry's room and stand over him, two inches from his face to see if he's awake. You lose your balance and knock over everything on his bedside table, waking him up. He shouts, "What are you doing Larry!? Get out!!" Possible Moves: (s back to the living room)""")
+               description="""You walk groggly into Jerry's room and stand over him, two inches from 
+his face to see if he's awake. You lose your balance and knock over everything on his bedside table, 
+waking him up. He shouts, in a comically high-pitched voice, "What are you doing!? Get out!!" 
+Possible Moves: (s back to the living room)""")
 
-r_overlook = Room(title="Grand Overlook", description="""A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""")
+r_kitchen = Room(title="Jerry's Kitchen", description="""You walk over to the kitchen and find it to be immaculately clean.
+There is a fridge and well organized pantry items on some shelves above. Possible Moves: (e to go back to the couch)""")
 
-r_narrow = Room(title="Narrow Passage", description="""The narrow passage bends here from west
-to north. The smell of gold permeates the air.""")
+r_dinningtable = Room(title="Jerry's Dinning Table", description="""You sit down at Jerry's dining table. A New York Times 
+is splayed infront of you. Possible Moves: (w to go back to the couch)""")
 
-r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""")
+r_hallway = Room(title="Jerry's Hallway", description="""You open Jerry's door and step into the hallway.
+You see another door infront of you and an elevator down the hall. Possible Moves: (n to go back into Jerry's appartment)""")
 
 r_jappartment.save()
 r_jroom.save()
-r_overlook.save()
-r_narrow.save()
-r_treasure.save()
+r_kitchen.save()
+r_dinningtable.save()
+r_hallway.save()
 
 # Link rooms together
 r_jappartment.connectRooms(r_jroom, "n")
 r_jroom.connectRooms(r_jappartment, "s")
 
-r_foyer.connectRooms(r_overlook, "n")
-r_overlook.connectRooms(r_foyer, "s")
+r_jappartment.connectRooms(r_kitchen, "w")
+r_kitchen.connectRooms(r_jappartment, "e")
 
-r_foyer.connectRooms(r_narrow, "e")
-r_narrow.connectRooms(r_foyer, "w")
+r_jappartment.connectRooms(r_dinningtable, "e")
+r_dinningtable.connectRooms(r_jappartment, "w")
 
-r_narrow.connectRooms(r_treasure, "n")
-r_treasure.connectRooms(r_narrow, "s")
+r_jappartment.connectRooms(r_hallway, "s")
+r_hallway.connectRooms(r_jappartment, "n")
 
 players=Player.objects.all()
 for p in players:
-  p.currentRoom=r_outside.id
+  p.currentRoom=r_jappartment.id
   p.save()
 
