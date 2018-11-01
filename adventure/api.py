@@ -72,7 +72,7 @@ def say(request):
     room = player.room()
     playerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in playerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username} says, \'{player_message}\''})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
 
     players = room.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message': message}, safe=True)
