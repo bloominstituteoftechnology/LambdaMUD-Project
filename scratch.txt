@@ -1,0 +1,33 @@
+curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/
+
+>>>>>>> c7e06a7fa8f659c3d49d8b1edac433e6e21787bd
+
+
+curl -X GET -H 'Authorization: Token c7e06a7fa8f659c3d49d8b1edac433e6e21787bd' localhost:8000/api/adv/init/
+
+
+curl -X POST -H 'Authorization: Token c7e06a7fa8f659c3d49d8b1edac433e6e21787bd' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/
+
+
+curl -X POST -H 'Authorization: Token c7e06a7fa8f659c3d49d8b1edac433e6e21787bd' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/
+
+
+------------------------------------------
+
+> cd desktop/lambda/CS/PROJX/MUD/LambdaMUD-Project
+
+> https://muddy-screams.herokuapp.com/api/login/
+
+> b197aa162678b344f803b5d279f7a816cdd13912
+
+curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' https://muddy-screams.herokuapp.com/api/registration/
+
+curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' https://muddy-screams.herokuapp.com/api/login/
+
+curl -X GET -H 'Authorization: Token b197aa162678b344f803b5d279f7a816cdd13912' https://muddy-screams.herokuapp.com/api/adv/init/
+
+
+curl -X POST -H 'Authorization: Token b197aa162678b344f803b5d279f7a816cdd13912' -H "Content-Type: application/json" -d '{"direction":"n"}' https://muddy-screams.herokuapp.com/api/adv/move/
+
+
+
