@@ -78,7 +78,7 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
         # pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says, \'Hello, world!\''})
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
-                       {'message': f'{player.user.username} says, \'{player_message}\''})
+                       {'message': f'{player.user.username} says, \'{player_message}\'', 'players': room.playerUUIDs(player_id)})
 
     # add  a response saying "You say hello"
     # return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'error_msg':""}, safe=True, status=500)
