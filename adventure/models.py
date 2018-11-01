@@ -38,7 +38,7 @@ class Room(models.Model):
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def allPlayerUUIDs(self):
-        return [p.uuid for p in Player.objects.all() if p.uuid != int(currentPlayerID)]
+        return [p.uuid for p in Player.objects.all()]
 
 
 class Player(models.Model):
