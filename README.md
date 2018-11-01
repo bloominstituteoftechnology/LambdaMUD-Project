@@ -1,3 +1,9 @@
+
+# Trello
+
+https://trello.com/b/Oa4TRyry/lambdamud-alberto-preciado
+
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
@@ -31,7 +37,7 @@ creative guide.
   help. This also allows the client to get progress reports from the
   company in a real world setting.
 
-## Trello Set Up:
+## Trello SetUp:
 
 - [ ] Create a Trello account if you don't have one already
 - [ ] Create a new board called "LambdaMUD - {Your Name}"
