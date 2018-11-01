@@ -12,9 +12,9 @@ def register(request):
     password1 = data['password1']
     password2 = data['password2']
     user=User(username=username)
-    if len(username) <= 3:
+    if len(username) < 3:
         response = JsonResponse({"error":"Username must be at least 3 characters."}, safe=True, status=500)
-    elif len(password1) <= 5:
+    elif len(password1) < 5:
         response = JsonResponse({"error":"Password must be at least 5 characters."}, safe=True, status=500)
     elif password1 != password2:
         response = JsonResponse({"error":"The two password fields didn't match."}, safe=True, status=500)
