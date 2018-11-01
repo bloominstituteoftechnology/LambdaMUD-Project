@@ -81,12 +81,13 @@ def shout(request):
     player = request.user.player
     player_id = player.id
     username = player.user.username
-    room = player.room()
+    allPlayerUUIDs = []
+    allRooms = Room.objects.all()
+    for room in allRooms:
+        allPlayerUUIDs.extend(room.playerUUIDs(player_id))
     data = json.loads(request.body)
     message = data['message']
-    allPlayerUUIDS = room.allPlayerUUIDs()
-    return JsonReponse({'uuids':allPlayerUUIDS})
     for p_uuid in allPlayerUUIDs:
         if p_uuid != player_id:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} says {message}.'})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} shouts {message}.'})
     return JsonResponse({'name': username, 'title': room.title}, safe=True)
