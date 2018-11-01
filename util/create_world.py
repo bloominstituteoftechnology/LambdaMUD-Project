@@ -1,3 +1,6 @@
+
+# this file creates the mop and the world for the game
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 

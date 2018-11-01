@@ -11,6 +11,8 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -52,16 +54,39 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
-        for p_uuid in nextPlayerUUIDs:
+        for p_uuid in nextPlayerUUIDs: 
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
+# creating a pusher trigger for each player that is in the current room
+# the username and message are being sent back as a json response
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    # words = ["hi", f"move {}"]
+    player = request.user.player
+    player_id = player.id
+    play_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    # nextRoomID = None
+    if message:
+
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"message":f"{player.user.username}: {message}"})
+
+        # print(f"hi {player.user.username}")
+        # pusher.trigger({"name": player.user.username,
+        # "message": message})
+    # else:
+    #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {"name":  player.user.username,"response": "what was that?"})
+    
+    return JsonResponse({'name': player.user.username, "message": message}, safe=True)
+    
