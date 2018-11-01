@@ -63,7 +63,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # Implement
+    #Implement
     player = request.user.player
     player_id = player.id
     room = player.room()
@@ -72,5 +72,5 @@ def say(request):
     currUsers = room.playerNames(player_id)
     currPlayerIDs = room.playerUUIDs(player_id)
     for p_id in currPlayerIDs:
-        pusher.trigger(f'p-channel-{p_id}', u'broadcast', {'message': f'{player.user.username} grumbles to you {message}'})
+        pusher.trigger(f'p-channel-{p_id}', u'broadcast', {'message': f'{player.user.username} says to you {message}'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':currUsers}, safe=True)
