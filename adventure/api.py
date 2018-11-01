@@ -63,6 +63,13 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+    """
+    Recieves API KEY
+    extracts information from API KEY
+    Recieves body(message)
+    uses player id to find user list in room
+    broadcasts the message to all the users in that room that are subscribed
+    """
     player_name = request.user.username
     player = request.user.player
     player_id = player.id

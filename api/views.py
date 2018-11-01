@@ -7,6 +7,12 @@ import json
 
 @csrf_exempt
 def register(request):
+    """
+    Accepts a 'username' and 'password1' and 'password2'
+    checks if user exists
+    if user exists, send message saying user exists
+    else, add user, send back API key
+    """
     data = json.loads(request.body)
     username = data['username']
     password1 = data['password1']
@@ -31,6 +37,12 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    """
+    Accepts a 'username' and 'password'
+    checks if user exists
+    if user exists, send back API KEY
+    else, need to provide 
+    """
     data = json.loads(request.body)
     username = data['username']
     password = data['password']
