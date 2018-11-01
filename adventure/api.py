@@ -62,6 +62,7 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
+
 def say(request):
     # IMPLEMENT
     player = request.user.player
