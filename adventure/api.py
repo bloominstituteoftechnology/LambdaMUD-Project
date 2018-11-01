@@ -71,5 +71,5 @@ def say(request):
     message = data['message']
     playerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in playerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username}: {message}'})
-    return JsonResponse({'name': player.user.username, 'message': (f'{player.user.username} says {message}')}, safe=True)
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username}: "{message}".'})
+    return JsonResponse({'name': player.user.username, 'message': (f'{player.user.username}: {message}')}, safe=True)
