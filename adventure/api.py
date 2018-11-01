@@ -62,7 +62,7 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
- """The say request demonstrates a player's name and the message they have typed to another player.
+    """The say request demonstrates a player's name and the message they have typed to another player.
  Part of this function comes from Pusher. """
 def say(request):
     player = request.user.player
