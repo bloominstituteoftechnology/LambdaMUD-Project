@@ -1,3 +1,4 @@
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
@@ -19,13 +20,16 @@ to north. The smell of gold permeates the air.""")
 
 r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""")
+earlier adventurers. The only exit is to the south. But if you'd like to dance your sorrows away head east""")
+
+r_partyroom = Room(title="Party Room", description="""Let's party! Who needs treasure...""")
 
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
 r_narrow.save()
 r_treasure.save()
+r_partyroom.save()
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
@@ -39,6 +43,9 @@ r_narrow.connectRooms(r_foyer, "w")
 
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
+
+r_treasure.connectRooms(r_partyroom,"e")
+r_partyroom.connectRooms(r_treasure, "s")
 
 players=Player.objects.all()
 for p in players:
