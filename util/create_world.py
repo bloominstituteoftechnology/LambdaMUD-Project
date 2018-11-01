@@ -65,17 +65,17 @@ r_fourteen = Room (title="Room of Doors", description="""Many doors fill the roo
 r_fifteen = Room (title="Marble Hallway", description="""Unlike the flagstone common throughout the dungeon, this room is walled and floored with black marble veined with white. The ceiling is similarly marbled, but the thick pillars that hold it up are white. A brown stain drips down one side of a nearby pillar. There are doors to the east and south.
 """)
 
-r_sixteen = Room (title="Grand Well", description="""A chill wind blows against you as you open the door. Beyond it, you see that the floor and ceiling are nothing but iron grates. Above and below the grates the walls extend up and down with no true ceiling or floor within your range of vision. It's as though the chamber is a bridge through the shaft of a great well. Standing on the edge of this shaft, you feel a chill wind pass down it and over your shoulder into the hall beyond. There are entrances to the north, south, and west""")
+r_sixteen = Room (title="Grand Well", description="""A chill wind blows against you as you open the door. Beyond it, you see that the floor and ceiling are nothing but iron grates. Above and below the grates the walls extend up and down with no true ceiling or floor within your range of vision. It's as though the chamber is a bridge through the shaft of a great well. Standing on the edge of this shaft, you feel a chill wind pass down it and over your shoulder into the hall beyond. There are entrances to the north, east, south, and west""")
 
 r_seventeen = Room( title="Garbage Room", description="""You open the door, and the reek of garbage assaults your nose. Looking inside, you see a pile of refuse and offal that nearly reaches the ceiling. In the ceiling above it is a small hole that is roughly as wide as two human hands. No doubt some city dweller high above disposes of his rubbish without ever thinking about where it goes. There are doors to the north and east.
 """)
 
 r_eighteen = Room(title="Combs", description="""A strange ceiling is the focal point of the room before you. It's honeycombed with hundreds of holes about as wide as your head. They seem to penetrate the ceiling to some height beyond a couple feet, but you can't be sure from your vantage point. There are doors to the west and south.
 """)
-r_nineteen = Room(title="Foutain", description="""There are doors to the north and westThe burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin.
+r_nineteen = Room(title="Foutain", description="""There are doors to the north and west. The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin.
 """)
 
-r_twenty= Room(title="False Treasure Room", description= """The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin. You know this isn't the treasure you're seeking. There are doors north and west.
+r_twenty= Room(title="False Treasure Room", description= """The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin. You know this isn't the treasure you're seeking. There are doors north and east.
 """)
 
 r_twentyone = Room (title="Burned Room", description = """You smelled smoke as you moved down the hall, and rounding the corner into this room you see why. Every surface bears scorch marks and ash piles on the floor. The room reeks of fire and burnt flesh. Either a great battle happened here or the room bears some fire danger you cannot see for no flames light the room anymore. Doors are located to the east, north, and south.
@@ -226,8 +226,8 @@ r_eighteen.connectRooms(r_nineteen, "s")
 r_sixteen.connectRooms(r_nineteen, "e")
 r_nineteen.connectRooms(r_sixteen, "w")
 
-r_sixteen.connectRooms(r_twenty, "e")
-r_twenty.connectRooms(r_sixteen, "w")
+r_sixteen.connectRooms(r_twenty, "w")
+r_twenty.connectRooms(r_sixteen, "e")
 
 r_twentyone.connectRooms(r_twenty, "s")
 r_twenty.connectRooms(r_twentyone, "n")
