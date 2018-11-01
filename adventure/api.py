@@ -69,8 +69,24 @@ def say(request):
     data = json.loads(request.body)
     message = data['message']
     room = player.room()
-    current_players_UUIDs = room.playerUUIDs(player_id)
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
     players = room.playerNames(player_id)
-    for p_uuid in current_players_UUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'"{username}" says {message}.'})
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} says {message}.'})
     return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
+    #return JsonResponse({'message': f'{username} says {message}.'}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def inventory(request):
+    player = request.user.player
+    inv = player.items
+    return JsonResponse({'inventory': inv}, safe=True)
+    
+    # def add_item(self, item):
+    #     self.items.append(item)
+    #     return f'You have acquired {item.name}'
+
+    # def remove_item(self, item):
+    #     self.items.remove(item)
+    #     print (f'\nYou have dropped {item}')

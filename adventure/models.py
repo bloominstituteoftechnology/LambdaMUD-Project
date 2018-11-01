@@ -62,7 +62,31 @@ def create_user_player(sender, instance, created, **kwargs):
 def save_user_player(sender, instance, **kwargs):
     instance.player.save()
 
+class Inventory(Player):
+    def __init__(self, items=[]):
+        self.items = items
 
+# class Item:
+#     def __init__(self, name, description=''):
+#         self.name = name
+#         self.description = description
+#         self.acquired = False
+
+#     def __repr__(self):
+#         return f'{self.name}'
+
+#     def on_take(self, player):
+#         self.acquired = True
+
+#     def on_drop(self):
+#         return f'You have dropped {self.name}'
+
+# class Weapon(Item):
+#     def __init__(self, damage):
+#         self.damage = damage
+    
+#     def __repr__(self):
+#         return f'{self.name} - Attack Value - {self.damage}'
 
 
 
