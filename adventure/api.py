@@ -103,7 +103,7 @@ def whisper(request):
     player_id = player.id
     toUser = request.data["toUser"]
     print('toUser', toUser)
-    toUser_uuid = Player.objects.get(user=toUser).uuid
+    toUser_uuid = Player.objects.get(user=toUser)
     print('toUser_uuid', toUser_uuid)
     room = player.room()
     players = room.playerNames(player_id)
