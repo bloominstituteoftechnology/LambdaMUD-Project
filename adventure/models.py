@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
+from django.contrib.postgres.fields import JSONField
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -12,6 +13,7 @@ class Room(models.Model):
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+    items = list()
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -35,12 +37,15 @@ class Room(models.Model):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+    def allPlayerUUIDs(self):
+        return [p.uuid for p in Player.objects.all() if p.uuid != int(currentPlayerID)]
 
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    # items = JSONField(default=list)
     def initialize(self):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
@@ -62,24 +67,16 @@ def create_user_player(sender, instance, created, **kwargs):
 def save_user_player(sender, instance, **kwargs):
     instance.player.save()
 
-class Inventory(Player):
-    def __init__(self, items=[]):
-        self.items = items
+class Item(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=500)
 
-# class Item:
-#     def __init__(self, name, description=''):
-#         self.name = name
-#         self.description = description
-#         self.acquired = False
+    # def on_take(self, player):
+    #     self.acquired = True
 
-#     def __repr__(self):
-#         return f'{self.name}'
-
-#     def on_take(self, player):
-#         self.acquired = True
-
-#     def on_drop(self):
-#         return f'You have dropped {self.name}'
+    # def on_drop(self):
+    #     return f'You have dropped {self.name}'
 
 # class Weapon(Item):
 #     def __init__(self, damage):

@@ -59,7 +59,6 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
  
- 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
@@ -77,11 +76,25 @@ def say(request):
     #return JsonResponse({'message': f'{username} says {message}.'}, safe=True)
 
 @csrf_exempt
-@api_view(["GET"])
-def inventory(request):
+@api_view(["POST"])
+def shout(request):
     player = request.user.player
-    inv = player.items
-    return JsonResponse({'inventory': inv}, safe=True)
+    player_id = player.id
+    username = player.user.username
+    data = json.loads(request.body)
+    message = data['message']
+    allPlayerUUIDS = room.allPlayerUUIDs()
+    for p_uuid in allPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} says {message}.'})
+    return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
+
+# @csrf_exempt
+# @api_view(["GET"])
+# def inventory(request):
+#     player = request.user.player
+#     inv = player.items
+#     print(inv)
+#     return JsonResponse({'inventory': inv}, safe=True)
     
     # def add_item(self, item):
     #     self.items.append(item)
