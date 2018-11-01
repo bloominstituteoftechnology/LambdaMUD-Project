@@ -81,25 +81,10 @@ def shout(request):
     player = request.user.player
     player_id = player.id
     username = player.user.username
+    room = player.room()
     data = json.loads(request.body)
     message = data['message']
     allPlayerUUIDS = room.allPlayerUUIDs()
-    for p_uuid in allPlayerUUIDs:
+    for p_uuid in allPlayerUUIDs if p_uuid != player_id:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} says {message}.'})
-    return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
-
-# @csrf_exempt
-# @api_view(["GET"])
-# def inventory(request):
-#     player = request.user.player
-#     inv = player.items
-#     print(inv)
-#     return JsonResponse({'inventory': inv}, safe=True)
-    
-    # def add_item(self, item):
-    #     self.items.append(item)
-    #     return f'You have acquired {item.name}'
-
-    # def remove_item(self, item):
-    #     self.items.remove(item)
-    #     print (f'\nYou have dropped {item}')
+    return JsonResponse({'name': username, 'title': room.title}, safe=True)
