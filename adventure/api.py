@@ -74,7 +74,7 @@ def say(request):
     data = json.loads(request.body)
     player_message = data['message']
     room = player.room()
-    players = currentRoom.playerNames(player_id)
+    players = room.playerNames(player_id)
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         # pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says, \'Hello, world!\''})
