@@ -98,12 +98,13 @@ def shout(request):
 @csrf_exempt
 @api_view(["POST"])
 def whisper(request):
-    for key, value in request.data.items():
-        print(key, value)
     player = request.user.player
+    print('player', player)
     player_id = player.id
     toUser = request.data["toUser"]
-    toUser_uuid = User.objects.get(user=toUser).uuid
+    print('toUser', toUser)
+    toUser_uuid = User.objects.get(player=toUser)
+    print('toUser_uuid', toUser_uuid)
     room = player.room()
     players = room.playerNames(player_id)
     pusher.trigger(f'p-channel-{toUser_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {request.data["message"]}!'})
