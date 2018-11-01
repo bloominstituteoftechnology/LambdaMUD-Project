@@ -85,4 +85,15 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username} says {message}.'})
     return JsonResponse({'response':f"You said {message}"}, safe=True, status=200)
+
+@csrf_exempt
+@api_view(["POST"])
+def help(request):
+    # IMPLEMENT
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    return JsonResponse({'response':f"type: \n'say' + 'WORDS' to talk to other players. \n n, s, e, or w to navigate through rooms."}, safe=True, status=200)
     
