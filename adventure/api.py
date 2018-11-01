@@ -63,7 +63,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT 
+    # function that allows users to say messages to each other in game.  Arguments to be passed include the message that the user wants to say and their token which is passed via Authorization in headers returns a JSON response with player and room information.
     data=json.loads(request.body)
     message=data['message']
     user=request.user
