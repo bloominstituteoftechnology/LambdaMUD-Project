@@ -103,7 +103,7 @@ def whisper(request):
     player = request.user.player
     player_id = player.id
     toUser = request.data["toUser"]
-    toUser_uuid = User.objects.get(player=toUser).uuid
+    toUser_uuid = User.objects.get(user=toUser).uuid
     room = player.room()
     players = room.playerNames(player_id)
     pusher.trigger(f'p-channel-{toUser_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {request.data["message"]}!'})
