@@ -77,7 +77,7 @@ def say(request):
     #return JsonResponse({'message': f'{username} says {message}.'}, safe=True)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["GET"])
 def inventory(request):
     player = request.user.player
     inv = player.items
