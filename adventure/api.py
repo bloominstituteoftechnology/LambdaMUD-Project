@@ -87,8 +87,8 @@ def say(request):
     return JsonResponse({'response':f"You said {message}"}, safe=True, status=200)
 
 @csrf_exempt
-@api_view(["GETT"])
-def help(request):
+@api_view(["GET"])
+def helped(request):
     # IMPLEMENT
     player = request.user.player
     player_id = player.id
