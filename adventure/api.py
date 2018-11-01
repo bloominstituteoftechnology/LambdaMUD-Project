@@ -1,3 +1,5 @@
+# api.py
+# Provides endpoints for client to connect to
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -14,6 +16,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """Initializes the player in the game, this is the init endpoint"""
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +29,9 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """Moves the player in one of four directions, 
+    shows error is that move is not available in the current room
+    """
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,5 +69,43 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    """Broadcasts players' messages via Pusher when in same room"""
+    player = request.user.player
+    player_id = player.id
+    room = player.room()
+    players = room.playerNames(player_id)
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {request.data["message"]}.'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You said: ' + request.data['message']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    allRooms = Room.objects.all()
+    allUUIDs = []
+    for room in allRooms:
+        allUUIDs.extend(room.playerUUIDs(player_id))
+    for p_uuid in allUUIDs:
+        print(p_uuid)
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {request.data["message"]}!'})
+    room = player.room()
+    players = room.playerNames(player_id)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You shouted: ' + request.data['message']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    player = request.user.player
+    print('player', player)
+    player_id = player.id
+    toUser = request.data["toUser"]
+    print('toUser', toUser)
+    toUser_uuid = Player.objects.get(user_id=User.objects.get(username=toUser).id).uuid
+    print('toUser_uuid', toUser_uuid)
+    room = player.room()
+    players = room.playerNames(player_id)
+    pusher.trigger(f'p-channel-{toUser_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {request.data["message"]}.'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You whispered: ' + request.data['message']}, safe=True)

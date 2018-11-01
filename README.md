@@ -356,3 +356,5 @@ django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 ```
+
+Trello Board: https://trello.com/b/anqxi6HF/lambdamud
