@@ -70,7 +70,7 @@ def say(request):
     room = player.room()
     player_id = player.id
     currentPlayerUUIDs = room.playerUUIDs(player_id)
-    if len(currentPlayerUUIDs) > 1:
+    if len(currentPlayerUUIDs) != 0:
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {msg}'})
         return JsonResponse({'msg': "success!"}, safe=True, status=200)
