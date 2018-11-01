@@ -84,13 +84,13 @@ def whisper(request):
     player_id = player.id
     data = json.loads(request.body)
     message = data['message']
-    whisper__username = data['username']
-    room=player.room()
-    currentPlayerNames = room.playerNames(player_id)
-    for p in currentPlayerNames:
-        if p==whisper__username:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {message}.'})
+    target_user = data['username']
 
-    return JsonResponse({'name':player.user.username, 'message':f'whispers {message}'}, safe=True)
-
+    try:
+        target_user = User.objects.get(username = target_user)
+        target_uuid = target_user.player.uuid
+        pusher.trigger(f'p-channel-{target_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {message}.'})
+        return JsonResponse({'name':player.user.username, 'message':f'whispers {message} to {target_user}'}, safe=True)
+    except User.DoesNotExist:
+        return JsonResponse({'error_msg': 'This user does not exist'}, safe=True)
 
