@@ -61,6 +61,8 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
+# creating a pusher trigger for each player that is in the current room
+# the username and message are being sent back as a json response
 
 @csrf_exempt
 @api_view(["POST"])
