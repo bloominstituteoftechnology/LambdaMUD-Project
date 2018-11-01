@@ -90,10 +90,4 @@ def say(request):
 @api_view(["GET"])
 def helped(request):
     # IMPLEMENT
-    player = request.user.player
-    player_id = player.id
-    data = json.loads(request.body)
-    room = player.room()
-    currentPlayerUUIDs = room.playerUUIDs(player_id)
     return JsonResponse({'response':f"type: \n'say' + 'WORDS' to talk to other players. \n n, s, e, or w to navigate through rooms."}, safe=True, status=200)
-    
