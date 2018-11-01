@@ -75,3 +75,22 @@ def say(request):
 
     return JsonResponse({'name':player.user.username, 'message':f'says {message}'}, safe=True)
 
+
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    # IMPLEMENT
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    message = data['message']
+    whisper__username = data['username']
+    room=player.room()
+    currentPlayerNames = room.playerNames(player_id)
+    for p in currentPlayerNames:
+        if p==whisper__username:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {message}.'})
+
+    return JsonResponse({'name':player.user.username, 'message':f'whispers {message}'}, safe=True)
+
+
