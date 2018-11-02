@@ -171,6 +171,9 @@ MVP as soon as you can and get working the list of features.
 
 
 ## Test API commands
+
+* Windows users might want to use Postman to test API commands
+
 ### Registration
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
