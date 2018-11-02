@@ -225,6 +225,15 @@ MVP as soon as you can and get working the list of features.
 
 ## Troubleshooting
 
+### Heroku errors with `config`
+```
+File "/app/adventure/api.py", line 12, in <module>
+    pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+```
+
+If you run into errors with config on Heroku, make sure you have set your config variables. Remember, `.env` should NOT be committed to GitHub or Heroku.
+
+
 ### Nondescript `500` error
 * [JavaScript] If this is an axios call, you can get more information by
   catching the error and printing out `error.response` instead of just printing
