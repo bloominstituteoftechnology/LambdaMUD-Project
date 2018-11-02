@@ -93,7 +93,7 @@ def shout(request):
 # the shout command
 @csrf_exempt
 @api_view(["POST"])
-def whispher(request):
+def whisper(request):
     player = request.user.player
     data = json.loads(request.body)
     message = data['message']
@@ -105,6 +105,6 @@ def whispher(request):
     print(currentPlayer)
     if len(currentPlayer) == 0: 
          return JsonResponse({"error":"No player found by that name"}, safe=True, status=500)
-    pusher.trigger(f'p-channel-{currentPlayer[0].player.uuid}', u'broadcast', {'message':f'{player.user.username} has whisphered "{message}".'})
+    pusher.trigger(f'p-channel-{currentPlayer[0].player.uuid}', u'broadcast', {'message':f'{player.user.username} has whispered "{message}".'})
    
-    return JsonResponse({'message':f'You have whisphered "{message}" to {currentPlayer[0].player.user.username}'}, safe=True)
+    return JsonResponse({'message':f'You have whispered "{message}" to {currentPlayer[0].player.user.username}'}, safe=True)

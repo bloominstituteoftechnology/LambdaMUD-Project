@@ -34,14 +34,14 @@ r_bustroom = Room (title="Bust Room", description="""Several white marble busts 
 r_two = Room (title="Art Gallery", description="""Tapestries decorate the walls of this room. Although they may once have been brilliant in hue, they now hang in graying tatters. Despite the damage of time and neglect, you can perceive once-grand images of wizards' towers, magical beasts, and symbols of spellcasting. The tapestry that is in the best condition bulges out weirdly, as though someone stands behind it (an armless statue of a female human spellcaster). This seems to be a central room with doors entrances to the south, east, and west.
 """)
 
-r_three = Room(title="The Lab", description = """The door to the west closes behind you. Before you is a room about which alchemists dream. Three tables bend beneath a clutter of bottles of liquid and connected glass piping. Several bookshelves stand nearby stuffed to overfilling with a jumble of books, jars, bottles, bags, and boxes. The alchemist who set this all up doesn't seem to be present, but a beaker of green fluid boils over a burner on one of the tables.""")
+r_three = Room(title="The Lab", description = """The door to the west closes behind you. Before you is a room about which alchemist's  dream. Three tables bend beneath a clutter of bottles of liquid and connected glass piping. Several bookshelves stand nearby stuffed to overfilling with a jumble of books, jars, bottles, bags, and boxes. The alchemist who set this all up doesn't seem to be present, but a beaker of green fluid boils over a burner on one of the tables.""")
 
 r_four = Room(title="The Former Library", description="""The scent of earthy decay assaults your nose upon peering through the open door to this room. Smashed bookcases and their sundered contents litter the floor. Paper rots in mold-spotted heaps, and shattered wood grows white fungus. Between shelves there are doors to the north, east, and south.
 """)
 
 r_five = Room(title="Tight Hallway", description="""Going from the south to the east this nondescript hallway contains nothing worth describing. """)
 
-r_six = Room (title="Broad Hallway", description="""This hallway runs from west to south. It is exceptionally large and you aren't sure you can make out the cieling.""")
+r_six = Room (title="Broad Hallway", description="""This hallway runs from west to south. It is exceptionally large and you aren't sure you can make out the ceiling.""")
 
 r_seven = Room (title="Control Room", description="""This tiny room holds a curious array of machinery. Winches and levers project from every wall, and chains with handles dangle from the ceiling. On a nearby wall, you note a pictogram of what looks like a scythe on a chain. There is a small door to the north.""")
 
@@ -72,7 +72,7 @@ r_seventeen = Room( title="Garbage Room", description="""You open the door, and 
 
 r_eighteen = Room(title="Combs", description="""A strange ceiling is the focal point of the room before you. It's honeycombed with hundreds of holes about as wide as your head. They seem to penetrate the ceiling to some height beyond a couple feet, but you can't be sure from your vantage point. There are doors to the west and south.
 """)
-r_nineteen = Room(title="Foutain", description="""There are doors to the north and west. The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin.
+r_nineteen = Room(title="Fountain", description="""There are doors to the north and west. The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin.
 """)
 
 r_twenty= Room(title="False Treasure Room", description= """The burble of water reaches your ears after you open the door to this room. You see the source of the noise in the far wall: a large fountain artfully carved to look like a seashell with the figure of a seacat spewing clear water into its basin. You know this isn't the treasure you're seeking. There are doors north and east.
@@ -82,7 +82,7 @@ r_twentyone = Room (title="Burned Room", description = """You smelled smoke as y
 """)
 r_twentytwo = Room (title="Mossy Hallway", description = """There's not much to this hall but a lot of mossy stone. It has entrances located at the south and east sides.""")
 
-r_twentythree = Room (title="Study", description= """Many small desks with high-backed chairs stand in three long rows in this room. Each desk has an inkwell, book stand, and a partially melted candle in a rusting tin candleholder. Everything is covered with dust. There are doors to the west, south, and east.
+r_twentythree = Room (title="Study", description= """Many small desks with high-backed chairs stand in three long rows in this room. Each desk has an inkwell, book stand, and a partially melted candle in a rusting tin candle holder. Everything is covered with dust. There are doors to the west, south, and east.
 """)
 
 r_twentyfour = Room (title="Bedroom", description="""Rats inside the room shriek when they hear the door open, then they run in all directions from a putrid corpse lying in the center of the floor by a bed. As these creatures crowd around the edges of the room, seeking to crawl through a hole in one corner, they fight one another. The stinking corpse in the middle of the room looks human, but the damage both time and the rats have wrought are enough to make determining its race by appearance an extremely difficult task at best. The only door is to the north.
@@ -90,7 +90,7 @@ r_twentyfour = Room (title="Bedroom", description="""Rats inside the room shriek
 
 r_twentysix = Room (title="Fools Gold", description="""After you go through the southern entrance you see piles and piles of gold. So much that you couldn't carry it all. When you go to pick up a piece your hand goes right through it and you realize the entire room is an illusion""")
 
-r_twentyseven = Room (title="Hallyway of Candles", description= """A stone hallway with a candle every few inches. There is a door in the north and another in the west. It feels like there's way too many candles for this amount of space.""")
+r_twentyseven = Room (title="Hallway of Candles", description= """A stone hallway with a candle every few inches. There is a door in the north and another in the west. It feels like there's way too many candles for this amount of space.""")
 
 r_twentyeight = Room (title="Training Room", description= """You open the door to what must be a combat training room. Rough fighting circles are scratched into the surface of the floor. Wooden fighting dummies stand waiting for someone to attack them. A few punching bags hang from the ceiling. There's something peculiar about it all though. Every dummy is stocky and each has a bedraggled piece of leather hanging from its head that could be a long mask or a beard.There are doors to the east and south.
 """)
@@ -100,9 +100,9 @@ r_thirty = Room (title="Rubble", description="""It was a struggle to get the doo
 
 r_thirtyone = Room (title="Ice Hallway", description="""As the door opens, it scrapes up frost from a floor covered in ice. The room before you looks like an ice cave. A tunnel wends its way through solid ice, and huge icicles and pillars of frozen water block your vision of its farthest reaches. There is a door to the south and one to the east.""")
 
-r_thirtytwo = Room (title="The Undistrubed Hall", description="""Layers of old dust coat the floor. What you think is a creature to attack is actually a dust bunny. There are doors to the west and north.""")
+r_thirtytwo = Room (title="The Undisturbed Hall", description="""Layers of old dust coat the floor. What you think is a creature to attack is actually a dust bunny. There are doors to the west and north.""")
 
-r_thirtythree = Room(title="Tribute Room", description="""In the center of the room is a statue 50 feet high of a nondescript man. At the bottom is an alter that looks recently used. Nothing makes a sound in the room but you get a feeling of uneaese. All four walls have doors in them.""")
+r_thirtythree = Room(title="Tribute Room", description="""In the center of the room is a statue 50 feet high of a nondescript man. At the bottom is an alter that looks recently used. Nothing makes a sound in the room but you get a feeling of unease. All four walls have doors in them.""")
 
 r_thirtyfour= Room(title="Lovecraft was here", description="""You can't even describe how horrific this room is. English does not have the words to describe it. Even if you use archaic ones. The door to the west can be described so you know how to leave and stop gazing upon this madness.""")
 
