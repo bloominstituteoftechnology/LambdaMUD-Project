@@ -98,4 +98,4 @@ def shout(request):
             pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} shouts {data["message"]}'})
 
     players = current.playerNames(player_uuid)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':current.title, 'description':current.description, 'players':players, 'error_msg':""}, safe=True)
