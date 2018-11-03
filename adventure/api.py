@@ -80,3 +80,22 @@ def say(request):
 
     players = room.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    current = player.room()
+    rooms = Room.objects.all()
+    for room in rooms:
+        pUUIDs = room.playerUUIDs(0)
+        data = json.loads(request.body)
+        print('data', data)
+        for p in pUUIDs:
+            print(f'{player.user.username} broadcasting {data["message"]} to {p}')
+            pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} says {data["message"]}'})
+
+    players = current.playerNames(player_uuid)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True)
