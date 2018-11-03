@@ -108,7 +108,7 @@ def attack(request):
     player_uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_uuid)
-    pUUIDs = room.playerUUIDs(player_id)
+    pUUIDs = room.playerUUIDs(0)
     data = json.loads(request.body)
     target = data['target']
     print(target, players)
