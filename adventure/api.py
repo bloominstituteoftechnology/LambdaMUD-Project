@@ -95,7 +95,7 @@ def shout(request):
         print('data', data)
         for p in pUUIDs:
             print(f'{player.user.username} broadcasting {data["message"]} to {p}')
-            pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} says {data["message"]}'})
+            pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} shouts {data["message"]}'})
 
     players = current.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True)
