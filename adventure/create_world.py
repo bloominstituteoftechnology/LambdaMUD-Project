@@ -5,8 +5,7 @@ from adventure.models import Player, Room
 Room.objects.all().delete()
 
 r_jappartment = Room(title="Jerry's Appartment", description="""You find yourself on Jerry's couch with no memory of how you got there. 
-You look around, and it's, uhhh, it's an apartment. You hear Jerry snoring in the other room. 
-Possible Moves:  """, moves="n to go into Jerry's room, s to leave apartment, e to go sit at the dinning table, w to go to the kitchen")
+You look around, and it's, uhhh, it's an apartment. You hear Jerry snoring in the other room.""", moves="n to go into Jerry's room, s to leave apartment, e to go sit at the dinning table, w to go to the kitchen")
 
 r_jroom = Room(title="Jerry's Room", description="""You walk groggly into Jerry's room and stand over him, two inches from 
 his face to see if he's awake. You lose your balance and knock over everything on his bedside table, 
