@@ -99,3 +99,22 @@ def shout(request):
 
     players = current.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':current.title, 'description':current.description, 'players':players, 'error_msg':""}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def attack(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    room = player.room()
+    players = room.playerNames(player_uuid)
+    pUUIDs = room.playerUUIDs(player_id)
+    data = json.loads(request.body)
+    target = data['target']
+    error = ''
+    if target in players:
+        for p in pUUIDs:
+            pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} attacks {target}'})
+    else:
+        error = 'The target is not in this room'
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':error}, safe=True)
