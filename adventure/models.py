@@ -7,7 +7,8 @@ import uuid
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
-    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    description = models.CharField(max_length=1000, default="DEFAULT DESCRIPTION")
+    moves = models.CharField(max_length=1000, default="DEFAULT MOVES")
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)

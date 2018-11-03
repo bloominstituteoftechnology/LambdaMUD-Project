@@ -4,25 +4,22 @@ from adventure.models import Player, Room
 
 Room.objects.all().delete()
 
-r_jappartment = Room(title="Jerry's Appartment",
-               description="""You find yourself on Jerry's couch with no memory of how you got there. 
+r_jappartment = Room(title="Jerry's Appartment", description="""You find yourself on Jerry's couch with no memory of how you got there. 
 You look around, and it's, uhhh, it's an apartment. You hear Jerry snoring in the other room. 
-Possible Moves: (n to go into Jerry's room, s to leave apartment, e to go sit at the dinning table, w to go to the kitchen) """)
+Possible Moves:  """, moves="n to go into Jerry's room, s to leave apartment, e to go sit at the dinning table, w to go to the kitchen")
 
-r_jroom = Room(title="Jerry's Room", 
-               description="""You walk groggly into Jerry's room and stand over him, two inches from 
+r_jroom = Room(title="Jerry's Room", description="""You walk groggly into Jerry's room and stand over him, two inches from 
 his face to see if he's awake. You lose your balance and knock over everything on his bedside table, 
-waking him up. He shouts, in a comically high-pitched voice, "What are you doing!? Get out!!" 
-Possible Moves: (s back to the living room)""")
+waking him up. He shouts, in a comically high-pitched voice, "What are you doing!? Get out!!" """, moves="s back to the living room")
 
 r_kitchen = Room(title="Jerry's Kitchen", description="""You walk over to the kitchen and find it to be immaculately clean.
-There is a fridge and well organized pantry items on some shelves above. Possible Moves: (e to go back to the couch)""")
+There is a fridge and well organized pantry items on some shelves above.""", moves="e to go back to the couch")
 
 r_dinningtable = Room(title="Jerry's Dinning Table", description="""You sit down at Jerry's dining table. A New York Times 
-is splayed infront of you. Possible Moves: (w to go back to the couch)""")
+is splayed infront of you.""", moves="w to go back to the couch")
 
 r_hallway = Room(title="Jerry's Hallway", description="""You open Jerry's door and step into the hallway.
-You see another door infront of you and an elevator down the hall. Possible Moves: (n to go back into Jerry's appartment)""")
+You see another door infront of you and an elevator down the hall.""", moves="n to go back into Jerry's appartment")
 
 r_jappartment.save()
 r_jroom.save()
