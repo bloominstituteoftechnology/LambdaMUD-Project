@@ -111,10 +111,11 @@ def attack(request):
     pUUIDs = room.playerUUIDs(player_id)
     data = json.loads(request.body)
     target = data['target']
+    print(target, players)
     error = ''
     if target in players:
         for p in pUUIDs:
-            pusher.trigger(f'p-channel-{p}', u'broadcast', {'message':f'{player.user.username} attacks {target}'})
+            pusher.trigger(f'p-channel-{p}', u'attack', {'message':f'{player.user.username} attacks {target}'})
     else:
         error = 'The target is not in this room'
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':error}, safe=True)
