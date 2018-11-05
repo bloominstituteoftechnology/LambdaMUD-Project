@@ -45,7 +45,7 @@ def move(request):
         nextRoomID = room.w_to
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
-        player.currentRoom=nextRoomID
+        player.currentRoom = nextRoomID
         player.save()
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
@@ -63,5 +63,16 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id= player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    if message:
+        for p in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p.uuid}', u'broadcast', {'message':f'{message}'})
+        return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':""}, safe=True)
+    else:
+        return JsonResponse({'error':"We hear the sound of your scream, we are simply indifferent to your plea. Farewell."}, safe=True, status=500)
