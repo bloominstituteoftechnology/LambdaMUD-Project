@@ -76,6 +76,6 @@ for p in players:
 
 Item.objects.all().delete()
 
-i_lamp = Item(name="Glowing Lamp", description="Test", room=r_outside, player=1)
+i_lamp = Item(name="Glowing Lamp", description="Test", room=r_outside, player=players[0])
 
 i_lamp.save()
