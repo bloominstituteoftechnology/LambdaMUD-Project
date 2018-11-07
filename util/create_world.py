@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from adventure.models import Player, Room
+from adventure.models import Player, Room, Item
 
 
 Room.objects.all().delete()
@@ -41,6 +41,9 @@ r_foyer.save()
 r_overlook.save()
 r_narrow.save()
 r_treasure.save()
+r_hidden.save()
+r_lighthouse.save()
+r_beach.save()
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
@@ -69,3 +72,10 @@ for p in players:
   p.currentRoom=r_outside.id
   p.save()
 
+
+
+Item.objects.all().delete()
+
+i_lamp = Item(name="Glowing Lamp", description="Test", room=r_outside)
+
+i_lamp.save()

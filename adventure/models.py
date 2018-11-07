@@ -35,7 +35,8 @@ class Room(models.Model):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
-
+    def roomInventory(self):
+        return [i.name for i in Item.objects.filter(room=self.id)]
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -51,6 +52,14 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+    def playerInventory(self):
+        return [i.name for i in Item.objects.filter(player=self.uuid)]
+
+class Item(models.Model):
+    name = models.CharField(max_length=50, default="DEFAULT TITLE")
+    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, default=None)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
