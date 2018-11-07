@@ -58,7 +58,7 @@ class Player(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, default=None)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
 @receiver(post_save, sender=User)
