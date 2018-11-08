@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config
+import dj_database_url
+import pusher
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +30,13 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
+pusher_client = pusher.Pusher(
+  app_id= config('PUSHER_APP_ID'),
+  key= config('PUSHER_KEY'),
+  secret= config('PUSHER_SECRET'),
+  cluster= config('PUSHER_CLUSTER'),
+  ssl=True
+)
 
 # Application definition
 
@@ -67,6 +76,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'adv_project.urls'
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -95,6 +107,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'))
+
 
 
 # Password validation
@@ -151,3 +165,4 @@ STATIC_URL = '/static/'
 
 import django_heroku
 django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
