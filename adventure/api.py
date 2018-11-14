@@ -118,7 +118,8 @@ def take(request):
     player = request.user.player
     player_id = player.id
     itemName = request.data["item"]
-    item = Item.objects.filter(name=itemName) or None
+    item = None
+    item = Item.objects.filter(name=itemName)
     if item is not None:
         item.room_id = None
         item.player_id = player_id
@@ -137,7 +138,8 @@ def drop(request):
     room = player.room()
     print("Room from drop: ", room)
     itemName = request.data["item"]
-    item = Item.objects.filter(name=itemName) or None
+    item = None
+    item = Item.objects.filter(name=itemName)
     if item is not None:
         item.room_id = room.id
         item.player_id = None
