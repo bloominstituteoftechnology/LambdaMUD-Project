@@ -155,11 +155,13 @@ def inventory(request):
     room = player.room()
     items = (Item.objects.filter(player_id=player_id))
     itemStr = ""
-    if len(items) > 0:
+    if len(items) > 1:
         lastItem = items.pop()
         for item in items:
             itemStr.join(item.name + ", ")
         itemStr.join(lastItem.name)
+    elif len(items) == 1:
+        itemStr.join(items[0].name)
     else: 
         itemStr = "nothing"
     print("Items in inventory: ", items)
