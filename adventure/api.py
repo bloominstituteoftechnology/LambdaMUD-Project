@@ -121,7 +121,8 @@ def take(request):
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
     # this line needs to be updated with the new "Nowhere" room ID after adding new rooms and items in Heroku's manage.py shell
-    item.room_id = 79
+    # item.room_id = 79
+    item.room_id = None
     item.player_id = player_id
     item.save()
     room = player.room()
@@ -140,7 +141,8 @@ def drop(request):
     room = player.room()
     print("Room from drop: ", room)
     item.room_id = room.id
-    item.player_id = Player.objects.first().id
+    # item.player_id = Player.objects.first().id
+    item.player_id = None
     item.save()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
