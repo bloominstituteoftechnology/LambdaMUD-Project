@@ -128,7 +128,7 @@ def take(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} took the {request.data["item"]}.'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You took: ' + item.name if hasattr(item, 'name') else '', 'error': '' if hasattr(item, 'name') else "That item is not in this room."}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You took: ' + item.name if hasattr(item, 'name') else None, 'error': None if hasattr(item, 'name') else "That item is not in this room."}, safe=True)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -147,7 +147,7 @@ def drop(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You dropped: ' + request.data['item'] if hasattr(item, 'name') else '', 'error': "" if hasattr(item, 'name') else "You do not have that item."}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You dropped: ' + request.data['item'] if hasattr(item, 'name') else None, 'error': None if hasattr(item, 'name') else "You do not have that item."}, safe=True)
 
 @csrf_exempt
 @api_view(["GET"])
