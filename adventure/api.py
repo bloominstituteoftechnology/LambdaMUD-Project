@@ -155,8 +155,11 @@ def inventory(request):
     room = player.room()
     items = (Item.objects.filter(player_id=player_id))
     itemStr = ""
-    for item in items[:-1]:
-        itemStr.join(item.name + ", ")
-    itemStr.join(items[-1].name)
+    if len(items) > 0:
+        for item in items[:-1]:
+            itemStr.join(item.name + ", ")
+        itemStr.join(items[-1].name)
+    else: 
+        itemStr = "nothing"
     print("Items in inventory: ", items)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': itemStr}, safe=True)
