@@ -121,7 +121,7 @@ def take(request):
     item = Item.objects.get(name=itemName)
     # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
     item.room = Room.objects.get(id=70)
-    item.player = Player.objects.get(user_id=User.objects.get(id=player_id).id)
+    item.player = Player.objects.get(id=player_id)
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
@@ -136,8 +136,9 @@ def drop(request):
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
     room = player.room()
+    print("Room from drop: ", room)
     item.room = room
-    item.player = Player.objects.get(user_id=User.objects.get(id=0).id)
+    item.player = Player.objects.first()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
@@ -150,4 +151,5 @@ def inventory(request):
     player_id = player.id
     room = player.room()
     items = ", ".join(Item.objects.filter(player=player_id))
+    print("Items in inventory: ", items)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': items}, safe=True)
