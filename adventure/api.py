@@ -117,11 +117,12 @@ def whisper(request):
 def take(request):
     player = request.user.player
     player_id = player.id
+
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
     # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
-    item.room = Room.objects.get(id=70)
-    item.player = Player.objects.get(id=player_id)
+    item.room_id = 70
+    item.player_id = player_id
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
@@ -137,8 +138,8 @@ def drop(request):
     item = Item.objects.get(name=itemName)
     room = player.room()
     print("Room from drop: ", room)
-    item.room = room
-    item.player = Player.objects.first()
+    item.room_id = room.id
+    item.player_id = Player.objects.first().id
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
