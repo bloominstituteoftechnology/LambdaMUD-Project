@@ -120,8 +120,8 @@ def take(request):
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
     # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
-    item.room = 70
-    item.player = player_id
+    item.room = Room.objects.get(id=70)
+    item.player = Player.objects.get(user_id=User.objects.get(id=player_id).id).uuid
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
@@ -136,7 +136,7 @@ def drop(request):
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
     room = player.room()
-    item.room = room.id
+    item.room = room
     item.player = Player.objects.get(user_id=0)
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
@@ -144,7 +144,7 @@ def drop(request):
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You dropped: ' + request.data['item']}, safe=True)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["GET"])
 def inventory(request):
     player = request.user.player
     player_id = player.id
