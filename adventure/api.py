@@ -156,6 +156,7 @@ def inventory(request):
     items = (Item.objects.filter(player_id=player_id))
     itemStr = ""
     if len(items) > 1:
+        items = list(items)
         lastItem = items.pop()
         for item in items:
             itemStr = itemStr + item.name + ", "
