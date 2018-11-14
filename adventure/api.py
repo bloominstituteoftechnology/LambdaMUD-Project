@@ -156,9 +156,10 @@ def inventory(request):
     items = (Item.objects.filter(player_id=player_id))
     itemStr = ""
     if len(items) > 0:
-        for item in items[:-1]:
+        lastItem = items.pop()
+        for item in items:
             itemStr.join(item.name + ", ")
-        itemStr.join(items[-1].name)
+        itemStr.join(lastItem.name)
     else: 
         itemStr = "nothing"
     print("Items in inventory: ", items)
