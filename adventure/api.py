@@ -140,6 +140,7 @@ def drop(request):
     itemName = request.data["item"]
     item = None
     item = Item.objects.filter(name=itemName).first()
+    print("Item from drop: ", item)
     if item is not None:
         item.room_id = room.id
         item.player_id = None
