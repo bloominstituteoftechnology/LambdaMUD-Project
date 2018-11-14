@@ -137,7 +137,7 @@ def drop(request):
     item = Item.objects.get(name=itemName)
     room = player.room()
     item.room = room
-    item.player = Player.objects.get(user_id=0)
+    item.player = Player.objects.get(user_id=User.objects.get(id=0).id)
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
@@ -149,5 +149,5 @@ def inventory(request):
     player = request.user.player
     player_id = player.id
     room = player.room()
-    items = Item.objects.filter(player=player_id)
+    items = ", ".join(Item.objects.filter(player=player_id))
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': items}, safe=True)
