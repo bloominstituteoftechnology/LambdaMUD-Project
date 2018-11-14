@@ -153,6 +153,10 @@ def inventory(request):
     player = request.user.player
     player_id = player.id
     room = player.room()
-    items = ", ".join(Item.objects.filter(player_id=player_id).name)
+    items = (Item.objects.filter(player_id=player_id))
+    itemStr = ""
+    for item in items[:-1]:
+        itemStr.join(item.name + ", ")
+    itemStr.join(items[-1].name)
     print("Items in inventory: ", items)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': items}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': itemStr}, safe=True)
