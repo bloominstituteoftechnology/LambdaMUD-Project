@@ -123,6 +123,7 @@ def take(request):
     # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
     item.room_id = 70
     item.player_id = player_id
+    item.save()
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
@@ -140,6 +141,7 @@ def drop(request):
     print("Room from drop: ", room)
     item.room_id = room.id
     item.player_id = Player.objects.first().id
+    item.save()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
