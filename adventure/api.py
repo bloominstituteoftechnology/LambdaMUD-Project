@@ -121,7 +121,7 @@ def take(request):
     item = Item.objects.get(name=itemName)
     # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
     item.room = Room.objects.get(id=70)
-    item.player = Player.objects.get(user_id=User.objects.get(id=player_id).id).uuid
+    item.player = Player.objects.get(user_id=User.objects.get(id=player_id).id)
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
