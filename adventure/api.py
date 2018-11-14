@@ -120,8 +120,8 @@ def take(request):
 
     itemName = request.data["item"]
     item = Item.objects.get(name=itemName)
-    # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
-    item.room_id = 70
+    # this line needs to be updated with the new "Nowhere" room ID after adding new rooms and items in Heroku's manage.py shell
+    item.room_id = 79
     item.player_id = player_id
     item.save()
     room = player.room()
@@ -158,10 +158,10 @@ def inventory(request):
     if len(items) > 1:
         lastItem = items.pop()
         for item in items:
-            itemStr.join(item.name + ", ")
-        itemStr.join(lastItem.name)
+            itemStr = itemStr + item.name + ", "
+        itemStr = itemStr + lastItem.name
     elif len(items) == 1:
-        itemStr.join(items[0].name)
+        itemStr = items[0].name
     else: 
         itemStr = "nothing"
     print("Items in inventory: ", items)

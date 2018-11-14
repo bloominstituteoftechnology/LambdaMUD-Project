@@ -80,5 +80,7 @@ for p in players:
 Item.objects.all().delete()
 
 i_lamp = Item(name="Glowing Lamp", description="A bright and colorfully-decorated light source.", room=r_outside, player=players[0])
+i_bread = Item(name="Bread", description="A crusty loaf of stale bread.", room=r_outside, player=players[0])
 
 i_lamp.save()
+i_bread.save()
