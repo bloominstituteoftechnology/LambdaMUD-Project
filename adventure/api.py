@@ -111,3 +111,43 @@ def whisper(request):
     players = room.playerNames(player_id)
     pusher.trigger(f'p-channel-{toUser_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {request.data["message"]}.'})
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You whispered: ' + request.data['message']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def take(request):
+    player = request.user.player
+    player_id = player.id
+    itemName = request.data["item"]
+    item = Item.objects.get(name=itemName)
+    # this line needs to be updated with the new "Nowhere" room after adding new rooms and items in Heroku's manage.py shell
+    item.room = 70
+    item.player = player_id
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} took the {request.data["item"]}.'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You took: ' + request.data['item']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def drop(request):
+    player = request.user.player
+    player_id = player.id
+    itemName = request.data["item"]
+    item = Item.objects.get(name=itemName)
+    room = player.room()
+    item.room = room.id
+    item.player = Player.objects.get(user_id=0)
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You dropped: ' + request.data['item']}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def inventory(request):
+    player = request.user.player
+    player_id = player.id
+    room = player.room()
+    items = Item.objects.filter(player=player_id)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items': items, 'message':'You dropped: ' + request.data['item']}, safe=True)
