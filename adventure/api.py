@@ -150,4 +150,4 @@ def inventory(request):
     player_id = player.id
     room = player.room()
     items = Item.objects.filter(player=player_id)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items': items, 'message':'You dropped: ' + request.data['item']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items': items}, safe=True)
