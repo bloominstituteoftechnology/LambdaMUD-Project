@@ -34,9 +34,7 @@ r_lighthouse = Room(title="Glimmering Lighthouse", description="""  A tall, whit
 r_beach = Room(title="Sandy Beach", description="""   A broad sandy beach lies before you. 
     Sea shells are scattered around. 
     The ocean looks cold and uninviting. 
-    the only exit is east.""")
-
-r_nowhere = Room(title="Nowhere", description="""You should never see this.""")
+    The only exit is east.""")
 
 r_outside.save()
 r_foyer.save()
@@ -46,7 +44,6 @@ r_treasure.save()
 r_hidden.save()
 r_lighthouse.save()
 r_beach.save()
-r_nowhere.save()
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
@@ -79,8 +76,8 @@ for p in players:
 
 Item.objects.all().delete()
 
-i_lamp = Item(name="Glowing Lamp", description="A bright and colorfully-decorated light source.", room=r_outside, player=players[0])
-i_bread = Item(name="Bread", description="A crusty loaf of stale bread.", room=r_outside, player=players[0])
+i_lamp = Item(name="Glowing Lamp", description="A bright and colorfully-decorated light source.", room=r_outside, player=None)
+i_bread = Item(name="Bread", description="A crusty loaf of stale bread.", room=r_outside, player=None)
 
 i_lamp.save()
 i_bread.save()
