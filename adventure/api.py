@@ -126,7 +126,7 @@ def take(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} took the {request.data["item"]}.'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You took: ' + request.data['item']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You took: ' + request.data['item']}, safe=True)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -141,7 +141,7 @@ def drop(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} dropped the {request.data["item"]}.'})
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':'You dropped: ' + request.data['item']}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'message':'You dropped: ' + request.data['item']}, safe=True)
 
 @csrf_exempt
 @api_view(["GET"])
@@ -150,4 +150,4 @@ def inventory(request):
     player_id = player.id
     room = player.room()
     items = Item.objects.filter(player=player_id)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items': items}, safe=True)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'items': items}, safe=True)
