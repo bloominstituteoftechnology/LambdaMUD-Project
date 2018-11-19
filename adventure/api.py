@@ -56,12 +56,25 @@ def move(request):
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
-        players = room.playerNames(player_uuid)
+        players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    data = json.loads(request.body)
+    msg = data['message'] #for mvp, msg = "Hello, world"
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    room = player.room()
+    players = room.playerNames(player_id)
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    if msg:
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {msg}.'})
+        return JsonResponse({'username': player.user.username, 'message': msg}, safe=True)
+    else:
+        return JsonResponse({'error':"Something went wrong, no message"}, safe=True, status=500)
+
