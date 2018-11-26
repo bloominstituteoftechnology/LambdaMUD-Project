@@ -1,0 +1,12 @@
+Hmm...
+
+So this week we'll be working on a front-end client for an adventure game.
+
+And, according to the README.md, we already have a basic CRUD server, but we also 
+need more...basically from what I'm understanding we can currently make requests to 
+the server, but cannot handle if the server needs to make requests to the client.
+
+Hmm...something about WebSockets...let's go read that link...
+
+So WebSockets allow for realtime communication between servers and clients...
+
