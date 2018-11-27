@@ -6,9 +6,11 @@ from decouple import config
 from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
+
 import json
 
 # instantiate pusher
+# this command takes the player info needed off the token and returns the player in the first room with a list of players
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 @csrf_exempt
@@ -22,7 +24,15 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
-
+# this function handles move commands with a n, s, e, or w command 
+# it takes the player info off of the token that was pased with the directino command. 
+# then it sets the next rrom on the player to the corrisponding direction to the room the player is in. 
+# then the functino gets all the objects in the room
+# saves the next rrom to the current room 
+# then it grabs all the players in that current room and the previous room 
+# and sends a pusher trigger to every player's channel in that room that includes the direction
+# and returns the next room description to the user
+# if there is not a current room in that direction the player is returned a descriptino of that 
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -59,9 +69,25 @@ def move(request):
         players = room.playerNames(player_uuid)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+# this function takes tthe decoded token that is sent along with a command and destructures it
+# then it takes all the players that are in the room and pushes a message to pusher onto eacth players channel what the message was
+#  it then returns a response back to the original player that says what the player said 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{player.user.username} says {message}.'})
+    return JsonResponse({'response':f"You said {message}"}, safe=True, status=200)
+
+@csrf_exempt
+@api_view(["GET"])
+def helped(request):
+    # IMPLEMENT
+    return JsonResponse({'response':f"type: \n'say' + 'WORDS' to talk to other players. \n n, s, e, or w to navigate through rooms."}, safe=True, status=200)

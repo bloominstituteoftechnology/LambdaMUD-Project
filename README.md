@@ -1,4 +1,7 @@
-# Adventure Project Week
+https://trello.com/b/yt1GYBK6/lambdamud-mike-kerbleski
+ https://lambda-mud-mjk.herokuapp.com/
+
+# Adventure Project Week  
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
@@ -82,7 +85,7 @@ Request comment:
 
 #### Client
 - [ ] Create a standalone frontend app that communicates with the server via API calls
-- [ ] Be able to create a new account on the server (implemented on server)
+- [ ] Create a standalone frontend app that communicates with the server via API calls
 - [ ] Be able to log in to the server (implemented on server)
 - [ ] Create an interface that displays the current room name, its description and the other players in the room
 - [ ] Be able to move between rooms and update the display accordingly (implemented on server)
@@ -175,9 +178,11 @@ MVP as soon as you can and get working the list of features.
 * Windows users might want to use Postman to test API commands
 
 ### Registration
-* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
+* `curl -X POST -H "Content-Type: application/json" -d '{"username":"mikek", "password1":"mikek", "password2":"mikek"}' localhost:8000/api/registration/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
+
+  {"key": "e15a08161da23253d168cb4144f6d3b9df09d7cd"}(Intro-Django-nMHpE80e)-mine
 
 ### Login
 * Request:
@@ -185,21 +190,30 @@ MVP as soon as you can and get working the list of features.
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
+  {"key": "e15a08161da23253d168cb4144f6d3b9df09d7cd"}(Intro-Django-nMHpE80e)-mine
+
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 30cbbcd30ed8376cf3390f407260e0f60624517b' localhost:8000/api/adv/init/`
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
+
+{"uuid": "6c1ffebc-ff66-4751-86f4-8e2236fdfdb3", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}(Intro-Django-nMHpE80e)-mine
+
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
+  * `curl -X POST -H 'Authorization: Token e15a08161da23253d168cb4144f6d3b9df09d7cd' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
+
+{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}(Intro-Django-nMHpE80e)
+
 * Pusher broadcast:
   * Players in previous room receive a message: `<name> has walked north.`
   * Players in next room receive a message: `<name> has entered from the south.`
 
+------------ ^^^^^^^^^^^ not sure this works ^^^^^^^^ --------------------
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
   * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 
+# this is the url endpoint for createing a user 
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
@@ -29,6 +30,7 @@ def register(request):
           response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
     return response
 
+# this is the url endpoint for logging in a user
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
