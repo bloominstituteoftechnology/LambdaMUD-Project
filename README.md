@@ -8,7 +8,7 @@ Using API requests, clients are able to create, read, update and delete
 data on remote servers but what if the server needs to initiate a
 request to the client? Say, to alert them that another player has
 entered their room or that they have received a chat message. This is
-where WebSockets come in.
+where WebSockets come in
 
 WebSocket is a computer communications protocol, providing full-duplex
 communication channels over a single TCP connection. You will be using
