@@ -8,5 +8,8 @@ the server, but cannot handle if the server needs to make requests to the client
 
 Hmm...something about WebSockets...let's go read that link...
 
-So WebSockets allow for realtime communication between servers and clients...
+So WebSockets allow for realtime communication between servers and clients..
 
+So I still haven't quite deployed yet, nor have I gotten to WebSockets.
+I am carefully going over the README.md of the Intro-Django assignment, 
+trying to figure out how to deploy to Heroku.
