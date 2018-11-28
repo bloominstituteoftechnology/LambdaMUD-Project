@@ -1,3 +1,4 @@
+# this is the models for connecting the room
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -7,7 +8,7 @@ import uuid
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
-    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    description = models.TextField(max_length=5000, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)

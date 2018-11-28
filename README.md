@@ -3,7 +3,7 @@
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
 but needs to be completed.
-
+- for pr
 Using API requests, clients are able to create, read, update and delete
 data on remote servers but what if the server needs to initiate a
 request to the client? Say, to alert them that another player has
@@ -40,7 +40,7 @@ creative guide.
 - [ ] Fill in the `backlog` list with all the extra features listed below
 - [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
 - [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
-
+Trello URL : https://trello.com/b/zmZdcYKr/lambdamud-andrew-mclaughlin
 ## MVP Features:
 
 #### Client
