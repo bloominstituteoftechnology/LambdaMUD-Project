@@ -203,6 +203,7 @@ MVP as soon as you can and get working the list of features.
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
   * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+  * `curl -X POST -H 'Authorization: Token 6e451032b4cadcdaf4ef19339387b25a1b2b6fd4' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 * Pusher broadcast:
   * Players in current room receive a message: `<name> says "Hello, world!"`
 
