@@ -80,7 +80,6 @@ def say(request):
     player_id = player.id
     player_uuid = player.uuid
     room = player.room()
-    players = room.playerNames(player_id)
 
     # jsonobj is inside of our req.body
 
@@ -89,8 +88,8 @@ def say(request):
     players = room.playerNames(player_id)
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says,  \"{message}\".'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}'})
 
-    # return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True, status=200)
-    return JsonResponse({'username':player.user.username, 'message': f'{message}'}, safe=True, status=200)
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':""}, safe=True)
+    # return JsonResponse({'username':player.user.username, 'message': f'{message}'}, safe=True, status=200)
 
