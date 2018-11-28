@@ -13,6 +13,14 @@ class Room(models.Model):
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
     def connectRooms(self, destinationRoom, direction):
+        """
+        Connects rooms only one-way
+        Example usage:
+        room_outside.connectRooms(room_foyer, "n")
+        
+        room_outside connects to room_foyer with room_foyer being towards the north
+        of room_outside
+        """
         destinationRoomID = destinationRoom.id
         try:
             destinationRoom = Room.objects.get(id=destinationRoomID)
@@ -32,8 +40,16 @@ class Room(models.Model):
                 return
             self.save()
     def playerNames(self, currentPlayerID):
-        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+        """
+        Filters what player instances are in the current room instance
+        and returns the players' usernames
+        """
+        return [p.user.username for p in Player.objects.filter(currentRoom=self.id)if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
+        """
+        Filters what player instances are in the current room instance
+        and returns the players' UUIDs (Universally Unique Identifiers)
+        """
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
 
@@ -42,10 +58,18 @@ class Player(models.Model):
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
+        """
+        When the player first enters the world,
+        it is sent to the default room unless otherwise specified
+        by an id
+        """
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
             self.save()
     def room(self):
+        """
+        Returns the current room that the player instance is in
+        """
         try:
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:

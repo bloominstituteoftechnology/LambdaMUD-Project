@@ -28,9 +28,15 @@ def initialize(request):
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
+
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
+    # request.body looks like this:
+    # {
+    #   "direction": "n"
+    # }
+    # direction then stores "n"
     data = json.loads(request.body)
     direction = data['direction']
     room = player.room()
@@ -63,5 +69,18 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+
+    user = request.user
+    player = user.player
+
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    player_id = player.id
+    currentPlayerUUIDS = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDS:
+        pusher.trigger(f'p-channel-{p_uuid}', u'say', {'player_message': f'{player.user.username}: {message}'})
+    
+    return JsonResponse({ 'player': player.user.username,'player_message': message,
+        'error':"",
+        }, safe=True)
