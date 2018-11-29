@@ -55,7 +55,6 @@ def move(request):
         #     print('run pusher current')
         for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
-            print('run pusher next')
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
@@ -66,5 +65,10 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    p_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    if message:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+        return JsonResponse({'result': 'Message has been broadcast'}, safe=True)
