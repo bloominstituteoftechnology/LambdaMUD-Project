@@ -50,11 +50,9 @@ def move(request):
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
-        print('before FOR', nextRoom.playerUUIDs(player_id))
-        # for p_uuid in currentPlayerUUIDs:
-        #     print('run pusher current')
-        for p_uuid in nextPlayerUUIDs:
+        for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
+        for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
