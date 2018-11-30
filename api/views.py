@@ -45,3 +45,19 @@ def login(request):
             response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
     return response
 
+@csrf_exempt
+def say(request):
+    data = json.loads(request.body)
+    username = data['username']
+    password = data['password']
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        response = JsonResponse({"error":"User does not exist."}, safe=True, status=500)
+    else:
+        if user.check_password(password):
+            response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
+        else:
+            response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
+    return response
+
