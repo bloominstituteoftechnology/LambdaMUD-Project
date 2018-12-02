@@ -8,8 +8,27 @@ from .models import *
 from rest_framework.decorators import api_view
 import json
 
-# instantiate pusher
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+# # # Getting Started
+# The minimum configuration required to use the Pusher object are the three 
+# constructor arguments which identify your Pusher app. You can find them by 
+# going to "API Keys" on your app at https://app.pusher.com.
+# (v instantiation of pusher)
+pusher = Pusher(
+    app_id=config('PUSHER_APP_ID'),
+    key=config('PUSHER_KEY'), 
+    secret=config('PUSHER_SECRET'), 
+    cluster=config('PUSHER_CLUSTER')
+    )
+# You can then trigger events to channels. Channel and event names may only 
+# contain alphanumeric characters, - and _:
+        # pusher.trigger(u'a_channel', u'an_event', {u'some': u'data'})
+
+pusher.trigger(u'my-channel', u'my-event', {u'message': u'hello world'})
+
+# # # Triggering Events
+# To trigger an event on one or more channels, use the trigger method on the
+# Pusher object.
+        # Pusher::trigger
 
 @csrf_exempt
 @api_view(["GET"])
