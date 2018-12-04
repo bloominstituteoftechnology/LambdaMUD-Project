@@ -17,11 +17,11 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 def initialize(request):
     user = request.user
     player = user.player
-    pprint(vars(player))
     player_id = player.id
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    pprint(vars(players))
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
