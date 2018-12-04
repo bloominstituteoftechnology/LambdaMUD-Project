@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+import uuid
 
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -51,9 +52,9 @@ def move(request):
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'global', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
+            pusher.trigger(f'global', u'broadcast', {'id': f'{str(uuid.uuid4())},'message':f'{player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'global', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
+            pusher.trigger(f'global', u'broadcast', {'id': f'{str(uuid.uuid4())},'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
@@ -68,5 +69,5 @@ def say(request):
     data = json.loads(request.body)
     message = data['message']
     if message:
-        pusher.trigger(f'global', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+        pusher.trigger(f'global', u'broadcast', {'id': f'{str(uuid.uuid4())},'message':f'{player.user.username} says {message}.'})
         return JsonResponse({'result': 'Message has been broadcast'}, safe=True)
