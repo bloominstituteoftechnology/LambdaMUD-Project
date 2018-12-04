@@ -49,7 +49,7 @@ class Player(models.Model):
     def room(self):
         try:
             res = Room.objects.get(id=self.currentRoom)
-            pprint(vars(res))
+            print(res.playerNames)
             return res
         except Room.DoesNotExist:
             self.initialize()
