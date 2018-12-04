@@ -48,9 +48,7 @@ class Player(models.Model):
             self.save()
     def room(self):
         try:
-            res = Room.objects.get(id=self.currentRoom)
-            print(res.playerNames)
-            return res
+            return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
