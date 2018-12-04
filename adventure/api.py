@@ -16,8 +16,8 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @api_view(["GET"])
 def initialize(request):
     user = request.user
-    pprint(vars(user))
     player = user.player
+    pprint(vars(player))
     player_id = player.id
     uuid = player.uuid
     room = player.room()
