@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
-from pprint import pprint
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
