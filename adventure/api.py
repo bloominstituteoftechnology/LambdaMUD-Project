@@ -10,16 +10,18 @@ import json
 
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
-
+print(pusher)
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    print(request)
     user = request.user
     player = user.player
     player_id = player.id
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    print(user, player, player_id, uuid, room, players)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
