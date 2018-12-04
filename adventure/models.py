@@ -46,10 +46,8 @@ class Player(models.Model):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
             self.save()
-    def room(self):        
+    def room(self):
         try:
-            pprint("HERE")
-            pprint(vars(Room.objects.get(id=self.currentRoom))
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
             self.initialize()
