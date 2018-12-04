@@ -8,7 +8,6 @@ import json
 @csrf_exempt
 def register(request):
     data = json.loads(request.body)
-    print(f'register data {data}')
     username = data['username']
     password1 = data['password1']
     password2 = data['password2']

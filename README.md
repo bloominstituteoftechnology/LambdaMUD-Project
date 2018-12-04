@@ -371,5 +371,5 @@ del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 ```
 ------------------------------
 Trello: https://trello.com/b/jeO7fp4m/lambdamud-jessereichel
-Heroku: https://muddylambda.herokuapp.com/
+Heroku: https://arcane-springs-80731.herokuapp.com
 Netlify: https://5c02d88d05c41743d7cc69cf--unruffled-thompson-ce9edc.netlify.com/
