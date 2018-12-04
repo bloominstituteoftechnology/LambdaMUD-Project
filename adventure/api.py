@@ -14,14 +14,18 @@ print(pusher)
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-    print(request)
     user = request.user
+    print(user)
     player = user.player
+    print(player)
     player_id = player.id
+    print(player_id)
     uuid = player.uuid
+    print(uuid)
     room = player.room()
+    print(room)
     players = room.playerNames(player_id)
-    print(user, player, player_id, uuid, room, players)
+    print(players)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
