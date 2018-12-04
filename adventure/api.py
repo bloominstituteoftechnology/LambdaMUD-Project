@@ -7,25 +7,21 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from pprint import pprint
 
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
-print(pusher)
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
     user = request.user
-    print(user)
+    pprint(vars(user))
     player = user.player
-    print(player)
     player_id = player.id
-    print(player_id)
     uuid = player.uuid
-    print(uuid)
     room = player.room()
-    print(room)
     players = room.playerNames(player_id)
-    print(players)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
