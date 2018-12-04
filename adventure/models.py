@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
+from pprint import pprint
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -45,8 +46,10 @@ class Player(models.Model):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
             self.save()
-    def room(self):
+    def room(self):        
         try:
+            pprint("HERE")
+            pprint(vars(Room.objects.get(id=self.currentRoom))
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
             self.initialize()
