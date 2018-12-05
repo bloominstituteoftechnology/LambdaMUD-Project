@@ -171,6 +171,9 @@ MVP as soon as you can and get working the list of features.
 
 
 ## Test API commands
+
+* Windows users might want to use Postman to test API commands
+
 ### Registration
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
@@ -221,6 +224,15 @@ MVP as soon as you can and get working the list of features.
     * Handle valid API responses and update the display accordingly
 
 ## Troubleshooting
+
+### Heroku errors with `config`
+```
+File "/app/adventure/api.py", line 12, in <module>
+    pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+```
+
+If you run into errors with config on Heroku, make sure you have set your config variables. Remember, `.env` should NOT be committed to GitHub or Heroku.
+
 
 ### Nondescript `500` error
 * [JavaScript] If this is an axios call, you can get more information by
