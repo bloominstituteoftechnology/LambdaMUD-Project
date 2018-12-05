@@ -53,7 +53,7 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
 
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.')
+            pusher.trigger(f'p-channel-{p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.'})
         return JsonResponse({'currentRoomId': nextRoomID,'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
 
     else:
