@@ -21,7 +21,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'currentRoomId': room.id,'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
 # @csrf_exempt
@@ -53,8 +53,8 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
 
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'{player.p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.', 'playerName': f'{player.user.username}')
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+            pusher.trigger(f'{player.p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.')
+        return JsonResponse({'currentRoomId': nextRoomID,'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
 
     else:
         players = room.playerNames(player_uuid)
