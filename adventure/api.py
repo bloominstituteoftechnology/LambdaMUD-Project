@@ -53,7 +53,7 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
 
         for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.'})
+            pusher.trigger(f'{nextRoomID}', f'message', {'id': f'{nextRoomID}','message':f'{player.user.username} just entered {nextRoom.title}.'})
         return JsonResponse({'currentRoomId': nextRoomID,'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
 
     else:
@@ -69,5 +69,5 @@ def say(request):
     data = json.loads(request.body)
     message = data['message']
     if message:
-        pusher.trigger(f'p-channel-{p_uuid}', f'{nextRoomID}', {'id': f'{nextRoomID}','message':f'{player.user.username} says {message}.'})
+        pusher.trigger(f'{nextRoomID}', f'message', {'id': f'{nextRoomID}','message':f'{player.user.username} says {message}.'})
         return JsonResponse({'result': 'Message has been broadcast'}, safe=True)
