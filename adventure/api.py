@@ -59,9 +59,21 @@ def move(request):
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
-@csrf_exempt
+# @csrf_exempt
 @api_view(["POST"])
-def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+def say(request):    
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    print(message)
+    room = player.room()
+    if message:
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+        pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {'message':f'{player.user.username} said {message}.'})
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} said {message}.'})
+        return JsonResponse({'message':f'{player.user.username} said {message}.', 'error_msg':""}, safe=True)
+    else:
+        return JsonResponse({'message': "", 'error_msg':"Invalid message."}, safe=True, status=500)
