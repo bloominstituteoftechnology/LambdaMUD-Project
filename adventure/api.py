@@ -53,7 +53,9 @@ def move(request):
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
 
         for p_uuid in nextPlayerUUIDs:
-            if player.uuid is not p_uuid:
+            print(player_uuid)
+            print(p_uuid)
+            if player_uuid is not p_uuid:
                 pusher.trigger(f'{nextRoomID}', f'message', {'id': f'{uuid.uuid4().hex}','message':f'{player.user.username} just entered {nextRoom.title}.'})
         return JsonResponse({'currentRoomId': nextRoomID,'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
 
