@@ -70,5 +70,5 @@ def say(request):
     data = json.loads(request.body)
     message = data['message']
     if message:
-        pusher.trigger(f'{player.currentRoom.id}', f'message', {'id': f'{uuid.uuid4().hex}','triggeredPlayerUuid':f'{player_uuid}', 'message':f'{player.user.username} says {message}.'})
+        pusher.trigger(f'{player.room().id}', f'message', {'id': f'{uuid.uuid4().hex}','triggeredPlayerUuid':f'{player_uuid}', 'message':f'{player.user.username} says {message}.'})
         return JsonResponse({'result': 'Message has been broadcast'}, safe=True)
