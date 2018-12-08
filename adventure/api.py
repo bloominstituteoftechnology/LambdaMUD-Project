@@ -85,3 +85,24 @@ def shout(request):
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} shouts {shout}'})
     return JsonResponse({'shout':shout}, safe=True)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def players(request):
+    # return a list of all the other players
+    player = request.user.player
+    player_id = player.id
+    currentPlayers = player.allPlayerUsernames(player_id)
+    return JsonResponse({'players': currentPlayers}, safe=True)
+
+
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    player = request.user.player
+    data = json.loads(request.body)
+    whisper = data['whisper']
+    whispered_p_uuid = data['playerUUID']
+    pusher.trigger(f'p-channel-{whispered_p_uuid}', u'broadcast', {'message':f'{player.user.username} whispers {whisper}'})
+    return JsonResponse({'whisper':whisper}, safe=True)
