@@ -64,4 +64,21 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    """ request: Auth token&key-value pair of message: message in the body
+    return: returns player's message
+    pusher triggers a broadcast event for each player in the room to be alerted of the message. """"
+
+    player = request.user.player
+    player_id = player.id
+    username = player.user.usernamedata = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    current_players_UUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+
+    for p in current_players_UUIDs:
+        print(f'p-channel-{p}')
+        pusher.trigger(f'p-channel-{p}', u'broadcast',
+                       {'message': f'"{username}" says {message}.'})
+
+    return JsonResponse({'name': username, 'title': room.title, 'players': players, 'message': message}, safe=True)

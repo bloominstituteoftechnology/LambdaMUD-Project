@@ -1,3 +1,8 @@
 from django.contrib import admin
+from adventure.models import Room, Player
 
-# Register your models here.
+
+class AdventureAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Room, AdventureAdmin)
+admin.site.register(Player, AdventureAdmin)
