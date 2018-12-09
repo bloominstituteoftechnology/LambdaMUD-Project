@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+#ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda str: [s.strip() for s in str.split(',')])
 
 
 # Application definition
@@ -69,7 +70,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'adv_project.urls'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 TEMPLATES = [
     {
@@ -99,10 +100,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-# import os
-# DATABASES = {}
 
-# DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'))
+DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -157,7 +156,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+FILES_STORAGE = 'whitenoise.storage.CompressedManifestStaSTATICticFilesStorage'
+
 import django_heroku
 django_heroku.settings(locals())
 
-# del DATABASES['default']['OPTIONS']['sslmode']
+del DATABASES['default']['OPTIONS']['sslmode']
