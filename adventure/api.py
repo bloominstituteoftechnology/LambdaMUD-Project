@@ -64,13 +64,14 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    """ request: Auth token&key-value pair of message: message in the body
-    return: returns player's message
-    pusher triggers a broadcast event for each player in the room to be alerted of the message. """"
+    # """ request: Auth token&key-value pair of message: message in the body
+    # return: returns player's message
+    # pusher triggers a broadcast event for each player in the room to be alerted of the message. """"
 
     player = request.user.player
     player_id = player.id
-    username = player.user.usernamedata = json.loads(request.body)
+    username = player.user.username 
+    data = json.loads(request.body)
     message = data['message']
     room = player.room()
     current_players_UUIDs = room.playerUUIDs(player_id)
