@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'rest-auth',
     'rest_auth.registration',
 ]
 
