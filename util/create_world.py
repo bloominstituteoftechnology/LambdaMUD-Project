@@ -45,3 +45,5 @@ for p in players:
   p.currentRoom=r_outside.id
   p.save()
 
+cfe1913928b90b3516e9981d7f3cd76524ecc870
+
