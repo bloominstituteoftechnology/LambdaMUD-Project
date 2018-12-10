@@ -68,5 +68,5 @@ def say(request):
     data = json.loads(request.body)
     user = request.user
     player = user.player
-    
-    return JsonResponse({'message': data['message'], 'from': player.user.username}, safe=True, status=500)
+    pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'say':f'{player.user.username} says {data['message']}'}) 
+    return
