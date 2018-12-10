@@ -79,6 +79,7 @@ Request comment:
 - [x ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
 
 https://trello.com/b/ikP7eT3C/lambda-mud-csilla-gates
+https://csillagadvanture.herokuapp.com/admin/login/?next=/admin/
 
 ## MVP Features:
 
