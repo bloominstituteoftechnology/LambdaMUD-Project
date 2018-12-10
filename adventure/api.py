@@ -63,5 +63,17 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    # function that allows users to say messages to each other in game.  Arguments to be passed include the message that the user wants to say and their token which is passed via Authorization in headers returns a JSON response with player and room information.
+    data=json.loads(request.body)
+    message=data['message']
+    user=request.user
+    player=user.player
+    player_id=player.id
+    uuid=player.uuid
+    room=player.room()
+    players=room.playerNames(player_id)
+    currentPlayerUUIDS = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDS:
+        pusher.trigger(f'p-channel-{p_uuid}',u'broadcast',{'message':f'{player.user.username} says{message}'})
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    
