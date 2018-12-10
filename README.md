@@ -1,8 +1,6 @@
 **TRELLO LINK**
 [LambdaMUD - Adam Reid](https://trello.com/b/kN49HB0N/lambdamud-adam-reid)
 
-**This is a placeholder**
-
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
