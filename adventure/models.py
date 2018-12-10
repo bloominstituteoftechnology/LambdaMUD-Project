@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
+from django.contrib.postgres.fields import JSONField
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -12,6 +13,7 @@ class Room(models.Model):
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+    items = list()
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -41,6 +43,7 @@ class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    # items = JSONField(default=list)
     def initialize(self):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
@@ -62,7 +65,23 @@ def create_user_player(sender, instance, created, **kwargs):
 def save_user_player(sender, instance, **kwargs):
     instance.player.save()
 
+class Item(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=500)
 
+    # def on_take(self, player):
+    #     self.acquired = True
+
+    # def on_drop(self):
+    #     return f'You have dropped {self.name}'
+
+# class Weapon(Item):
+#     def __init__(self, damage):
+#         self.damage = damage
+    
+#     def __repr__(self):
+#         return f'{self.name} - Attack Value - {self.damage}'
 
 
 

@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+pusher = Pusher(app_id='634475', key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 @csrf_exempt
 @api_view(["GET"])
@@ -58,10 +58,36 @@ def move(request):
     else:
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
-
-
+ 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} says {message}.'})
+    return JsonResponse({'name': username, 'title': room.title, 'players': players}, safe=True)
+    #return JsonResponse({'message': f'{username} says {message}.'}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username
+    allPlayerUUIDs = []
+    allRooms = Room.objects.all()
+    for room in allRooms:
+        allPlayerUUIDs.extend(room.playerUUIDs(player_id))
+    data = json.loads(request.body)
+    message = data['message']
+    for p_uuid in allPlayerUUIDs:
+        if p_uuid != player_id:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'{username} shouts {message}.'})
+    return JsonResponse({'name': username, 'title': room.title}, safe=True)
