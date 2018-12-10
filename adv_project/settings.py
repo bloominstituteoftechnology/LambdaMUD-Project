@@ -29,7 +29,7 @@ SECRET_KEY = '16job-7!nzuwtunsxa*d6#6_j(u4x!c5*8w&3b_^!nqot-xabt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['https://mudlambdahuthman.herokuapp.com/']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
@@ -91,14 +91,8 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'USER': 'admin4',
-        'PASSWORD': '123itworks',
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'))
 
 
 # Password validation
@@ -153,11 +147,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES = {'default': dj_database_url.config()}
 
 import django_heroku
 django_heroku.settings(locals())
