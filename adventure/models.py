@@ -51,6 +51,10 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+    def allPlayerUUIDs(self, currentPlayerID):
+        return [p.uuid for p in Player.objects.all() if p.id != int(currentPlayerID)]
+    def allPlayerUsernames(self, currentPlayerID):
+        return [(p.user.username, p.uuid) for p in Player.objects.all() if p.id != int(currentPlayerID)]
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
