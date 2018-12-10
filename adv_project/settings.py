@@ -29,7 +29,7 @@ SECRET_KEY = '16job-7!nzuwtunsxa*d6#6_j(u4x!c5*8w&3b_^!nqot-xabt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['mudlambdahuthman.herokuapp.com']
+ALLOWED_HOSTS = [*]
 
 # Application definition
 
