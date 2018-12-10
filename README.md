@@ -1,5 +1,9 @@
 # Adventure Project Week
 
+Trello Board:
+https://trello.com/b/Jzfh7fOx/lambdamud-vance-leon
+
+
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
 but needs to be completed.
