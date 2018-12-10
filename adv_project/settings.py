@@ -23,10 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '16job-7!nzuwtunsxa*d6#6_j(u4x!c5*8w&3b_^!nqot-xabt'
-PUSHER_APP_ID='669321'
-PUSHER_KEY='1b4118407e6882f44d92'
-PUSHER_SECRET='710314d4611210df5bc5'
-PUSHER_CLUSTER='us2'
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
