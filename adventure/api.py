@@ -66,7 +66,8 @@ def move(request):
 def say(request):
     # IMPLEMENT
     data = json.loads(request.body)
+    rsp = data['message']
     user = request.user
     player = user.player
-    pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'say':f'{player.user.username} says {data['message']}'}) 
+    pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'say':f'{player.user.username} says {rsp}'}) 
     return
