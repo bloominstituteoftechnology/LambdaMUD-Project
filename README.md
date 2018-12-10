@@ -5,6 +5,9 @@ This section contains links to other repos and boards that are involved in my pr
 ## Trello:
 https://github.com/jonathantmiles/LambdaMUD-Project.git
 
+## Client repo link:
+https://github.com/jonathantmiles/LambdaMUD-Client
+
 
 # Adventure Project Week
 
