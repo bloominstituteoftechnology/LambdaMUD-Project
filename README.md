@@ -31,6 +31,8 @@ creative guide.
   help. This also allows the client to get progress reports from the
   company in a real world setting.
 
+[Trello Board]("https://trello.com/b/JAb7E68d/lambda-mud-jeremy-boggs")
+
 ## Trello Set Up:
 
 - [ ] Create a Trello account if you don't have one already
