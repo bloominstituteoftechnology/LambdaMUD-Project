@@ -126,7 +126,6 @@ MVP as soon as you can and get working the list of features.
 - [ ] Add combat with NPCs
 - [ ] Add PvP combat
 
-
 ---
 
 # Directions
