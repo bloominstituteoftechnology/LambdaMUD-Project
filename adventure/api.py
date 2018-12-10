@@ -68,7 +68,10 @@ def say(request):
     data = json.loads(request.body)
     rsp = data['message']
     user = request.user
-    player = user.player
-    player_uuid = player.uuid
-    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {'say':f'{player.user.username} says {rsp}'}) 
+    player = user.playe
+    room = player.room()
+    player_id = player.id
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'say':f'{player.user.username} says {rsp}'}) 
     return
