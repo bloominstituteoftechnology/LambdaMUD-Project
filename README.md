@@ -383,3 +383,17 @@ make sure you have a trailing slash at the right end of your URL:
 ```
 https://example.herokuapp.com/api/login/
 ```
+
+### Postman: CSRF Failed
+
+If you're getting this back in Postman:
+
+```json
+{
+    "detail": "CSRF Failed: CSRF token missing or incorrect."
+}
+```
+
+try clearing your cookies in Postman, specifically the CSRF cookie.
+
+Or use `curl` on the command line. :)
