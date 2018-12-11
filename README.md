@@ -374,8 +374,3 @@ del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 
 b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c
 
-curl -X GET -H 'Authorization: Token b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c' localhost:8000/api/adv/init/
-
-curl -X POST -H 'Authorization: Token b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/
-
-curl -X POST -H 'Authorization: Token b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/
