@@ -1,5 +1,7 @@
 # Adventure Project Week
 
+https://trello.com/b/XzgFsOz8/lambdamud
+
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
 but needs to be completed.
@@ -369,3 +371,7 @@ django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 ```
+
+
+b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c
+
