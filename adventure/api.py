@@ -76,4 +76,4 @@ def say(request):
         pusher.trigger(f'p-channel-{p_uuid}', u'my-event',
                        {'message': f'{player.user.username} says {message}.'})
     # pusher.trigger(u'my-channel', u'my-event', {'message':f'{player.user.username} says {message}.'})
-    return JsonResponse({'message': message, 'error_msg':"Say Error"}, safe=True)
+    return JsonResponse({'message': f'You said {message}.', 'error_msg':"Say Error"}, safe=True)
