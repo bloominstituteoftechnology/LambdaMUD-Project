@@ -362,7 +362,7 @@ File "C:\Users\example\.virtualenvs\LambdaMUD-Project-xxxxxxxxx\lib\site-package
 TypeError: 'sslmode' is an invalid keyword argument for this function
 ```
 
-then add this line to **the bottom of the file**:
+then add this line to **the bottom of** `settings.py`:
 
 ```
 django_heroku.settings(locals())
