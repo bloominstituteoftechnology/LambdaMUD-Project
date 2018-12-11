@@ -65,7 +65,15 @@ def move(request):
 def say(request):
     # IMPLEMENT
     player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
     data = json.loads(request.body)
     message = data['message']
-    pusher.trigger(u'my-channel', u'my-event', {'message':f'{player.user.username} says {message}.'})
+
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'my-event',
+                       {'message': f'{player.user.username} says {message}.'})
+    # pusher.trigger(u'my-channel', u'my-event', {'message':f'{player.user.username} says {message}.'})
     return JsonResponse({'message': message, 'error_msg':"Say Error"}, safe=True)
