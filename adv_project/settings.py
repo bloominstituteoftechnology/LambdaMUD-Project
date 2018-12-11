@@ -29,6 +29,8 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
+# PUSHER_APP_ID = config('PUSHER_APP_ID', cast=int)
+
 
 # Application definition
 
