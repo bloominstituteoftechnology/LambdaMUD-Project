@@ -1,0 +1,33 @@
+Metadata-Version: 2.0
+Name: pusher
+Version: 2.0.1
+Summary: A Python library to interract with the Pusher API
+Home-page: https://github.com/pusher/pusher-http-python
+Author: Pusher
+Author-email: support@pusher.com
+License: MIT
+Keywords: pusher rest realtime websockets service
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Provides-Extra: aiohttp
+Provides-Extra: tornado
+Requires-Dist: six
+Requires-Dist: requests (>=2.3.0)
+Requires-Dist: urllib3
+Requires-Dist: pyopenssl
+Requires-Dist: ndg-httpsclient
+Requires-Dist: pyasn1
+Provides-Extra: aiohttp
+Requires-Dist: aiohttp (>=0.20.0); extra == 'aiohttp'
+Provides-Extra: tornado
+Requires-Dist: tornado (>=4.0.0); extra == 'tornado'
+
+UNKNOWN
+
+
