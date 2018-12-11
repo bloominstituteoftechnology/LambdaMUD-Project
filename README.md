@@ -369,3 +369,17 @@ django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
 ```
+
+### iOS: GET not allowed
+
+If you're trying to hit an endpoint and are getting
+
+```
+405 GET not allowed
+```
+
+make sure you have a trailing slash at the right end of your URL:
+
+```
+https://example.herokuapp.com/api/login/
+```
