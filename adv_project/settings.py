@@ -18,10 +18,10 @@ from decouple import config
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 pusher_client = pusher.Pusher(
-  app_id=config('app_id'),
-  key=config('0f3f86ad41df78e9448b'),
-  secret=config('8c0972431de33b005d09'),
-  cluster=config('us2'),
+  app_id=config('PUSHER_APP_ID'),
+  key=config('PUSHER_KEY'),
+  secret=config('PUSHER_SECRET'),
+  cluster=config('PUSHER_CLUSTER'),
   ssl=True
 )
 
