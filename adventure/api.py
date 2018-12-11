@@ -109,7 +109,7 @@ def say(request):
     player = request.user.player
     player_id = player.id
     data = json.loads(request.body)
-    say = data["say"]
+    message = data["message"]
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
 
@@ -117,6 +117,8 @@ def say(request):
         pusher.trigger(
             f"p-channel-{p_uuid}",
             "broadcast",
-            {"message": f"{player.user.username} says {say}."},
+            {"message": f"{player.user.username} says {message}."},
         )
-    return JsonResponse({"message": say}, safe=True, status=200)
+    return JsonResponse(
+        {"message": f"{player.user.username} says {message}."}, safe=True, status=200
+    )
