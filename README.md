@@ -210,6 +210,11 @@ MVP as soon as you can and get working the list of features.
 
 * Use the [sprint challenge instructions for Intro to Django](https://github.com/LambdaSchool/Sprint-Challenge--Django-I).
 * Add environment variables to heroku using `heroku config:set KEY=VALUE`
+  * It is recommended that if you are having trouble (e.g. 500 server errors) to set
+    ```
+    DEBUG=TRUE
+    ```
+    to get more information.
 * Run the code in create_world.py on your heroku server (`heroku run python manage.py shell`)
 
 ## Client Frontend
@@ -251,11 +256,7 @@ If you run into errors with config on Heroku, make sure you have set your config
 
 * Set up whitenoise or a `STATIC_ROOT`.
 
-* Run `create_world.py` on the server:
-  ```
-  heroku run python manage.py shell
-  python util/create_world.py
-  ```
+* Run `create_world.py` on the server, per the instructions above.
 
 ### Generator expression must be parenthesized (option A)
 
