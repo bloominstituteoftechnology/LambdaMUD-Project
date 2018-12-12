@@ -75,7 +75,4 @@ def say(request):
     return JsonResponse({'message':f"{player_name} says \'{message}\'"}, safe=True)
 
 
-# {'messsage':"Hello World"}
-
-# {'messsage':" Hello World\"}
 

@@ -30,7 +30,7 @@ DEBUG = config('DEBUG', cast=bool)
 ALLOWED_HOSTS = [
     'localhost', 
     '127.0.0.1', 
-    '.herokuapp.com'
+    'lambda-mud-tsaihuang.herokuapp.com'
 ]
 
 
