@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from decouple import config
 import dj_database_url
-import from pusher
+# import from pusher from Pusher
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,12 +92,12 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=600)
@@ -159,11 +159,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 import django_heroku
 django_heroku.settings(locals())
 
-pusher_client = pusher.Pusher(
-  app_id='PUSHER_APP_ID',
-  key='PUSHER_KEY',
-  secret='PUSHER_SECRET',
-  cluster='PUSHER_CLUSTER',
-#   ssl=True
-)
-pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+# pusher_client = pusher.Pusher(
+#   app_id='PUSHER_APP_ID',
+#   key='PUSHER_KEY',
+#   secret='PUSHER_SECRET',
+#   cluster='PUSHER_CLUSTER',
+# #   ssl=True
+# )
+# pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
