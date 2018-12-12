@@ -101,7 +101,7 @@ def whisper(request):
     name = ''
     names = [i.user.username for i in p ]
     if rsp[1] not in names:
-        return JsonResponse({'error_w':f'user {res[1]} does not exist in our records.'})
+        return JsonResponse({'error_w':f'user {rsp[1]} does not exist in our records.'})
     for i in p:
         if i.user.username == rsp[1]:
             uuid = i.uuid
