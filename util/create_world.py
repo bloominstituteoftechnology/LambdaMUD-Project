@@ -19,7 +19,7 @@ to north. The smell of gold permeates the air.""")
 
 r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. An exit lies to the south. A small """)
+earlier adventurers. An exit lies to the south. A small opening apears to the north.""")
 
 r_cave = Room(title="Secret Cave", description="""North of the Treasure room you have found yourself a secret cave. 
 It has a long pass leading north. In the distance you see a small light.""")
@@ -28,8 +28,7 @@ r_crossroads = Room(title="Cross Roads", description="""A small torch is lit on 
 light shows that the passage continues on to the north. 
 Another passage carries on to the east.""")
 
-r_waterfall = Room(title="Water Fall", description="""The passage leads to an opening. The sound of water fills the room
-as you gaze upon a massive underground waterfall. A large stone apears in front of you. the words 
+r_waterfall = Room(title="Water Fall", description="""You gaze upon a massive underground waterfall. A large stone apears in front of you. the words 
 "If you drop a yellow hat in the Red Sea, what does it become?" are carved onto its side.""")
 
 r_library = Room(title="library", description="""You find yourself in a dimly lit 
