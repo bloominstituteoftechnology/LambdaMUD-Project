@@ -425,3 +425,7 @@ pip3 install django
 
 to force it to use Python3, but this installs it outside the virtual
 environment.
+
+### 400 Bad Request on user registration
+
+Make sure your password is at least 8 characters.
