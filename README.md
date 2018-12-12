@@ -68,7 +68,7 @@ Upon your first commit, please submit a Pull Request and add _both_ the
 Request comment:
 
 ```markdown
-## Trello Set Up:
+## Trello Set Up: https://trello.com/b/5RuaXVrV/lambda-mud-project-sasha
 
 - [ ] Create a Trello account if you don't have one already
 - [ ] Create a new board called "LambdaMUD - {Your Name}"
