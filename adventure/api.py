@@ -100,9 +100,8 @@ def whisper(request):
     uuid = ''
     name = ''
     names = [i.user.username for i in p ]
-    e = ''
     if rsp[1] not in names:
-        e = f'user name {rsp[1]} does not exist in our record.'
+        return JsonResponse({'error_w':f'user {res[1]} does not exist in our records.'})
     for i in p:
         if i.user.username == rsp[1]:
             uuid = i.uuid
@@ -111,6 +110,6 @@ def whisper(request):
     rsp.pop(0)
     rsp.insert(0, f'{user} whispers')
     msg = ' '.join(rsp)
-    pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}', 'error':f'{e}'})
+    pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
     return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
         
