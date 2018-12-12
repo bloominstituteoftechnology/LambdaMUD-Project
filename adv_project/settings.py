@@ -133,7 +133,11 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_ALLOW_ALL=True
+# CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+        'http://localhost:3000') # Here was the problem indeed and it has to be http://localhost:3000, not http://localhost:3000/
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
