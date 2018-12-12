@@ -83,7 +83,7 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    # player = request.user.player
+    player = request.user.player
     # player_id = player.id
     player_uuid = player.uuid
     # data = json.loads(request.body['say'])
