@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from decouple import config
 import dj_database_url
-
+# import from pusher
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -159,11 +159,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 import django_heroku
 django_heroku.settings(locals())
 
-pusher_client = pusher.Pusher(
-  app_id='670305',
-  key='1d864511b538b298cf80',
-  secret='70c770573d20d47d4f81',
-  cluster='us2',
-  ssl=True
-)
-pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+# pusher_client = pusher.Pusher(
+#   app_id='670305',
+#   key='1d864511b538b298cf80',
+#   secret='70c770573d20d47d4f81',
+#   cluster='us2',
+#   ssl=True
+# )
+# pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
