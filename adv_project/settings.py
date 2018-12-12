@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 #ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda str: [s.strip() for s in str.split(',')])
-
+#ALLOWED_HOSTS = ['*']
 
 # Application definition
 

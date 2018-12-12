@@ -63,7 +63,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
+    IMPLEMENT
     player = request.user.player
     player_id = player.id
     username = player.user.username 
@@ -78,4 +78,18 @@ def say(request):
         pusher.trigger(f'p-channel-{p}', u'broadcast',
                        {'message': f'"{username}" says {message}.'})
 
-    return JsonResponse({'name': username, 'title': room.title, 'players': players, 'message': message}, safe=True)    
+    return JsonResponse({'name': username, 'title': room.title, 'players': players, 'message': message}, safe=True)
+    
+
+    # player = request.user.player
+    # player_id = player.id
+    # player_uuid = player.uuid
+    # data = json.loads(request.body)
+    # message = data['message']
+
+    # room = player.room()
+    # currentPlayerUUIDs = room.playerUUIDs(player_id)
+    # for p_uuid in currentPlayerUUIDs:
+    #     pusher.trigger(f'p-channel-{p_uuid}', u'my-event',
+    #                    {'message': f'{player.user.username} says {message}.'})
+    # return JsonResponse({'message': f'You said {message}.', 'error_msg':"Say Error"}, safe=True)    
