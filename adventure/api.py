@@ -66,8 +66,7 @@ def say(request):
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
-    data = json.loads(request.body)
-    print(data['message'])
+    data = json.loads(request.body)    
     message = data['message']
     room = player.room()
     players = room.playerUUIDs(player_id)
