@@ -33,7 +33,6 @@ pusher.trigger(u'my-channel', u'my-event', {u'message': u'hello world'})
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-    print('HERE!')
     user = request.user
     player = user.player
     player_id = player.id

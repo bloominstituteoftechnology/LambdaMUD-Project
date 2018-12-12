@@ -25,13 +25,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = config('DEBUG', cast=bool)
-DEBUG = False
+DEBUG = config('DEBUG', cast=bool)
+# DEBUG = False
 
-host = os.environ.get('ALLOWED_HOSTS')
-ALLOWED_HOSTS = [host]
+# host = os.environ.get('ALLOWED_HOSTS')
+# ALLOWED_HOSTS = [host]
 
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 # Application definition
 
 INSTALLED_APPS = [
@@ -94,16 +94,17 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
+# # FOR RUNNING DATABASE ON LOCAL SERVER
 DATABASES = {
-    'default': dj_database_url.config(default = config('DATABASE_URL')),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config(default = config('DATABASE_URL')),
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -130,7 +131,6 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     # ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
@@ -159,5 +159,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# # FOR RUNNING DATABASE ON HEROKU
 import django_heroku
 django_heroku.settings(locals())
+
+# # FOR RUNNING DATABASE ON LOCAL SERVER
+del DATABASES['default']['OPTIONS']['sslmode']
