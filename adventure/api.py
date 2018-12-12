@@ -102,7 +102,7 @@ def whisper(request):
     names = [i.user.username for i in p ]
     room = player.room()
     if rsp[1] not in names:
-        return JsonResponse({'msg':f'user name {rsp[1]} does not exist in our record.'})
+        return JsonResponse({'w_error':f'user name {rsp[1]} does not exist in our record.'})
     for i in p:
         if i.user.username == rsp[1]:
             uuid = i.uuid
