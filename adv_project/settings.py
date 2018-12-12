@@ -160,10 +160,10 @@ import django_heroku
 django_heroku.settings(locals())
 
 pusher_client = pusher.Pusher(
-  app_id='670305',
-  key='1d864511b538b298cf80',
-  secret='70c770573d20d47d4f81',
-  cluster='us2',
-  ssl=True
+  app_id='PUSHER_APP_ID',
+  key='PUSHER_KEY',
+  secret='PUSHER_SECRET',
+  cluster='PUSHER_CLUSTER',
+#   ssl=True
 )
 pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
