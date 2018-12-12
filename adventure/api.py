@@ -88,6 +88,7 @@ def say(request):
     # player_uuid = player.uuid
     # data = json.loads(request.body['say'])
     # pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says {data}.'})
+    pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says ahoy back to server.'})
     # return JsonResponse({'say': data}, safe=True, status=200)
     return JsonResponse({'server says': 'ahoy!'}, safe=True, status=200)
 
