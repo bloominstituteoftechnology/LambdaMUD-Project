@@ -1,9 +1,10 @@
 ᕙ(⇀‸↼‶)ᕗ
+
 Trello:
   https://trello.com/b/DjEkOANi/michelle-ok-lambdamud
 Client:
   https://github.com/LambdaSchool/LambdaMUD-Client/pull/85
-  
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
