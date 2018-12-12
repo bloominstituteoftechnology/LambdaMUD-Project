@@ -19,13 +19,32 @@ to north. The smell of gold permeates the air.""")
 
 r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""")
+earlier adventurers. An exit lies to the south. A small """)
+
+r_cave = Room(title="Secret Cave", description="""North of the Treasure room you have found yourself a secret cave. 
+It has a long pass leading north. In the distance you see a small light.""")
+
+r_crossroads = Room(title="Cross Roads", description="""A small torch is lit on the wall. It's faint 
+light shows that the passage continues on to the north. 
+Another passage carries on to the east.""")
+
+r_waterfall = Room(title="Water Fall", description="""The passage leads to an opening. The sound of water fills the room
+as you gaze upon a massive underground waterfall. A large stone apears in front of you. the words 
+"If you drop a yellow hat in the Red Sea, what does it become?" are carved onto its side.""")
+
+r_library = Room(title="library", description="""You find yourself in a dimly lit 
+room with many high shelves filled with dusty books. 
+The shelves are made of wood and look aged and worn.""")
 
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
 r_narrow.save()
 r_treasure.save()
+r_cave.save()
+r_crossroads.save()
+r_waterfall.save()
+r_library.save()
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
@@ -39,6 +58,19 @@ r_narrow.connectRooms(r_foyer, "w")
 
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
+
+r_treasure.connectRooms(r_cave, "n")
+r_cave.connectRooms(r_treasure, "s")
+
+r_cave.connectRooms(r_crossroads, "n")
+r_crossroads.connectRooms(r_cave, "s")
+
+r_crossroads.connectRooms(r_waterfall, 'e')
+r_waterfall.connectRooms(r_crossroads, 'w')
+
+r_crossroads.connectRooms(r_library, 'n')
+r_library.connectRooms(r_crossroads, 's')
+
 
 players=Player.objects.all()
 for p in players:

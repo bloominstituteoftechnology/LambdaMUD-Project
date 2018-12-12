@@ -59,7 +59,6 @@ def move(request):
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
@@ -101,8 +100,10 @@ def whisper(request):
     uuid = ''
     name = ''
     names = [i.user.username for i in p ]
+    u = request.user
+    player = u.player
     if rsp[1] not in names:
-        return JsonResponse({'msg':f'user name {rsp[1]} does not exist in our records'})
+        return JsonResponse({'msg':f'user name {rsp[1]} does not exist in our record.'})
     for i in p:
         if i.user.username == rsp[1]:
             uuid = i.uuid
@@ -112,5 +113,5 @@ def whisper(request):
     rsp.insert(0, f'{user} whispers')
     msg = ' '.join(rsp)
     pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
-    return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
+    return JsonResponse({'msg':f'{user} whispered {name} with message: {msg} names: {names} items: {player.items}'})
         
