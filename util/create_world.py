@@ -1,3 +1,4 @@
+"""The purpose of this file is to create the rooms and link all the rooms together."""
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
