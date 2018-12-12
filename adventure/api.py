@@ -100,8 +100,7 @@ def whisper(request):
     uuid = ''
     name = ''
     names = [i.user.username for i in p ]
-    u = request.user
-    player = u.player
+    room = player.room()
     if rsp[1] not in names:
         return JsonResponse({'msg':f'user name {rsp[1]} does not exist in our record.'})
     for i in p:
@@ -113,5 +112,5 @@ def whisper(request):
     rsp.insert(0, f'{user} whispers')
     msg = ' '.join(rsp)
     pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
-    return JsonResponse({'msg':f'{user} whispered {name} with message: {msg} names: {names} items: {player.items}'})
+    return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
         
