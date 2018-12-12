@@ -1,3 +1,10 @@
+ᕙ(⇀‸↼‶)ᕗ
+
+Trello:
+  https://trello.com/b/DjEkOANi/michelle-ok-lambdamud
+Client:
+  https://github.com/LambdaSchool/LambdaMUD-Client/pull/85
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
@@ -33,13 +40,13 @@ creative guide.
 
 ## Trello Set Up:
 
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
+- [x] Create a Trello account if you don't have one already
+- [x] Create a new board called "LambdaMUD - {Your Name}"
+- [x] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
+- [x] Fill in the `To Do` list with the MVP features listed below
+- [x] Fill in the `backlog` list with all the extra features listed below
+- [x] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
+- [x] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
 
 ## MVP Features:
 
