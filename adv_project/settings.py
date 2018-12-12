@@ -26,7 +26,7 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaSTATICticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaSTATICticFilesStorage'
 
 # Application definition
 
