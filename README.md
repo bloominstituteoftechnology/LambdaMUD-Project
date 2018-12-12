@@ -46,10 +46,10 @@ creative guide.
 ## MVP Features:
 
 #### Client
-- [ ] Create a standalone frontend app that communicates with the server via API calls
-- [ ] Be able to create a new account on the server (implemented on server)
-- [ ] Be able to log in to the server (implemented on server)
-- [ ] Create an interface that displays the current room name, its description and the other players in the room
+- [X] Create a standalone frontend app that communicates with the server via API calls
+- [X] Be able to create a new account on the server (implemented on server)
+- [X] Be able to log in to the server (implemented on server)
+- [X] Create an interface that displays the current room name, its description and the other players in the room
 - [ ] Be able to move between rooms and update the display accordingly (implemented on server)
 - [ ] Be able to use a `say` command to say things that other people in the room will see (server implementation incomplete)
 - [ ] Upon login, subscribe to a Pusher channel based on the player's universally unique id: `p-channel-<uuid>`
