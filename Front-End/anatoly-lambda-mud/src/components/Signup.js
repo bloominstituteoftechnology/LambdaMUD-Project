@@ -12,8 +12,8 @@ class Signup extends Component {
       return (
         <form onSubmit={this.handleSubmit}>
            <div><label htmlFor="username">Username</label><input name="username" value={this.state.username} onChange={this.handleInputChange} type="text"/></div>
-           <div><label htmlFor="password">Password</label><input name="password1" value={this.state.password} onChange={this.handleInputChange} type="password"/></div>
-           <div><label htmlFor="password">Password Again</label><input name="password2" value={this.state.passwordagain} onChange={this.handleInputChange} type="password"/></div>
+           <div><label htmlFor="password">Password1</label><input name="password1" value={this.state.password} onChange={this.handleInputChange} type="password"/></div>
+           <div><label htmlFor="password">Password2</label><input name="password2" value={this.state.passwordagain} onChange={this.handleInputChange} type="password"/></div>
            <div><button type="submit">Signup</button></div>
         </form>
       );

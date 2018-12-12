@@ -29,7 +29,7 @@ class Login extends Component {
         axios.post(endpoint, this.state)
         .then(res => {
             console.log(res.data);
-            localStorage.setItem('jwt', res.data.token)
+            localStorage.setItem("jwt", res.data.key)
             this.props.history.push('/main');
         })
         .catch(err => {
