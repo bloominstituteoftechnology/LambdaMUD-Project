@@ -91,4 +91,23 @@ def yell(request):
         pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'yell':f'{player.user.username} yells {rsp}'})
     return JsonResponse({'uuids':f'{uuids}'})
 
-    
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    data = json.loads(request.body)
+    rsp = data['message']
+    rsp = rsp.split()
+    user = request.user.username
+    p = Player.objects.all()
+    uuid = ''
+    name = ''
+    for i in p:
+        if i.user.username == rsp[0]:
+            uuid = i.uuid
+            name = i.user.username
+    rsp.pop(0)
+    rsp.insert(0, f'{user} whispers')
+    msg = ' '.join(rsp)
+    pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
+    return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
+        
