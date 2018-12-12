@@ -117,8 +117,8 @@ def say(request):
         pusher.trigger(
             f"p-channel-{p_uuid}",
             "broadcast",
-            {"message": f"{player.user.username} says {message}."},
+            {"message": f"{player.user.username} says {message}"},
         )
     return JsonResponse(
-        {"message": f"{player.user.username} says {message}."}, safe=True, status=200
+        {"message": f"{player.user.username} says {message}"}, safe=True, status=200
     )
