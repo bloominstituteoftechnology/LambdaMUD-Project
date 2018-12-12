@@ -23,7 +23,7 @@ pusher = Pusher(
 # contain alphanumeric characters, - and _:
         # pusher.trigger(u'a_channel', u'an_event', {u'some': u'data'})
 
-pusher.trigger(u'my-channel', u'my-event', {u'message': u'hello world'})
+
 
 # # # Triggering Events
 # To trigger an event on one or more channels, use the trigger method on the
@@ -83,4 +83,10 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body['say'])
+    pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says {data}.'})
+    return JsonResponse({'say': data}, safe=True, status=200)
+
