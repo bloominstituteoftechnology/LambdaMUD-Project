@@ -100,7 +100,6 @@ def whisper(request):
     uuid = ''
     name = ''
     names = [i.user.username for i in p ]
-    room = player.room()
     if rsp[1] not in names:
         return JsonResponse({'w_error':f'user name {rsp[1]} does not exist in our record.'})
     for i in p:
