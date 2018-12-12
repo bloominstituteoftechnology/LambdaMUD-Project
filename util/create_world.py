@@ -1,3 +1,5 @@
+#cs 13
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
@@ -44,4 +46,3 @@ players=Player.objects.all()
 for p in players:
   p.currentRoom=r_outside.id
   p.save()
-
