@@ -23,7 +23,6 @@ def initialize(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'dem_uus': currentPlayerUUIDs }, safe=True)
 
-
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -101,10 +100,14 @@ def whisper(request):
     p = Player.objects.all()
     uuid = ''
     name = ''
+    names = [i.user.username for i in p ]
+    if rsp[1] not in names:
+        return JsonResponse({'msg':f'user name {rsp[1]} does not exist in our records'})
     for i in p:
-        if i.user.username == rsp[0]:
+        if i.user.username == rsp[1]:
             uuid = i.uuid
             name = i.user.username
+    rsp.pop(0)
     rsp.pop(0)
     rsp.insert(0, f'{user} whispers')
     msg = ' '.join(rsp)
