@@ -29,7 +29,8 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = [
     'localhost', 
-    '127.0.0.1', #'https://sprint-challenge-django.herokuapp.com/'
+    '127.0.0.1', 
+    '.herokuapp.com'
 ]
 
 
