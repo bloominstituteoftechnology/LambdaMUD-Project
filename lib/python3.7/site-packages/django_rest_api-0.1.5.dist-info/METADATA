@@ -1,0 +1,13 @@
+Metadata-Version: 2.0
+Name: django-rest-api
+Version: 0.1.5
+Summary: Django REST API
+Home-page: https://github.com/skies-io/django-rest-api
+Author: Skies
+Author-email: aurelien.maigret@skies.io
+License: MIT
+Requires-Dist: Django (>=1.6)
+
+Django REST API
+
+
