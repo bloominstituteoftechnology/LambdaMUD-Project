@@ -10,8 +10,8 @@ class Login extends Component {
     render() {
       return (
         <form onSubmit={this.handleSubmit}>
-           <div><label htmlFor="username">Username</label><input value={this.state.username} onChange={this.handleInputChange} type="text"/></div>
-           <div><label htmlFor="password">Password</label><input value={this.state.password} onChange={this.handleInputChange} type="password"/></div>
+           <div><label htmlFor="username">Username</label><input name="username" value={this.state.username} onChange={this.handleInputChange} type="text"/></div>
+           <div><label htmlFor="password">Password</label><input name="password" value={this.state.password} onChange={this.handleInputChange} type="password"/></div>
            <div><button type="submit">Login</button></div>
         </form>
       );
@@ -30,6 +30,7 @@ class Login extends Component {
         .then(res => {
             console.log(res.data);
             localStorage.setItem('jwt', res.data.token)
+            this.props.history.push('/main');
         })
         .catch(err => {
             console.error('ERROR', err);
