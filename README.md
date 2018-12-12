@@ -397,3 +397,31 @@ If you're getting this back in Postman:
 try clearing your cookies in Postman, specifically the CSRF cookie.
 
 Or use `curl` on the command line. :)
+
+### Exception: no such table: main.auth_user__old
+
+First of all, make sure you're up to date on the latest pipenv and Python
+packages for your system. This is a bug that got fixed upstream.
+
+If you are, you might need to install those from their home pages to get
+_super-duper_ up-to-date.
+
+Then delete your old virtual environment and create a new one with
+
+```shell
+pipenv --three
+```
+
+and follow the steps to reinitialize it.
+
+If that doesn't help, try deleting your sqlite DB file and running migrations
+again.
+
+As a last resort, you can also try installing django with
+
+```shell
+pip3 install django
+```
+
+to force it to use Python3, but this installs it outside the virtual
+environment.
