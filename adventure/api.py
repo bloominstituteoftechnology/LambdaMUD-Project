@@ -75,4 +75,4 @@ def say(request):
         return
 
 
-    return JsonResponse({'message': "message sent"}, safe=True, status=500)
+    return JsonResponse({'say': f'${player.user.username} says ${response}'}, safe=True)
