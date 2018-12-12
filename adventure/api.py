@@ -14,6 +14,10 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """
+    request: Authorization token
+    initializes the data, shows where the player currently is and all the accompanying information
+    """
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +30,12 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """
+    request: Authorization token, and key-value pair of direction: direction in the body
+    returns the new room information
+    pusher is also triggered, which allows for other players to be alerted of player's movements
+    """
+
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,7 +73,13 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    IMPLEMENT
+    """
+    request: Authorization token, and key-value pair of message: message in the body
+    return: returns player's message with the room, alongside other players
+    pusher triggers a broadcast event for each player in the room to be alerted of the message.
+    """
+
+    #IMPLEMENT
     player = request.user.player
     player_id = player.id
     username = player.user.username 
