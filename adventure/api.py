@@ -75,4 +75,20 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'say':f'{player.user.username} says {rsp}'})
     return JsonResponse({'say':f'{player.user.username} says {rsp} ids are {currentPlayerUUIDs}'}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def yell(request):
+    data = json.loads(request.body)
+    rsp = data['message']
+    user = request.user
+    player = user.player
+    p = Player.objects.all()
+    uuids = []
+    for i in p:
+        uuids.append(i.uuid)
+    for uuid in uuids:
+        pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'yell':f'{player.user.username} yells {rsp}'})
+    return JsonResponse({'uuids':f'{uuids}'})
+
     
