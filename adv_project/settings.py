@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-import django_heroku
 import os
 from decouple import config
 import dj_database_url
@@ -101,6 +100,10 @@ DATABASES = {
     }
 }
 
+#db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
+
+
 DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'))
 #DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 # Password validation
@@ -156,8 +159,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-FILES_STORAGE = 'whitenoise.storage.CompressedManifestStaSTATICticFilesStorage'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaSTATICticFilesStorage'
+import django_heroku
 django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode']
