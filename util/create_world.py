@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from adventure.models import Player, Room
+from adventure.models import Player, Room, Item, Weapon
 
 
 Room.objects.all().delete()
@@ -39,6 +39,14 @@ r_narrow.connectRooms(r_foyer, "w")
 
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
+
+#Items
+i_rock = Item(title = "Rock", description = "An average rock.")
+iw_sword = Weapon(title = "Sword", description = "A standard arming blade.", value = 10)
+
+#Add Items to Room
+r_outside.addItem(i_rock)
+r_foyer.addItem(iw_sword)
 
 players=Player.objects.all()
 for p in players:

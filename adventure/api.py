@@ -20,7 +20,8 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    room_item = room.items
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'room_item': room_item}, safe=True)
 
 
 # @csrf_exempt
@@ -67,10 +68,9 @@ def say(request):
     player_id = player.id
     player_uuid = player.uuid
     data = json.loads(request.body)    
-    message = str(data['message'])
-    print(message)
+    message = data['message']    
     room = player.room()
     players = room.playerUUIDs(player_id)
     for p_uuid in players:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says \"{message}\"'})
     return JsonResponse({'name':player.user.username, 'message': message}, safe=True)
