@@ -88,4 +88,21 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
 
-    return JsonResponse({'message':"New chat posted."}, safe=True, status=200)
+    return JsonResponse({'message':"New say posted."}, safe=True, status=200)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    body = json.loads(request.body)
+    message = body['message']
+
+    player = request.user.player
+    player_uuid = player.uuid
+    allPlayers = Player.objects.all()
+    allPlayerUUIDs = []
+    for player in allPlayers:
+        allPlayerUUIDs.append(player.uuid)
+        
+    for p_uuid in allPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
+    return JsonResponse({'message':"New shout posted."}, safe=True, status=200)
