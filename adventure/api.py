@@ -1,3 +1,5 @@
+#game functions - available moves and directions for players
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -74,3 +76,11 @@ def say(request):
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
     return JsonResponse({'username':player.user.username, 'message': message}, safe=True, status=200)
     
+
+
+# 2d673cb970a5a70a4ce2349b741009a5becf5c81 - anthony, heroku
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"anthony", "password":"aaabbbccc"}' http://lambda-mud-luisan.herokuapp.com/api/login/
+
+
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"aaabbbccc", "password2":"aaabbbccc"}' http://lambda-mud-luisan.herokuapp.com/api/registration/
+# curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' http://lambda-mud-luisan.herokuapp.com/api/login/
