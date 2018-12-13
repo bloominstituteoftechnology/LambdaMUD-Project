@@ -118,7 +118,6 @@ def whisper(request):
 @api_view(["GET"])
 def look(request):
     data = json.loads(request.body)
-    rsp = data['message']
     user = request.user
     player = user.player
     room = player.room()
@@ -178,4 +177,22 @@ def drop(request):
         player.save()
         room.save()
 
-    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})        
+    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
+
+
+@csrf_exempt
+@api_view(["GET"])
+def inv(request):
+    data = json.loads(request.body)
+    user = request.user
+    player = user.player
+    items = player.items
+    if player.items == '':
+        items = 'empty'
+    return JsonResponse({'inventory':f'{items}'})
+
+
+
+
+
+

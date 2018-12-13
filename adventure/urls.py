@@ -10,4 +10,5 @@ urlpatterns = [
     url('look', api.look),
     url('pickup', api.pickup),
     url('drop', api.drop),
+    url('inv', api.inv),
 ]
