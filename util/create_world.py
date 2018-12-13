@@ -21,6 +21,8 @@ r_treasure = Room(title="Treasure Chamber", description="""You've found the long
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""")
 
+print(r_outside)
+
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
@@ -42,7 +44,8 @@ r_treasure.connectRooms(r_narrow, "s")
 
 #Items
 i_rock = Item(title = "Rock", description = "An average rock.")
-iw_sword = Weapon(title = "Sword", description = "A standard arming blade.", value = 10)
+print(i_rock)
+iw_sword = Weapon(title = "Sword", description = "A standard arming blade.", attack_power = 10)
 
 #Add Items to Room
 r_outside.addItem(i_rock)

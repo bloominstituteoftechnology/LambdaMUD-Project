@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
+from django.core.validators import int_list_validator
+
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -12,7 +14,7 @@ class Room(models.Model):
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
-    items = models.IntegerField(default=0)
+    # items = models.CharField(validators=[int_list_validator], max_length=100)
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -36,14 +38,21 @@ class Room(models.Model):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
-    def addItem(self, item):
-        itemID = item.id
-        self.items.append(item.id)
-    def removeItem(self, item):
-        itemID = item.id
-        self.items.remove(item)
-    def roomItems(self):
-        return [i.title for i in ]
+    # def addItem(self, item):
+    #     print(item)
+    #     itemID = item.id
+    #     print(itemID)
+    #     currItems = self.items
+    #     print(currItems)
+    #     newItems = currItems + itemID,
+    #     print(newItems)
+    #     self.items = newItems
+    #     print(self.items)
+    # def removeItem(self, item):
+    #     itemID = item.id
+    #     self.items.remove(item)
+    # def roomItems(self):
+    #     return [i.title for i in Item.objects.filter(id in self.items)]
         
 
 class Player(models.Model):
@@ -60,23 +69,23 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
-    def addItem(self, item):
-        self.items.append(item)
-    def removeItem(self, item):
-        self.items.remove(item)
-    def findItembyName(self, name):
-        for item in self.items:
-            if item.name.lower() == name.lower():
-                return item
-        return None
+    # def addItem(self, item):
+    #     self.items.append(item)
+    # def removeItem(self, item):
+    #     self.items.remove(item)
+    # def findItembyName(self, name):
+    #     for item in self.items:
+    #         if item.name.lower() == name.lower():
+    #             return item
+    #     return None
 
-class Item(models.Model):
-    title = models.CharField(max_length=50, default="DEFAULT TITLE")
-    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+# class Item(models.Model):
+#     title = models.CharField(max_length=50, default="DEFAULT TITLE")
+#     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
 
-class Weapon(Item):
-    attack_power = models.IntegerField(default=0)
-    equippable = models.BooleanField(default =True)
+# class Weapon(Item):
+#     attack_power = models.IntegerField(default=0)
+#     equippable = models.BooleanField(default =True)
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
