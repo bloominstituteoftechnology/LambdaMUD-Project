@@ -124,7 +124,7 @@ def look(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 def pickup(request):
     data = json.loads(request.body)
     rsp = data['message']
@@ -151,7 +151,7 @@ def pickup(request):
     return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 def drop(request):
     data = json.loads(request.body)
     rsp = data['message']
@@ -180,7 +180,7 @@ def drop(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 def inv(request):
     data = json.loads(request.body)
     user = request.user
