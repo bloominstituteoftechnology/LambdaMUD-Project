@@ -14,9 +14,9 @@ django-cors-headers = "*"
 gunicorn = "*"
 django-heroku = "*"
 django-rest-api = "*"
-psycopg2-binary = "==2.7.6.1"
 dj-database-url = "*"
 whitenoise = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
