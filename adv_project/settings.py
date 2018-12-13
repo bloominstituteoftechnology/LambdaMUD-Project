@@ -25,14 +25,13 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
-
 # ALLOWED_HOSTS = config(
 #     "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
 # )
 # Application definition
-# ALLOWED_HOSTS = [‘0.0.0.0’, ‘localhost’, ‘adv-project-beemer.herokuapp.com’]
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'adv-project-beemer.herokuapp.com', '.herokuapp.com']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
 INSTALLED_APPS = [
