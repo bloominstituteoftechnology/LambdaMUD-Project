@@ -9,4 +9,5 @@ urlpatterns = [
     url('whisper', api.whisper),
     url('look', api.look),
     url('pickup', api.pickup),
+    url('drop', api.drop),
 ]

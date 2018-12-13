@@ -147,16 +147,35 @@ def pickup(request):
         else:
             updated_items = ''.join(room_items)
             room.items = updated_items
-            
-    player.save()
-    room.save()
+        player.save()
+        room.save()
 
     return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
 
+@csrf_exempt
+@api_view(["GET"])
+def drop(request):
+    data = json.loads(request.body)
+    rsp = data['message']
+    user = request.user
+    player = user.player
+    room = player.room()
+    room_items = room.items.split(' ')
+    player_items = player.items.split(' ')
+    rsp = rsp.split()
 
+    if rsp[1] in player_items:
+        room_items.append(rsp[1])
+        player_items.remove(rsp[1])
+        updated_items_r = ' '.join(room_items)
+        room.items = updated_items_r
+        room_items
+        if len(player_items) == 0:
+            player.items = ''
+        else:
+            updated_items_p = ' '.join(player_items)
+            player.items = updated_items_p
+        player.save()
+        room.save()
 
-
-
-
-
-        
+    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})        
