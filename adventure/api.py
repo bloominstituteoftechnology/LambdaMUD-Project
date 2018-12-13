@@ -113,7 +113,6 @@ def whisper(request):
     pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
     return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
 
-
 @csrf_exempt
 @api_view(["POST"])
 def look(request):
@@ -121,7 +120,6 @@ def look(request):
     player = user.player
     room = player.room()
     return JsonResponse({'items':f'{room.items}'})
-
 
 @csrf_exempt
 @api_view(["POST"])
@@ -143,7 +141,7 @@ def pickup(request):
         if len(room_items) == 0:
             room.items = ''
         else:
-            updated_items = ''.join(room_items)
+            updated_items = ' '.join(room_items)
             room.items = updated_items
         player.save()
         room.save()
@@ -179,7 +177,6 @@ def drop(request):
         return JsonResponse({'items':f'you dropped {rsp[1]}'})
     return JsonResponse({'items':f"you don't have that item to drop"})
 
-
 @csrf_exempt
 @api_view(["POST"])
 def inv(request):
@@ -190,9 +187,3 @@ def inv(request):
     if player.items == '':
         items = 'inventory is empty'
     return JsonResponse({'items':f'{items}'})
-
-
-
-
-
-
