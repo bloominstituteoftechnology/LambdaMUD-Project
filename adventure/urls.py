@@ -7,4 +7,5 @@ urlpatterns = [
     url("say", api.say),
     url("shout", api.shout),
     url("players", api.players),
+    url("whisper", api.whisper),
 ]

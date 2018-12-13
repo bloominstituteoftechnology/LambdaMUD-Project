@@ -153,3 +153,20 @@ def players(request):
     player_id = player.id
     allPlayerNames = player.allPlayerNames(player_id)
     return JsonResponse({"allPlayerNames": allPlayerNames}, safe=True, status=200)
+
+
+@csrf_exempt
+@api_view(["POST"])
+def whisper(request):
+    player = request.user.player
+    data = json.loads(request.body)
+    whisperTarget = data["playerName"]
+    whisper = data["whisper"]
+    pusher.trigger(
+        f"p-channel-{whisperTarget}",
+        "broadcast",
+        {"whisper": f"{player.user.username} whispers: {whisper}"},
+    )
+    return JsonResponse(
+        {"whisper": f"You whisper {whisperTarget}: {whisper}"}, safe=True, status=200
+    )
