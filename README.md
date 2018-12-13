@@ -70,13 +70,16 @@ Request comment:
 ```markdown
 ## Trello Set Up:
 
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
+- [x ] Create a Trello account if you don't have one already
+- [ x] Create a new board called "LambdaMUD - {Your Name}"
+- [ x] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
+- [x ] Fill in the `To Do` list with the MVP features listed below
+- [x ] Fill in the `backlog` list with all the extra features listed below
+- [x ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
+- [x ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
+
+https://trello.com/b/ikP7eT3C/lambda-mud-csilla-gates
+https://csillagadvanture.herokuapp.com/admin/login/?next=/admin/
 
 ## MVP Features:
 
@@ -93,12 +96,12 @@ Request comment:
 - [ ] Alert the player when someone in the current room says something (server implementation incomplete)
 
 #### Server
-- [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
-- [ ] Deploy to Heroku
+- [x ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
+- [x ] Deploy to Heroku
 
 #### General
-- [ ] Header comments in all source files that describe overall what the file does
-- [ ] Header comments on all functions that describe what the function does, function arguments, and return values
+- [x ] Header comments in all source files that describe overall what the file does
+- [x ] Header comments on all functions that describe what the function does, function arguments, and return values
 ```
 
 ---

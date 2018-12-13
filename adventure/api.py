@@ -14,6 +14,10 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """
+    request: Authorization token
+    initializes the data, shows where the player currently is and all the accompanying information
+    """
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +30,12 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """
+    request: Authorization token, and key-value pair of direction: direction in the body
+    returns the new room information
+    pusher is also triggered, which allows for other players to be alerted of player's movements
+    """
+
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,5 +73,39 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    """
+    request: Authorization token, and key-value pair of message: message in the body
+    return: returns player's message with the room, alongside other players
+    pusher triggers a broadcast event for each player in the room to be alerted of the message.
+    """
+
+    #IMPLEMENT
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username 
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    current_players_UUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+
+    for p in current_players_UUIDs:
+        print(f'p-channel-{p}')
+        pusher.trigger(f'p-channel-{p}', u'broadcast',
+                       {'message': f'"{username}" says {message}.'})
+
+    return JsonResponse({'name': username, 'title': room.title, 'players': players, 'message': message}, safe=True)
+    
+
+    # player = request.user.player
+    # player_id = player.id
+    # player_uuid = player.uuid
+    # data = json.loads(request.body)
+    # message = data['message']
+
+    # room = player.room()
+    # currentPlayerUUIDs = room.playerUUIDs(player_id)
+    # for p_uuid in currentPlayerUUIDs:
+    #     pusher.trigger(f'p-channel-{p_uuid}', u'my-event',
+    #                    {'message': f'{player.user.username} says {message}.'})
+    # return JsonResponse({'message': f'You said {message}.', 'error_msg':"Say Error"}, safe=True)    
