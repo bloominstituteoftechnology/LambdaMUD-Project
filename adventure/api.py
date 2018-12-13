@@ -147,8 +147,9 @@ def pickup(request):
             room.items = updated_items
         player.save()
         room.save()
+        return JsonResponse({'items':f'You picked up {rsp[1]}'})
 
-    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
+    return JsonResponse({'items':f'no item by that name nearby'})
 
 @csrf_exempt
 @api_view(["POST"])
