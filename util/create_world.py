@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
+# initializes our world and creates rooms and players
 
 Room.objects.all().delete()
 

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+import datetime
 
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -14,6 +15,8 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    # generates and returns a uuid for our newly logged in player.
+    # this uuid will be used to subscribe to a pusher channel, as well as keep track of which players are where
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +29,8 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    # parses movement commands from the interface
+    # broadcasts a message to other players in the room that the player has entered/left
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -54,14 +59,52 @@ def move(request):
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':"", 'timestamp': f'{datetime.datetime.now()}'}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way.", 'timestamp': f'{datetime.datetime.now()}'}, safe=True)
 
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+
+    # parse the message from the request body
+    body = json.loads(request.body)
+    message = body['message']
+
+    # collect player and room information    
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    room = player.room()
+    # collect all UUIDs of players in the current room
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    # send message to current user's channel
+    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'say'})
+    # print(datetime.datetime)
+    # send message to all other users in the room
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'say'})
+
+    return JsonResponse({'message':"New say posted."}, safe=True, status=200)
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    body = json.loads(request.body)
+    message = body['message']
+
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    allPlayers = Player.objects.all()
+    allPlayerUUIDs = []
+    room = player.room()
+    for p_all in allPlayers:
+        allPlayerUUIDs.append(p_all.uuid)
+
+    for p_uuid in allPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}({room.title}): {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'shout'})
+    return JsonResponse({'message':"New shout posted."}, safe=True, status=200)
