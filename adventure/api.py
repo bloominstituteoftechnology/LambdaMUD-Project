@@ -125,6 +125,36 @@ def look(request):
     return JsonResponse({'items':f'{room.items}'})
 
 
+@csrf_exempt
+@api_view(["GET"])
+def pickup(request):
+    data = json.loads(request.body)
+    rsp = data['message']
+    user = request.user
+    player = user.player
+    room = player.room()
+    room_items = room.items.split(' ')
+    player_items = player.items.split(' ')
+    rsp = rsp.split()
+
+    if rsp[1] in room_items:
+        player_items.append(rsp[1])
+        updated_items = ' '.join(player_items)
+        player.items = updated_items
+        room_items.remove(rsp[1])
+        if len(room_items) == 0:
+            room.items = ''
+        else:
+            updated_items = ''.join(room_items)
+            room.items = updated_items
+            
+    player.save()
+    room.save()
+
+    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
+
+
+
 
 
 
