@@ -82,11 +82,11 @@ def say(request):
     # collect all UUIDs of players in the current room
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     # send message to current user's channel
-    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
+    pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'say'})
     # print(datetime.datetime)
     # send message to all other users in the room
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'say'})
 
     return JsonResponse({'message':"New say posted."}, safe=True, status=200)
 
@@ -102,7 +102,7 @@ def shout(request):
     allPlayerUUIDs = []
     for player in allPlayers:
         allPlayerUUIDs.append(player.uuid)
-        
+
     for p_uuid in allPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}({player.room()}): {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'shout'})
     return JsonResponse({'message':"New shout posted."}, safe=True, status=200)
