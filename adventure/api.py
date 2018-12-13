@@ -122,3 +122,23 @@ def say(request):
     return JsonResponse(
         {"message": f"{player.user.username} says {message}"}, safe=True, status=200
     )
+
+
+@csrf_exempt
+@api_view(["POST"])
+def shout(request):
+    player = request.user.player
+    player_id = player.id
+    data = json.loads(request.body)
+    shout = data["shout"]
+    allPlayerUUIDs = player.allPlayerUUIDs(player_id)
+
+    for p_uuid in allPlayerUUIDs:
+        pusher.trigger(
+            f"p-channel-{p_uuid}",
+            "broadcast",
+            {"shout": f"{player.user.username} shouts {shout}"},
+        )
+    return JsonResponse(
+        {"shout": f"{player.user.username} shouts {shout}"}, safe=True, status=200
+    )
