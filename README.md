@@ -1,3 +1,12 @@
+# Trello URL
+  [Click here](https://trello.com/b/KBUZxSF2/lambdamud-carlos-vargas) to visit the trello board.
+
+# Back-end URL
+  [Click here](https://lambda-adv-project.herokuapp.com/) to visit the back-end deployed on Heroku. However, this will not show anything as you need to go through the front-end to send POST requests. See below for the link to the front-end client.
+
+# Front-end URL
+  [Click here](https://lambda-mud-client.netlify.com/) to visit the front-end deployed on Netlify which uses the back-end deployed on Heroku as its database server.
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
