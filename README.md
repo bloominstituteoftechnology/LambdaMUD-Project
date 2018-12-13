@@ -1,5 +1,8 @@
 # Adventure Project Week
 
+deployed on netlify (frontend): https://adventureatlambda.netlify.com/
+deployed on heroku (backend): https://mudlambdahuthman.herokuapp.com/admin
+
 https://trello.com/b/XzgFsOz8/lambdamud
 
 This week you'll be implementing a frontend interface for a multi-user
