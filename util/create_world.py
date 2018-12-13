@@ -45,3 +45,18 @@ for p in players:
   p.currentRoom=r_outside.id
   p.save()
 
+
+
+
+'''curl -X GET -H 'Authorization: Token 735bd88c3e1f931b3b4396667eba7f09e0dbb1c7' 
+
+curl -X POST -H 'Authorization: Token 735bd88c3e1f931b3b4396667eba7f09e0dbb1c7' -H "Content-Type: application/json" -d '{"direction":"n"}' https://mudlambdahuthman.herokuapp.com/api/adv/move/
+
+b8fb9e5ef75a088c9d9ba5135f0ddaff65c7293c
+curl -X GET -H 'Authorization: Token 735bd88c3e1f931b3b4396667eba7f09e0dbb1c7' https://mudlambdahuthman.herokuapp.com/api/adv/init/
+
+curl -X POST -H "Content-Type: application/json" -d '{"username":"mudadmin", "password":"123admin"}' https://mudlambdahuthman.herokuapp.com/api/login/
+
+735bd88c3e1f931b3b4396667eba7f09e0dbb1c7
+
+curl -X POST -H 'Authorization: Token 735bd88c3e1f931b3b4396667eba7f09e0dbb1c7' -H "Content-Type: application/json" -d '{"direction":"n"}' https://mudlambdahuthman.herokuapp.com/api/login/'''

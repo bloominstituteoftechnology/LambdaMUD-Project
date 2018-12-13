@@ -64,11 +64,15 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     player = request.user.player
-    player_id = player.id
+    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)	    p_uuid = player.uuid
     data = json.loads(request.body)
-    message = data['message']
+    msg = data['message']
     room = player.room()
+    player_id = player.id
     currentPlayerUUIDs = room.playerUUIDs(player_id)
-    for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {say}'})
-    return JsonResponse({'say':say}, safe=True)
+    if len(currentPlayerUUIDs) != 0:
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {msg}'})
+        return JsonResponse({'msg': "success!"}, safe=True, status=200)
+    else:
+        return JsonResponse({'msg': "no one is around to message"}, safe=True, status=500)
