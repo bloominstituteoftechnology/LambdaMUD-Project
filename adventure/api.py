@@ -64,7 +64,7 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     player = request.user.player
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)	    p_uuid = player.uuid
+    p_uuid = player.uuid
     data = json.loads(request.body)
     msg = data['message']
     room = player.room()
