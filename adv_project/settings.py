@@ -24,15 +24,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-# ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
-# ALLOWED_HOSTS = config(
-#     "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
-# )
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 # Application definition
-ALLOWED_HOSTS = ['http://127.0.0.1:8000/', '127.0.0.1', '127.0.0.1:8000', '0.0.0.0', 'localhost', 'adv-project-beemer.herokuapp.com', '.herokuapp.com']
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -97,10 +92,10 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 DATABASES["default"] = dj_database_url.config(default=os.environ.get("ALLOWED_HOSTS"))
 
