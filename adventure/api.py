@@ -64,4 +64,5 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
+    #  we need the player, with an id, some maybe data, and the room, we might need to loop. 
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
