@@ -97,12 +97,13 @@ def shout(request):
     message = body['message']
 
     player = request.user.player
+    player_id = player.id
     player_uuid = player.uuid
     allPlayers = Player.objects.all()
     allPlayerUUIDs = []
     room = player.room()
-    for player in allPlayers:
-        allPlayerUUIDs.append(player.uuid)
+    for p_all in allPlayers:
+        allPlayerUUIDs.append(p_all.uuid)
 
     for p_uuid in allPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}({room.title}): {message}', u'timestamp': f'{datetime.datetime.now()}', 'type':'shout'})
