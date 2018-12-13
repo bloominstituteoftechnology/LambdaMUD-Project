@@ -147,7 +147,7 @@ def pickup(request):
             room.items = updated_items
         player.save()
         room.save()
-        return JsonResponse({'items':f'You picked up {rsp[1]}'})
+        return JsonResponse({'items':f'you picked up {rsp[1]}'})
 
     return JsonResponse({'items':f'no item by that name nearby'})
 
@@ -176,8 +176,8 @@ def drop(request):
             player.items = updated_items_p
         player.save()
         room.save()
-
-    return JsonResponse({'items':f'room items: {room.items}, player items: {player.items}'})
+        return JsonResponse({'items':f'you dropped {rsp[1]}'})
+    return JsonResponse({'items':f"you don't have that item to drop"})
 
 
 @csrf_exempt
@@ -188,7 +188,7 @@ def inv(request):
     player = user.player
     items = player.items
     if player.items == '':
-        items = 'empty'
+        items = 'inventory is empty'
     return JsonResponse({'inventory':f'{items}'})
 
 
