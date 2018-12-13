@@ -189,7 +189,7 @@ def inv(request):
     items = player.items
     if player.items == '':
         items = 'inventory is empty'
-    return JsonResponse({'inventory':f'{items}'})
+    return JsonResponse({'items':f'{items}'})
 
 
 
