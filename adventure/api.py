@@ -15,6 +15,8 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    # generates and returns a uuid for our newly logged in player.
+    # this uuid will be used to subscribe to a pusher channel, as well as keep track of which players are where
     user = request.user
     player = user.player
     player_id = player.id
@@ -27,6 +29,8 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    # parses movement commands from the interface
+    # broadcasts a message to other players in the room that the player has entered/left
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -79,9 +83,9 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     # send message to current user's channel
     pusher.trigger(f'p-channel-{player_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
-    print(datetime.datetime)
+    # print(datetime.datetime)
     # send message to all other users in the room
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {u'message': f'{player.user.username}: {message}', u'timestamp': f'{datetime.datetime.now()}'})
 
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=200)
+    return JsonResponse({'message':"New chat posted."}, safe=True, status=200)
