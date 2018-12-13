@@ -1,6 +1,6 @@
 https://trello.com/b/uL7dLX5L/lambdamud-lucas-beemer
 
-https://adv-project-lucasbeemer.herokuapp.com/ : back-end deployed on Heroku.
+https://adv-project-beemer.herokuapp.com/ : back-end deployed on Heroku.
 
 # Adventure Project Week
 
