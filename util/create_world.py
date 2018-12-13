@@ -5,35 +5,35 @@ from adventure.models import Player, Room
 Room.objects.all().delete()
 
 r_outside = Room(title="Outside Cave Entrance",
-               description="North of you, the cave mount beckons")
+               description="North of you, the cave mount beckons", items='torch')
 
 r_foyer = Room(title="Foyer", description="""Dim light filters in from the south. Dusty
 passages run north and east.""")
 
 r_overlook = Room(title="Grand Overlook", description="""A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""")
+the distance, but there is no way across the chasm.""", items='rope')
 
 r_narrow = Room(title="Narrow Passage", description="""The narrow passage bends here from west
 to north. The smell of gold permeates the air.""")
 
 r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. An exit lies to the south. A small opening apears to the north.""")
+earlier adventurers. An exit lies to the south. A small opening apears to the north.""", items='gold-coin')
 
 r_cave = Room(title="Secret Cave", description="""North of the Treasure room you have found yourself a secret cave. 
 It has a long pass leading north. In the distance you see a small light.""")
 
 r_crossroads = Room(title="Cross Roads", description="""A small torch is lit on the wall. It's faint 
 light shows that the passage continues on to the north. 
-Another passage carries on to the east.""")
+Another passage carries on to the east.""", items='dagger key')
 
 r_waterfall = Room(title="Water Fall", description="""You gaze upon a massive underground waterfall. A large stone apears in front of you. the words 
 "If you drop a yellow hat in the Red Sea, what does it become?" are carved onto its side.""")
 
 r_library = Room(title="library", description="""You find yourself in a dimly lit 
 room with many high shelves filled with dusty books. 
-The shelves are made of wood and look aged and worn.""")
+The shelves are made of wood and look aged and worn.""", items='magical-book')
 
 r_outside.save()
 r_foyer.save()

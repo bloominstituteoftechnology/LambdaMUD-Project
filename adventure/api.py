@@ -112,4 +112,21 @@ def whisper(request):
     msg = ' '.join(rsp)
     pusher.trigger(f'p-channel-{uuid}', u'broadcast', {'whisper':f'{msg}'})
     return JsonResponse({'msg':f'{user} whispered {name} with message: {msg}'})
+
+
+@csrf_exempt
+@api_view(["GET"])
+def look(request):
+    data = json.loads(request.body)
+    rsp = data['message']
+    user = request.user
+    player = user.player
+    room = player.room()
+    return JsonResponse({'items':f'{room.items}'})
+
+
+
+
+
+
         
