@@ -115,9 +115,8 @@ def whisper(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 def look(request):
-    data = json.loads(request.body)
     user = request.user
     player = user.player
     room = player.room()
