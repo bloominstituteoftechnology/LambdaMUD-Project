@@ -11,6 +11,7 @@ import json
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+# initialize by getting the current state of the player
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -22,7 +23,7 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
-
+# move player and broadcast movement to those in the current room and those in the next room
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -59,7 +60,7 @@ def move(request):
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
-
+# Sends message to other users in the same room by creating a Pusher channel for each player in the room and sending a trigger.
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
