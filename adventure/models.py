@@ -69,6 +69,13 @@ class Player(models.Model):
     def allPlayerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.all() if p.id != int(currentPlayerID)]
 
+    def allPlayerNames(self, currentPlayerID):
+        return [
+            p.user.username
+            for p in Player.objects.all()
+            if p.id != int(currentPlayerID)
+        ]
+
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):

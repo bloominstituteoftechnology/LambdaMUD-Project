@@ -26,6 +26,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    allPlayerNames = player.allPlayerNames(player_id)
     return JsonResponse(
         {
             "uuid": uuid,
@@ -33,6 +34,7 @@ def initialize(request):
             "title": room.title,
             "description": room.description,
             "players": players,
+            "allPlayerNames": allPlayerNames,
         },
         safe=True,
     )
@@ -142,3 +144,12 @@ def shout(request):
     return JsonResponse(
         {"shout": f"{player.user.username} shouts {shout}"}, safe=True, status=200
     )
+
+
+@csrf_exempt
+@api_view(["GET"])
+def players(request):
+    player = request.user.player
+    player_id = player.id
+    allPlayerNames = player.allPlayerNames(player_id)
+    return JsonResponse({"allPlayerNames": allPlayerNames}, safe=True, status=200)
