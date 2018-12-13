@@ -24,8 +24,6 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 # Application definition
 
@@ -92,12 +90,12 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
-DATABASES["default"] = dj_database_url.config(default=os.environ.get("ALLOWED_HOSTS"))
+# DATABASES["default"] = dj_database_url.config(default=os.environ.get("ALLOWED_HOSTS"))
 
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
@@ -160,4 +158,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 import django_heroku
 django_heroku.settings(locals())
 
-del DATABASES['default']['OPTIONS']['sslmode'] # <-- Add this line
+del DATABASES['default']['OPTIONS']['sslmode']
