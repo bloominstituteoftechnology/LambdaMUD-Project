@@ -9,11 +9,15 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+pusher = Pusher(app_id='634432', key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """
+    :param request: Authorization token
+    :return: initializes the data, shows where the player currently is and all the accompanying information
+    """
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +30,11 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """
+    :param request: Authorization token, and key-value pair of direction: direction in the body
+    :return: returns the new room information
+    pusher is also triggered, which allows for other players to be alerted of player's movements
+    """
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,5 +72,22 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    """
+    :param request: request: Authorization token, and key-value pair of message: message in the body
+    :return: returns player's message with the room, alongside other players
+    pusher triggers a broadcast event for each player in the room to be alerted of the message.
+    """
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    current_players_UUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+
+    for p in current_players_UUIDs:
+        print(f'p-channel-{p}')
+        pusher.trigger(f'p-channel-{p}', u'broadcast', {'message': f'"{username}" says {message}.'})
+
+    return JsonResponse({'name': username, 'title': room.title, 'players': players, 'message': message}, safe=True)
