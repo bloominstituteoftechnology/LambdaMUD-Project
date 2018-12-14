@@ -63,5 +63,6 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
+    player = request.user.player
+    pusher.trigger(f'p-channel-{[player]}', u'broadcast', {'message':'Hello, world'})
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
