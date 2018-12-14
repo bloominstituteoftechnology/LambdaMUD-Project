@@ -75,7 +75,20 @@ def say(request):
     for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
     return JsonResponse({'username':player.user.username, 'message': message}, safe=True, status=200)
-    
+
+@csrf_exempt
+@api_view(["POST"])
+def broadcast(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.allPlayerUUIDs(player_id)
+    for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+    return JsonResponse({'username':player.user.username, 'message': message}, safe=True, status=200)
 
 
 # 2d673cb970a5a70a4ce2349b741009a5becf5c81 - anthony, heroku
