@@ -1,3 +1,5 @@
+# initial setup for the game
+
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
