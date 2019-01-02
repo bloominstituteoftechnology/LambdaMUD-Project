@@ -1,3 +1,5 @@
+Cameron's Trello Board URL: https://trello.com/b/cjRCp0Co/lambdamud
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
