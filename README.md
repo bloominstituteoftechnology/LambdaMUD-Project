@@ -1,3 +1,9 @@
+Trello Link: https://trello.com/b/YIe47blJ/lambdamud-kevin-nguyen
+
+GitHub PR link: https://github.com/LambdaSchool/LambdaMUD-Project/pull/129
+
+key: ac06b907b43eff046a6dedfc38328c951bd57922
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
