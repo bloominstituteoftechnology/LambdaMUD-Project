@@ -157,4 +157,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 import django_heroku
 django_heroku.settings(locals())
 
-# no more errors
+# https://github.com/LambdaSchool/LambdaMUD-Client/pull/107

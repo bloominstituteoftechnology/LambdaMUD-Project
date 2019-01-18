@@ -64,5 +64,14 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    #  we need the player, with an id, some maybe data, and the room, we might need to loop. 
+    #  we need the player, with an id,maybe some data, and the room, we might need to loop. 
+    # json.load load would take a file-like object, read the data from that object, and use that string to create an object
+def say (request)
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
