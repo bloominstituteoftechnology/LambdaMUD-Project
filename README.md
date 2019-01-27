@@ -1,4 +1,4 @@
-https://new-school-mud.herokuapp.com/
+https://old-school-mud.herokuapp.com/
 
 # Adventure Project Week
 
