@@ -84,11 +84,16 @@ def move(request):
 def say(request):
     # IMPLEMENT
     player = request.user.player
-    # player_id = player.id
+    player_id = player.id
     player_uuid = player.uuid
-    data = json.loads(request.body['say'])
-    pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says {data}.'})
+    room = player.room()
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    data = json.loads(request.body)
+    sayText = data['sayText']
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'sayEvent', {'message':f'{player.user.username} says {sayText}.'})
+    # pusher.trigger(f'p-channel-{player_uuid}', u'sayEvent', {'message':f'{player.user.username} says {sayText}.'})
     # pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says ahoy back to server.'})
     # return JsonResponse({'say': data}, safe=True, status=200)
-    return JsonResponse({'server says': 'ahoy!'}, safe=True, status=200)
+    return JsonResponse({'server says': 'You triggered the sayEvent by hitting the api/adv/say endpoint!!', 'currentPlayerUUIDs': currentPlayerUUIDs}, safe=True, status=200)
 

@@ -102,6 +102,7 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 #     }
 # }
 
+# FOR RUNNING DATABASE ON HEROKU SERVER
 DATABASES = {
     'default': dj_database_url.config(default = config('DATABASE_URL')),
 }
