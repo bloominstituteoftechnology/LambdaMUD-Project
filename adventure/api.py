@@ -36,6 +36,7 @@ def move(request):
     room = player.room()
     nextRoomID = None
     if direction == "n":
+        print("moving north")
         nextRoomID = room.n_to
     elif direction == "s":
         nextRoomID = room.s_to
@@ -62,14 +63,15 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
-def say(request):
+# def say(request):
 
     # IMPLEMENT
     #  we need the player, with an id,maybe some data, and the room, we might need to loop. 
     # json.load load would take a file-like object, read the data from that object, and use that string to create an object
     # https://www.geeksforgeeks.org/loops-in-python/
 
-def say (request)
+def say (request):
+    print("test")
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
@@ -80,6 +82,6 @@ def say (request)
     # a for/in loop to let everyone know you talked. similar to line 53 and 55 letting them know that walk in 
     # or away but this time we have a say def
     for p_uuid in currentPlayerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says: {message}.'})
 
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+   return JsonResponse({'username':player.user.username, 'message': message}, safe=True, status=200)
