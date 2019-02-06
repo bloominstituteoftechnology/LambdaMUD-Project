@@ -63,9 +63,12 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
+
     # IMPLEMENT
     #  we need the player, with an id,maybe some data, and the room, we might need to loop. 
     # json.load load would take a file-like object, read the data from that object, and use that string to create an object
+    # https://www.geeksforgeeks.org/loops-in-python/
+
 def say (request)
     player = request.user.player
     player_id = player.id
@@ -74,4 +77,9 @@ def say (request)
     message = data['message']
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
+    # a loop / to let everyone know you talked. similar to line 53 and 55 letting them know that walk in 
+    # or away but this time we have a say def
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
+
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
