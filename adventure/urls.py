@@ -6,3 +6,5 @@ urlpatterns = [
     url('move', api.move),
     url('say', api.say),
 ]
+
+# this is for the URL's 
