@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ['*']
+# ^^^ what is a better way of writing this code. 
 
 
 # Application definition

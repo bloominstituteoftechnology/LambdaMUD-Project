@@ -77,7 +77,7 @@ def say (request)
     message = data['message']
     room = player.room()
     currentPlayerUUIDs = room.playerUUIDs(player_id)
-    # a loop / to let everyone know you talked. similar to line 53 and 55 letting them know that walk in 
+    # a for/in loop to let everyone know you talked. similar to line 53 and 55 letting them know that walk in 
     # or away but this time we have a say def
     for p_uuid in currentPlayerUUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says {message}.'})
