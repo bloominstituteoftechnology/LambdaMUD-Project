@@ -28,8 +28,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 # ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
-ALLOWED_HOSTS = [config("ALLOWED_HOSTS")]
-DATABASE_URL = config("DATABASE_URL")
+ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
