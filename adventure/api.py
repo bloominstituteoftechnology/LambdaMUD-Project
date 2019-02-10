@@ -28,7 +28,7 @@ def initialize(request):
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
-    player = request.player
+    # player = request.player
     player_id = player.id
     player_uuid = player.uuid
     data = json.loads(request.body)
@@ -62,7 +62,7 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    player = request.user.player
+    # player = request.user.player
     player_id = player.id
     data = json.loads(request.body)
     message = data['message']
