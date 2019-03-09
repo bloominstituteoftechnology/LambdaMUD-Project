@@ -1,8 +1,14 @@
+Trello URL: https://trello.com/b/YctTsMEH/lambdamud-sania-parekh
+Heroku URL: https://sania-parekh-lambda-mud.herokuapp.com/admin/login/?next=/admin/
+
+
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
 but needs to be completed.
+
+
 
 Using API requests, clients are able to create, read, update and delete
 data on remote servers but what if the server needs to initiate a
@@ -175,25 +181,27 @@ MVP as soon as you can and get working the list of features.
 * Windows users might want to use Postman to test API commands
 
 ### Registration
-* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
+* `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser1", "password1":"testpassword1", "password2":"testpassword1"}' localhost:8000/api/registration/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
+60e6c6ebf8569d3878ac347ead552da8fe625c77
+
 ### Login
 * Request:
-  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
+  * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser1", "password":"testpassword1"}' localhost:8000/api/login/`
 * Response:
   * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
 
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 60e6c6ebf8569d3878ac347ead552da8fe625c77' localhost:8000/api/adv/init/`
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
+  * `curl -X POST -H 'Authorization: Token 60e6c6ebf8569d3878ac347ead552da8fe625c77' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 * Pusher broadcast:
@@ -202,7 +210,7 @@ MVP as soon as you can and get working the list of features.
 
 ### Say (NOT YET IMPLEMENTED)
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+  * `curl -X POST -H 'Authorization: Token 60e6c6ebf8569d3878ac347ead552da8fe625c77' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 * Pusher broadcast:
   * Players in current room receive a message: `<name> says "Hello, world!"`
 
