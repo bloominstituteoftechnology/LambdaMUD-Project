@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
-import win32api
+# import win32api
 
 @csrf_exempt
 def register(request):
