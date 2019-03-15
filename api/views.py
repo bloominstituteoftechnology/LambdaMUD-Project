@@ -24,7 +24,7 @@ def register(request):
           user.validate_unique()
       except ValidationError:
           response = JsonResponse({"error":"A user with that username already exists."}, safe=True, status=500)
-          win32api.MessageBox(0, 'A user with that username already exists.', 'error', 0x00001000) 
+        #   win32api.MessageBox(0, 'A user with that username already exists.', 'error', 0x00001000) 
       else:
           user.set_password(password1)
           user.save()
@@ -40,7 +40,7 @@ def login(request):
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         response = JsonResponse({"error":"User does not exist."}, safe=True, status=500)
-        win32api.MessageBox(0, 'User does not exist.', 'error', 0x00001000) 
+        # win32api.MessageBox(0, 'User does not exist.', 'error', 0x00001000) 
     else:
         if user.check_password(password):
             response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
