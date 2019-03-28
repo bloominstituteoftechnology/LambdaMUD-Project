@@ -6,6 +6,11 @@ from rest_framework.authtoken.models import Token
 import uuid
 from django.core.validators import int_list_validator
 
+class Item(models.Model):
+    title = models.CharField(max_length=50, default="DEFAULT TITLE")
+    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+
+
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -14,6 +19,7 @@ class Room(models.Model):
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)    
+    items = models.ManyToManyField(Item)
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -37,6 +43,8 @@ class Room(models.Model):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+    def itemNames(self):
+        return [i.title for i in self.items.all()]
     
         
 

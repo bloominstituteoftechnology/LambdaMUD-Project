@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from adventure.models import Player, Room, Item, Weapon
+from adventure.models import Player, Room, Item
 
 
 Room.objects.all().delete()
@@ -27,6 +27,11 @@ r_foyer.save()
 r_overlook.save()
 r_narrow.save()
 r_treasure.save()
+
+i_rock = Item(title="Rock", description="A rock that fit in the palm of your hand.")
+i_rock.save()
+
+r_outside.items.add(i_rock)
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
