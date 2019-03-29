@@ -51,14 +51,16 @@ def move(request):
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+        items = nextRoom.itemNames()
         for p_uuid in currentPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'items':items, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        items = room.itemNames()
+        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items':items, 'error_msg':"You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
@@ -90,9 +92,43 @@ def grab(request):
     if itemID is not None and itemID > 0:           
         item = Item.objects.get(id=itemID)
         itemName = item.title
+        room.items.remove(item)
+        player.inventory.add(item)
         for p_uuid in players:
                 pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} grabs \"{itemName}\".'})
         return JsonResponse({'name':player.user.username, 'item': itemName}, safe=True)
     else:        
         return JsonResponse({'name':player.user.username, 'error':True}, safe=True)
 
+@csrf_exempt
+@api_view(["POST"])
+def drop(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)    
+    droppedItem = data['item']    
+    room = player.room()
+    players = room.playerUUIDs(player_id)
+    itemIDList = player.getItem(droppedItem)      
+    itemID = int(itemIDList) 
+    if itemID is not None and itemID > 0:           
+        item = Item.objects.get(id=itemID)
+        itemName = item.title
+        player.inventory.remove(item)
+        room.items.add(item)
+        for p_uuid in players:
+                pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} drops \"{itemName}\".'})
+        return JsonResponse({'name':player.user.username, 'item': itemName}, safe=True)
+    else:        
+        return JsonResponse({'name':player.user.username, 'error':True}, safe=True)
+
+@csrf_exempt
+@api_view(["GET"])
+def inventory(request):
+    player = request.user.player
+    player_id = player.id
+    items = player.itemNames()
+    player_uuid = player.uuid
+    
+    return JsonResponse({'items':items}, safe=True)

@@ -6,4 +6,6 @@ urlpatterns = [
     url('move', api.move),
     url('say', api.say),
     url('grab', api.grab),
+    url('drop', api.drop),
+    url('inventory', api.inventory),
 ]

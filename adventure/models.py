@@ -75,6 +75,19 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+    def itemNames(self):
+        return [i.title for i in self.inventory.all()]
+    def getItem(self, itemName):
+        itemList = [i.id for i in self.inventory.all() if i.title == itemName]
+        print('\nitemList\n%s\n' % itemList)
+        if len(itemList) > 0:
+            return ''.join(str(e) for e in itemList)
+        else:
+            return 0
+    def addItemInvetory(self, item):
+        self.inventory.add(item)
+    def removeItemInventory(self, item):
+        self.inventory.remove(item)
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
