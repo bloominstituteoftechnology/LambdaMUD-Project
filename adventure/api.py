@@ -74,3 +74,25 @@ def say(request):
     for p_uuid in players:
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} says \"{message}\"'})
     return JsonResponse({'name':player.user.username, 'message': message}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def grab(request):
+    player = request.user.player
+    player_id = player.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)    
+    grabbedItem = data['item']    
+    room = player.room()
+    players = room.playerUUIDs(player_id)
+    itemIDList = room.getItem(grabbedItem)      
+    itemID = int(itemIDList) 
+    if itemID is not None and itemID > 0:           
+        item = Item.objects.get(id=itemID)
+        itemName = item.title
+        for p_uuid in players:
+                pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} grabs \"{itemName}\".'})
+        return JsonResponse({'name':player.user.username, 'item': itemName}, safe=True)
+    else:        
+        return JsonResponse({'name':player.user.username, 'error':True}, safe=True)
+

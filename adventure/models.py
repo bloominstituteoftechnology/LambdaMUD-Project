@@ -45,6 +45,18 @@ class Room(models.Model):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def itemNames(self):
         return [i.title for i in self.items.all()]
+    def getItem(self, itemName):
+        itemList = [i.id for i in self.items.all() if i.title == itemName]
+        print('\nitemList\n%s\n' % itemList)
+        if len(itemList) > 0:
+            return ''.join(str(e) for e in itemList)
+        else:
+            return 0
+    def addItem(self, item):
+        self.items.add(item)
+    def removeItem(self, item):
+        self.items.remove(item)
+        
     
         
 
@@ -52,6 +64,7 @@ class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    inventory = models.ManyToManyField(Item)
     def initialize(self):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
