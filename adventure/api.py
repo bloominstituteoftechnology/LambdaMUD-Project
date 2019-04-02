@@ -21,7 +21,12 @@ def initialize(request):
     room = player.room()
     players = room.playerNames(player_id)    
     items = room.itemNames()
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items':items}, safe=True)
+    player.setStats()
+    playerHealth = player.health
+    playerAttack = player.attackPower
+    playerDefense = player.defense
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'items':items, "health":playerHealth, 'attack':playerAttack, 'defense':playerDefense}, safe=True)
+
 
 
 # @csrf_exempt
@@ -129,16 +134,16 @@ def inventory(request):
     equippedArmorName = "Empty"
     equippedArmorID = player.equippedArmor 
     try:
-        equippedWeapon = Item.objects.get(id=equippedWeaponID)
+        equippedWeapon = Weapon.objects.get(id=equippedWeaponID)
         equippedWeaponName = equippedWeapon.title
     except:
         pass
     try:
-        equippedArmor = Item.objects.get(id=equippedArmorID)
+        equippedArmor = Armor.objects.get(id=equippedArmorID)
         equippedArmorName = equippedArmor.title
     except:
         pass
-    return JsonResponse({'items':items, "equippedWeapon":equippedWeaponName, "equippedWeapon":equippedWeaponName}, safe=True)   
+    return JsonResponse({'items':items, "equippedWeapon":equippedWeaponName, "equippedArmor":equippedArmorName}, safe=True)   
 
 @csrf_exempt
 @api_view(["POST"])
@@ -148,6 +153,11 @@ def equip(request):
     itemToEquip = data['item']
     itemIDList = player.getItem(itemToEquip)      
     itemID = int(itemIDList)
+    try:
+        itemIDList = player.getItem(itemToEquip)      
+        itemID = int(itemIDList) 
+    except:
+        itemID = None
     if itemID is not None and itemID > 0:           
         item = None        
         try:
@@ -163,18 +173,20 @@ def equip(request):
                 return JsonResponse({'error':True, 'err_message': 'That item is can not be equipped.'}, safe=True)  
         itemName = item.title
         if item.isWeapon:   
-            if player.equippedWeapon > 0:
+            if player.equippedWeapon == 0:
                 player.inventory.remove(item)
                 player.equippedWeapon=itemID
                 player.save()
+                player.setStats()
                 return JsonResponse({'item':itemName}, safe=True)
             else:
                 return JsonResponse({'error':True, 'err_message': 'You already have a weapon equipped.'}, safe=True)
         elif item.isArmor:
-            if player.equippedArmor > 0:
+            if player.equippedArmor == 0:
                 player.inventory.remove(item)
                 player.equippedArmor=itemID
                 player.save()
+                player.setStats()
                 return JsonResponse({'item':itemName}, safe=True)
             else:
                 return JsonResponse({'error':True, 'err_message': 'You already have armor equipped.'}, safe=True)
@@ -189,8 +201,11 @@ def takeOffItem(request):
     player = request.user.player
     data = json.loads(request.body)    
     itemToUnequip = data['item']    
-    itemIDList = Item.objects.get(title=itemToUnequip)       
-    itemID = itemIDList.id    
+    try:
+        itemIDList = Item.objects.get(title=itemToUnequip)       
+        itemID = itemIDList.id  
+    except:
+        itemID = None
     if itemID is not None and itemID > 0:   
         item = None        
         try:
@@ -209,15 +224,30 @@ def takeOffItem(request):
             if itemID == player.equippedWeapon:
                 player.inventory.add(item)
                 player.equippedWeapon = 0    
-                player.save()            
+                player.save()       
+                player.setStats()     
                 return JsonResponse({'item':itemName}, safe=True)
+            else:
+                return JsonResponse({'error':True, 'err_message': 'That item is not equipped.'}, safe=True)
         elif item.isArmor:
             if itemID == player.equippedArmor:
                 player.inventory.add(item)
                 player.equippedArmor = 0
                 player.save()
+                player.setStats()
                 return JsonResponse({'item':itemName}, safe=True)
-        else:
-            return JsonResponse({'error':True, 'err_message': 'That item is not equipped.'}, safe=True)
+            else:
+                return JsonResponse({'error':True, 'err_message': 'That item is not equipped.'}, safe=True)        
     else:
         return JsonResponse({'error':True, 'err_message': 'That item does not exist in this world.'}, safe=True)
+
+@csrf_exempt
+@api_view(["GET"])
+def getStats(request): 
+    user = request.user
+    player = user.player
+    player.setStats()
+    playerHealth = player.health
+    playerAttack = player.attackPower
+    playerDefense = player.defense
+    return JsonResponse({"health":playerHealth, 'attack':playerAttack, 'defense':playerDefense}, safe=True)

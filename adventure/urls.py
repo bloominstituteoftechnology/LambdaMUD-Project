@@ -10,4 +10,5 @@ urlpatterns = [
     url('inventory', api.inventory),
     url('equip', api.equip),
     url('takeOffItem', api.takeOffItem),
+    url('getStats', api.getStats),
 ]

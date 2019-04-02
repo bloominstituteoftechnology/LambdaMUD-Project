@@ -70,7 +70,10 @@ class Player(models.Model):
     equippedArmor = models.IntegerField(default=0)
     health = models.IntegerField(default=20)
     baseAttackPower = models.IntegerField(default=3)
-    def initialize(self):
+    attackPower = models.IntegerField(default=0)
+    baseDefense = models.IntegerField(default=0)
+    defense = models.IntegerField(default=0)
+    def initialize(self):        
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
             self.save()
@@ -88,9 +91,29 @@ class Player(models.Model):
             return ''.join(str(e) for e in itemList)
         else:
             return 0
-    def equipWeapon(self, itemID):
-        print("\nincoming", itemID)
+    def equipWeapon(self, itemID):        
         self.equippedWeapon = itemID
+    def setAttackPower(self):
+        if self.equippedWeapon > 0:
+            weapon = Weapon.objects.get(id=self.equippedWeapon)
+            weaponAttackPower = weapon.itemAttackValue
+            self.attackPower = self.baseAttackPower + weaponAttackPower
+            self.save()
+        else:
+            self.attackPower = self.baseAttackPower
+            self.save()
+    def setDefense(self):
+        if self.equippedArmor > 0:
+            armor = Armor.objects.get(id=self.equippedArmor)
+            armorPower = armor.itemArmorValue
+            self.defense = self.baseDefense + armorPower
+            self.save()
+        else:
+            self.defense = self.baseDefense
+            self.save()
+    def setStats(self):
+        self.setAttackPower()
+        self.setDefense()
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
