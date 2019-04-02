@@ -84,10 +84,10 @@ def grab(request):
     player_id = player.id
     player_uuid = player.uuid
     data = json.loads(request.body)    
-    grabbedItem = data['item']    
+    itemToGrab = data['item']    
     room = player.room()
     players = room.playerUUIDs(player_id)
-    itemIDList = room.getItem(grabbedItem)      
+    itemIDList = room.getItem(itemToGrab)      
     itemID = int(itemIDList) 
     if itemID is not None and itemID > 0:           
         item = Item.objects.get(id=itemID)
@@ -107,10 +107,10 @@ def drop(request):
     player_id = player.id
     player_uuid = player.uuid
     data = json.loads(request.body)    
-    droppedItem = data['item']    
+    itemToDrop = data['item']    
     room = player.room()
     players = room.playerUUIDs(player_id)
-    itemIDList = player.getItem(droppedItem)      
+    itemIDList = player.getItem(itemToDrop)      
     itemID = int(itemIDList) 
     if itemID is not None and itemID > 0:           
         item = Item.objects.get(id=itemID)
@@ -127,8 +127,68 @@ def drop(request):
 @api_view(["GET"])
 def inventory(request):
     player = request.user.player
+    print(player.__dict__)
     player_id = player.id
     items = player.itemNames()
-    player_uuid = player.uuid
-    
-    return JsonResponse({'items':items}, safe=True)
+    player_uuid = player.uuid  
+    equippedWeaponName = "Empty"
+    equippedWeaponID = player.equippedWeapon    
+    if equippedWeaponID > 0:
+        equippedWeapon = Item.objects.get(id=equippedWeaponID)
+        equippedWeaponName = equippedWeapon.title
+        return JsonResponse({'items':items, "equippedWeapon":equippedWeaponName}, safe=True)
+    else:
+        return JsonResponse({'items':items, "equippedWeapon":equippedWeaponName}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def equip(request):
+    player = request.user.player
+    data = json.loads(request.body)
+    itemToEquip = data['item']
+    itemIDList = player.getItem(itemToEquip)      
+    itemID = int(itemIDList)
+    if itemID is not None and itemID > 0:           
+        item = Weapon.objects.get(id=itemID)        
+        itemName = item.title
+        if item.isWeapon:   
+            player.inventory.remove(item)
+            player.equippedWeapon=itemID
+            player.save()
+            return JsonResponse({'equippedItem':itemName}, safe=True)
+        elif item.isArmor:
+            player.equippedArmor = itemID
+            return JsonResponse({'equippedItem':itemName}, safe=True)
+        else:
+            return JsonResponse({'error':True}, safe=True)
+    else:
+        return JsonResponse({'error':True}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def unequip(request):
+    print("\nitemID")
+    player = request.user.player
+    data = json.loads(request.body)
+    print("\nitemID",data)
+    itemToUnequip = data['item']
+    print("\nitemID",itemToUnequip)
+    itemIDList = Item.objects.get(title=itemToUnequip)      
+    itemID = itemIDList.id
+    print("\nitemID",itemID)
+    if itemID is not None and itemID > 0:           
+        item = Weapon.objects.get(id=itemID)        
+        itemName = item.title
+        # player.inventory.add(item)
+        if item.isWeapon:
+            player.equippedWeapon = 0 
+            player.save()            
+            return JsonResponse({'equippedItem':itemName}, safe=True)
+        elif item.isArmor:
+            player.equippedArmor = 0
+            player.save()
+            return JsonResponse({'equippedItem':itemName}, safe=True)
+        else:
+            return JsonResponse({'error':True}, safe=True)
+    else:
+        return JsonResponse({'error':True}, safe=True)

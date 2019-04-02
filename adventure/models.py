@@ -10,7 +10,13 @@ class Item(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
 
+class Weapon(Item):
+    itemAttackValue = models.IntegerField(default=0)
+    isWeapon = models.BooleanField(default=True)
 
+class Armor(Item):
+    itemArmorValue = models.IntegerField(default=0)
+    isArmor = models.BooleanField(default=True)
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
@@ -46,16 +52,11 @@ class Room(models.Model):
     def itemNames(self):
         return [i.title for i in self.items.all()]
     def getItem(self, itemName):
-        itemList = [i.id for i in self.items.all() if i.title == itemName]
-        print('\nitemList\n%s\n' % itemList)
+        itemList = [i.id for i in self.items.all() if i.title == itemName]        
         if len(itemList) > 0:
             return ''.join(str(e) for e in itemList)
         else:
             return 0
-    def addItem(self, item):
-        self.items.add(item)
-    def removeItem(self, item):
-        self.items.remove(item)
         
     
         
@@ -65,6 +66,10 @@ class Player(models.Model):
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     inventory = models.ManyToManyField(Item)
+    equippedWeapon = models.IntegerField(default=0)
+    equippedArmor = models.IntegerField(default=0)
+    health = models.IntegerField(default=20)
+    baseAttackPower = models.IntegerField(default=3)
     def initialize(self):
         if self.currentRoom == 0:
             self.currentRoom = Room.objects.first().id
@@ -78,16 +83,14 @@ class Player(models.Model):
     def itemNames(self):
         return [i.title for i in self.inventory.all()]
     def getItem(self, itemName):
-        itemList = [i.id for i in self.inventory.all() if i.title == itemName]
-        print('\nitemList\n%s\n' % itemList)
+        itemList = [i.id for i in self.inventory.all() if i.title == itemName]        
         if len(itemList) > 0:
             return ''.join(str(e) for e in itemList)
         else:
             return 0
-    def addItemInvetory(self, item):
-        self.inventory.add(item)
-    def removeItemInventory(self, item):
-        self.inventory.remove(item)
+    def equipWeapon(self, itemID):
+        print("\nincoming", itemID)
+        self.equippedWeapon = itemID
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
