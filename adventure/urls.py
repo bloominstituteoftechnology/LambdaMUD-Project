@@ -9,5 +9,5 @@ urlpatterns = [
     url('drop', api.drop),
     url('inventory', api.inventory),
     url('equip', api.equip),
-    url('unequip', api.unequip),
+    url('takeOffItem', api.takeOffItem),
 ]
