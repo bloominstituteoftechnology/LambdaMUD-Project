@@ -1,3 +1,5 @@
+https://trello.com/b/UNM6DPm0/lambdamud-james-mcrae
+deployed site - https://lucid-perlman-cfcf5a.netlify.com/
 # Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user

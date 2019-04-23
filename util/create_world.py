@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from adventure.models import Player, Room
+from adventure.models import Player, Room, Item, Weapon
 
 
 Room.objects.all().delete()
@@ -21,11 +21,25 @@ r_treasure = Room(title="Treasure Chamber", description="""You've found the long
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""")
 
+
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
 r_narrow.save()
 r_treasure.save()
+
+i_rock = Item(title="Rock", description="A rock that fit in the palm of your hand.")
+i_rock.save()
+
+w_sword = Weapon(title="Sword", description="A standard one handed arming sword.", itemAttackValue= 5)
+w_sword.save()
+
+r_outside.items.add(i_rock)
+r_outside.items.add(w_sword)
+r_foyer.items.add(w_sword)
+r_overlook.items.add(w_sword)
+r_narrow.items.add(w_sword)
+r_treasure.items.add(w_sword)
 
 # Link rooms together
 r_outside.connectRooms(r_foyer, "n")
@@ -39,6 +53,7 @@ r_narrow.connectRooms(r_foyer, "w")
 
 r_narrow.connectRooms(r_treasure, "n")
 r_treasure.connectRooms(r_narrow, "s")
+
 
 players=Player.objects.all()
 for p in players:
