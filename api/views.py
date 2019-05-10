@@ -13,16 +13,16 @@ def register(request):
     password2 = data['password2']
     user=User(username=username)
     if len(username) <= 3:
-        response = JsonResponse({"error":"Username must be at least 3 characters."}, safe=True, status=500)
-    elif len(password1) <= 5:
-        response = JsonResponse({"error":"Password must be at least 5 characters."}, safe=True, status=500)
+        response = JsonResponse({"error":"Username must be at least 4 characters."}, safe=True, status=200)
+    elif len(password1) <= 4:
+        response = JsonResponse({"error":"Password must be at least 5 characters."}, safe=True, status=200)
     elif password1 != password2:
-        response = JsonResponse({"error":"The two password fields didn't match."}, safe=True, status=500)
+        response = JsonResponse({"error":"The two password fields didn't match."}, safe=True, status=200)
     else:
       try:
           user.validate_unique()
       except ValidationError:
-          response = JsonResponse({"error":"A user with that username already exists."}, safe=True, status=500)
+          response = JsonResponse({"error":"A user with that username already exists."}, safe=True, status=200)
       else:
           user.set_password(password1)
           user.save()
@@ -37,11 +37,11 @@ def login(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        response = JsonResponse({"error":"User does not exist."}, safe=True, status=500)
+        response = JsonResponse({"error":"User does not exist."}, safe=True, status=200)
     else:
         if user.check_password(password):
             response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
         else:
-            response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=500)
+            response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=200)
     return response
 
