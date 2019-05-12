@@ -7,6 +7,30 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from rest_framework import serializers, viewsets
+from rest_framework.serializers import HyperlinkedModelSerializer
+
+# Note: When I use HyperlinkedModelSerializer instead of ModelSerializer I get an error (django.core.exceptions.ImproperlyConfigured: Could not resolve URL for hyperlinked relationship using view name "user-detail". You may have failed to include the related model in your API, or incorrectly configured the `lookup_field` attribute on this field.) 
+# if I include user in the set fields below. Actually, it doesn't work perfectly. Instead of including user name it includes user id. If I go to a user instance (e.g. api/players/4), when I click on the html form the user is listed as the name, but when I go to the Raw Data it shows the userId. o vey. 
+class PlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        fields = ('user','currentRoom', 'uuid')
+
+class PlayerViewSet(viewsets.ModelViewSet):
+    serializer_class = PlayerSerializer
+    queryset = Player.objects.all()
+
+class RoomSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Room
+        fields = ('title', 'description', 'n_to', 's_to', 'e_to', 'w_to')
+
+class RoomViewSet(viewsets.ModelViewSet):
+    serializer_class = RoomSerializer
+    queryset = Room.objects.all()
+
+
 
 # # # Getting Started
 # The minimum configuration required to use the Pusher object are the three 
@@ -22,8 +46,6 @@ pusher = Pusher(
 # You can then trigger events to channels. Channel and event names may only 
 # contain alphanumeric characters, - and _:
         # pusher.trigger(u'a_channel', u'an_event', {u'some': u'data'})
-
-
 
 # # # Triggering Events
 # To trigger an event on one or more channels, use the trigger method on the
