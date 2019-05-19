@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
+from .models import *
 
 @csrf_exempt
 def register(request):
@@ -26,7 +27,7 @@ def register(request):
       else:
           user.set_password(password1)
           user.save()
-          response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=201)
+          response = JsonResponse({"key":str(user.auth_token), "user_id": user.id}, safe=True, status=201)
     return response
 
 @csrf_exempt
@@ -34,13 +35,14 @@ def login(request):
     data = json.loads(request.body)
     username = data['username']
     password = data['password']
+
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         response = JsonResponse({"error":"User does not exist."}, safe=True, status=200)
     else:
         if user.check_password(password):
-            response = JsonResponse({"key":str(user.auth_token)}, safe=True, status=200)
+            response = JsonResponse({"key":str(user.auth_token), "user_id": user.id}, safe=True, status=200)
         else:
             response = JsonResponse({"error":"Unable to log in with provided credentials."}, safe=True, status=200)
     return response

@@ -10,25 +10,26 @@ import json
 from rest_framework import serializers, viewsets
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-# Note: When I use HyperlinkedModelSerializer instead of ModelSerializer I get an error (django.core.exceptions.ImproperlyConfigured: Could not resolve URL for hyperlinked relationship using view name "user-detail". You may have failed to include the related model in your API, or incorrectly configured the `lookup_field` attribute on this field.) 
-# if I include user in the set fields below. Actually, it doesn't work perfectly. Instead of including user name it includes user id. If I go to a user instance (e.g. api/players/4), when I click on the html form the user is listed as the name, but when I go to the Raw Data it shows the userId. o vey. 
-class PlayerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Player
-        fields = ('user','currentRoom', 'uuid')
+# # Note: When I use HyperlinkedModelSerializer instead of ModelSerializer I get an error (django.core.exceptions.ImproperlyConfigured: Could not resolve URL for hyperlinked relationship using view name "user-detail". You may have failed to include the related model in your API, or incorrectly configured the `lookup_field` attribute on this field.) 
+# # if I include user in the set fields below. Actually, it doesn't work perfectly. Instead of including user name it includes user id. If I go to a user instance (e.g. api/players/4), when I click on the html form the user is listed as the name, but when I go to the Raw Data it shows the userId. o vey. This is the corresponding field in the model 
+# # for player: user = models.OneToOneField(User, on_delete=models.CASCADE)
+# class PlayerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Player
+#         fields = ('id','user','currentRoom', 'uuid')
 
-class PlayerViewSet(viewsets.ModelViewSet):
-    serializer_class = PlayerSerializer
-    queryset = Player.objects.all()
+# class PlayerViewSet(viewsets.ModelViewSet):
+#     serializer_class = PlayerSerializer
+#     queryset = Player.objects.all()
 
-class RoomSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Room
-        fields = ('title', 'description', 'n_to', 's_to', 'e_to', 'w_to')
+# class RoomSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Room
+#         fields = ('id','title', 'description', 'n_to', 's_to', 'e_to', 'w_to')
 
-class RoomViewSet(viewsets.ModelViewSet):
-    serializer_class = RoomSerializer
-    queryset = Room.objects.all()
+# class RoomViewSet(viewsets.ModelViewSet):
+#     serializer_class = RoomSerializer
+#     queryset = Room.objects.all()
 
 
 
@@ -56,12 +57,14 @@ pusher = Pusher(
 @api_view(["GET"])
 def initialize(request):
     user = request.user
+    user_id = user.id
+    username = user.username
     player = user.player
     player_id = player.id
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'user_id':user_id,'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
 # @csrf_exempt
