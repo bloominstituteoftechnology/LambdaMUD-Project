@@ -36,13 +36,13 @@ def move(request):
     room = player.room()
     nextRoomID = None
     if direction == "n":
-        nextRoomID = room.n_to
+        nextRoomID = room.n
     elif direction == "s":
-        nextRoomID = room.s_to
+        nextRoomID = room.s
     elif direction == "e":
-        nextRoomID = room.e_to
+        nextRoomID = room.e
     elif direction == "w":
-        nextRoomID = room.w_to
+        nextRoomID = room.w
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
@@ -63,5 +63,5 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
+
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)

@@ -8,10 +8,13 @@ import uuid
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    n_to = models.IntegerField(default=0)
-    s_to = models.IntegerField(default=0)
-    e_to = models.IntegerField(default=0)
-    w_to = models.IntegerField(default=0)
+    items = models.CharField(max_length=500, default="")
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
+    n = models.IntegerField(default=0)
+    s = models.IntegerField(default=0)
+    e = models.IntegerField(default=0)
+    w = models.IntegerField(default=0)
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -20,13 +23,13 @@ class Room(models.Model):
             print("That room does not exist")
         else:
             if direction == "n":
-                self.n_to = destinationRoomID
+                self.n = destinationRoomID
             elif direction == "s":
-                self.s_to = destinationRoomID
+                self.s = destinationRoomID
             elif direction == "e":
-                self.e_to = destinationRoomID
+                self.e = destinationRoomID
             elif direction == "w":
-                self.w_to = destinationRoomID
+                self.w = destinationRoomID
             else:
                 print("Invalid direction")
                 return
