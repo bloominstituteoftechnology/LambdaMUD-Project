@@ -52,6 +52,7 @@ class Player(models.Model):
             self.initialize()
             return self.room()
 
+#These callbacks run after a row in the User document is saved
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
     if created:
