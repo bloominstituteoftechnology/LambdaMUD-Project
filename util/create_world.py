@@ -4,6 +4,8 @@ from adventure.models import Player, Room
 
 Room.objects.all().delete()
 
+r_bridge = Room(title="Tattered Bridge", description="Eerie noises drive you forward, there is a cave in the distance.")
+
 r_outside = Room(title="Outside Cave Entrance",
                description="North of you, the cave mount beckons")
 
@@ -21,6 +23,7 @@ r_treasure = Room(title="Treasure Chamber", description="""You've found the long
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""")
 
+r_bridge.save()
 r_outside.save()
 r_foyer.save()
 r_overlook.save()
@@ -28,6 +31,9 @@ r_narrow.save()
 r_treasure.save()
 
 # Link rooms together
+r_bridge.connectRooms(r_outside, "e")
+r_outside.connectRooms(r_bridge, "w")
+
 r_outside.connectRooms(r_foyer, "n")
 r_foyer.connectRooms(r_outside, "s")
 
