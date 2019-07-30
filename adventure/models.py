@@ -32,19 +32,18 @@ class Room(models.Model):
                 return
             self.save()
     def playerNames(self, currentPlayerID):
-        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.user.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
-        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.user.id != int(currentPlayerID)]
 
 
 class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
-        if self.currentRoom == 0:
-            self.currentRoom = Room.objects.first().id
-            self.save()
+        self.currentRoom = Room.objects.first().id
+        self.save()
     def room(self):
         try:
             return Room.objects.get(id=self.currentRoom)
@@ -52,6 +51,7 @@ class Player(models.Model):
             self.initialize()
             return self.room()
 
+#These callbacks run after a row in the User document is saved
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
     if created:
