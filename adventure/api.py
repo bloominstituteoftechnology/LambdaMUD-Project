@@ -16,10 +16,12 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 def initialize(request):
     user = request.user
     player = user.player
-    player_id = player.id
+    player_id = player.user.id
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
+    # loser = Player.objects.get(user=player_id)
+    # loser_room = Room.objects.get(id=loser.currentRoom)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
@@ -29,7 +31,7 @@ def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
-    player_id = player.id
+    player_id = player.user.id
     player_uuid = player.uuid
     data = json.loads(request.body)
     direction = data['direction']
@@ -66,7 +68,7 @@ def say(request):
     # IMPLEMENT
     # return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
     player = request.user.player
-    player_id = player.id
+    player_id = player.user.id
     player_uuid = player.uuid
     data = json.loads(request.body)
     message = data['message']
