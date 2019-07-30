@@ -68,7 +68,7 @@ def say(request):
     # IMPLEMENT
     # return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
     player = request.user.player
-    player_id = player.id
+    player_id = player.user.id
     player_uuid = player.uuid
     data = json.loads(request.body)
     message = data['message']
