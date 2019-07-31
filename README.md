@@ -21,7 +21,7 @@
                 - Randomly combine them to come up with Room titles and descriptions "Ad Lib" style
             - All directions will be initialized to a negative integer to specify there is a wall to the North, East, West, and South
         - Generate Maze
-            - n_to, e_to, w_to, s_to will be changed to the ID of the neighboring room if the wall is taken down in the maze generation
+            - n, e, w, s will be changed to the ID of the neighboring room if the wall is taken down in the maze generation
         - Put Players At Start
 - POST /api/adv/move
     - Changing rooms
@@ -71,10 +71,10 @@ loc - INTEGER - Grid Location (Primary Key)
 title - STRING - Room Name
 description - STRING - Room Description
 visited - BOOLEAN - Has the room been visited previously by any player?
-n_to - INTEGER - Room ID (Foreign Key)
-s_to - INTEGER - Room ID (Foreign Key)
-e_to - INTEGER - Room ID (Foreign Key)
-w_to - INTEGER - Room ID (Foreign Key)
+n - INTEGER - Room ID (Foreign Key)
+s - INTEGER - Room ID (Foreign Key)
+e - INTEGER - Room ID (Foreign Key)
+w - INTEGER - Room ID (Foreign Key)
 ```
 ### Methods:
 #### connectRooms(destinationRoom, direction)
