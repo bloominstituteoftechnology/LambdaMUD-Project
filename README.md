@@ -1,7 +1,13 @@
 # Team K
 
+|   [**tactnician**](https://github.com/tactnician)  |   [**tfolbrecht**](tfolbrecht)   | 
+|:----------------:|:----------------:|
+| [<img src="https://github.com/tactnician.png?s=80" width="80">](https://github.com/tactnician) | [<img src="https://github.com/tfolbrecht.png?s=80" width="80">](https://github.com/tfolbrecht)  |
+
+
 [Trello Board](https://trello.com/b/hIikkmWk/mud-planning)
 [GitHub Project](https://github.com/orgs/lloyd-tom-mud/projects)
+[Slack Channel](https://app.slack.com/client/T4JUEB3ME/GLNRSR873)
 
 
 

@@ -15,3 +15,5 @@ If you're in another program other than FSW, consider ways that the design could
 Example web implementation:
 
 ![Adventure Screenshot](adventure_screenshot.jpg)
+
+Using xtermjs for the screenshot
