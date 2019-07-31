@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config
+import pusher
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,6 +32,14 @@ if DEBUG:
     ALLOWED_HOSTS = ['.maze-mud-server.herokuapp.com','.maze-mud-client.herokuapp.com']
 else:
     ALLOWED_HOSTS = []
+
+# pusher_client = pusher.Pusher(
+#     app_id=config("PUSHER_APP_ID"),
+#     key=config("PUSHER_KEY"),
+#     secret=config("PUSHER_SECRET"),
+#     cluster=config("PUSHER_CLUSTER"),
+#     ssl=True,
+# )
 
 
 # Application definition
