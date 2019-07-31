@@ -3,8 +3,6 @@
 - Any player in the lobby can start a game whenever any of them want (GET /api/adv/init/)
     - Validation: If a game is in progress, then a player must wait in the lobby for the next game.
 
-
-
 # API Calls
 - POST /api/registration/
 - POST /api/login/
@@ -21,16 +19,15 @@
             - Title and Description
                 - Create two lists of adjectives and nouns
                 - Randomly combine them to come up with Room titles and descriptions "Ad Lib" style
-            - All directions will be initialized to 0 to specify there is a wall to the North, East, West, and South
+            - All directions will be initialized to a negative integer to specify there is a wall to the North, East, West, and South
         - Generate Maze
             - n_to, e_to, w_to, s_to will be changed to the ID of the neighboring room if the wall is taken down in the maze generation
-        - For each room
-            - Where a wall was torn down to the E, W, N or S, add the neighboring Room ID to its n_to s_to e_to w_to property
         - Put Players At Start
 - POST /api/adv/move
     - Changing rooms
     - Validate move direction
-    - If at end of maze then end game
+    - If room.end is True then the player is at the end of the maze
+    - Delete the Game
 - GET /api/adv/room/:id
     - Get a single room's info
 - GET /api/adv/rooms
@@ -38,13 +35,6 @@
     
 
 # Database Models
-## GamePlayers
-### Columns:
-```
-player_id - INTEGER - Player ID
-game_id - INTEGER - Game ID
-```
----
 ## Games
 ### Columns:
 ```
@@ -59,13 +49,19 @@ map_columns - INTEGER - Number of columns on map grid
 10  11  12  13  14
 15  16  17  18  19
 20  21  22  23  24
+
+25  26  27  28  29
+30  31  32  33  34
+35  36  37  38  39
+40  41  42  43  44
+45  46  47  48  49
 ```
 Invalid Location Moves:
 ```
 (NORTH == location - map_columns < 0)
 (SOUTH == location + map_columns > num_rooms)
-(EAST == location + 1 < num_rooms || location + 1 // map_columns != location // map_columns)
-(WEST == location - 1 > 0 || location - 1 // map_columns != location // map_columns)
+(EAST == location + 1 > num_rooms || location + 1 // map_columns != location // map_columns)
+(WEST == location - 1 < 0 || location - 1 // map_columns != location // map_columns)
 ```
 ---
 ## Rooms
@@ -106,6 +102,7 @@ currentPlayerID - INTEGER - User ID
 ```
 user - INTEGER - User ID (`id` and `username` properties available when queried for)
 current_room = INTEGER - Room ID (Foreign Key)
+game_id - INTEGER - Game ID (Foreign Key)
 uuid - STRING - Unique Player ID (supposedly used for Pusher)
 ```
 #### initialize()
