@@ -10,7 +10,6 @@ urlpatterns = [
 # from django.contrib.auth.models import User
 # from adventure.models import Player, Room
 
-
 # Room.objects.all().delete()
 
 # r_outside = Room(title="Outside Cave Entrance",
@@ -36,7 +35,7 @@ urlpatterns = [
 # r_narrow.save()
 # r_treasure.save()
 
-# # Link rooms together
+# #Link rooms together
 # r_outside.connectRooms(r_foyer, "n")
 # r_foyer.connectRooms(r_outside, "s")
 
@@ -51,6 +50,6 @@ urlpatterns = [
 
 # players=Player.objects.all()
 # for p in players:
-#   p.currentRoom=r_outside.id
+#   p.current_room=r_outside.id
 #   p.save()
 

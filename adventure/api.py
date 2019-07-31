@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
+<<<<<<< HEAD
 pusher = Pusher(
     app_id=config('PUSHER_APP_ID'), 
     key=config('PUSHER_KEY'), 
@@ -16,56 +17,115 @@ pusher = Pusher(
     cluster=config('PUSHER_CLUSTER'),
     ssl=True,
 )
+=======
+pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config(
+    'PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+
+>>>>>>> 9a5605ce045f9e60b55db5a928bed295347e88f0
 
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+
+    # 1st game 25 rooms
+    # max = 1 * (max_columns * max_columns) - 1
+    # min = max - (max_columns * max_columns - 1)
+
+    # 2nd game +25 rooms = 50 rooms
+    # max = 2 * (max_columns * max_columns) - 1
+    # min = max - (max_columns * max_columns - 1)
+
+    # 3nd game +25 rooms = 75 rooms
+    # max = 3 * (max_columns * max_columns) - 1
+    # min = max - (max_columns * max_columns - 1)
+
+    columns_given = request.query_params.get('columns')
+    print(columns_given)
+    try:
+        columns = int(columns_given)
+        print(columns)
+    except:
+        columns = 5
+
     user = request.user
     player = user.player
     player_id = player.user.id
     uuid = player.uuid
+    Room.objects.all().delete()
+    # Todo: If creating more than 1 game at a time, refactor this:
+    Game.objects.all().delete()
+
+    new_game = Game(map_columns=columns, in_progress=True)
+    new_game.generateRooms()
+    new_game.generateMaze()
+    new_game.generateEnding()
+
+    player.initialize()
     room = player.room()
     players = room.playerNames(player_id)
+
     # loser = Player.objects.get(user=player_id)
-    # loser_room = Room.objects.get(id=loser.currentRoom)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    # loser_room = Room.objects.get(id=loser.current_room)
+    # print(Room.objects.get())
+    # print(loser_room.title)
+    # print(loser_room.id)
+    # room_arr = []
+    # for room in :
+    #     room_arr.append(room)
+    rooms_arr = list(Room.objects.all())
+    print("ROOMS:  ", rooms_arr)
+
+    return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, "visited": room.visited,
+            "end": room.end,'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
 
 
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
-    dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
+    dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
     player_id = player.user.id
     player_uuid = player.uuid
     data = json.loads(request.body)
-    direction = data['direction']
+    direction = data['direction'].lower()
     room = player.room()
-    nextRoomID = None
+    nextRoomId = None
     if direction == "n":
-        nextRoomID = room.n_to
+        nextRoomId = room.n
     elif direction == "s":
-        nextRoomID = room.s_to
+        nextRoomId = room.s
     elif direction == "e":
-        nextRoomID = room.e_to
+        nextRoomId = room.e
     elif direction == "w":
-        nextRoomID = room.w_to
-    if nextRoomID is not None and nextRoomID > 0:
-        nextRoom = Room.objects.get(id=nextRoomID)
-        player.currentRoom=nextRoomID
-        player.save()
-        players = nextRoom.playerNames(player_id)
-        currentPlayerUUIDs = room.playerUUIDs(player_id)
-        nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
-        for p_uuid in currentPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
-        for p_uuid in nextPlayerUUIDs:
-            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+        nextRoomId = room.w
+
+    if nextRoomId != -1:
+        nextRoom = Room.objects.get(id=nextRoomId)
+        if nextRoom.end:
+            # Todo: Refactor if more than 1 game going at the same time:
+            Game.objects.all().delete()
+            print(f"Ended At: {nextRoom.title}")
+            print("Game has ended.. End of maze found")
+            return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
+        else:
+            player.current_room = nextRoomId
+            player.save()
+            nextRoom.visited = True
+            nextRoom.save()
+            players = nextRoom.playerNames(player_id)
+            currentPlayerUUIDs = room.playerUUIDs(player_id)
+            nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+            for p_uuid in currentPlayerUUIDs:
+                pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
+                               'message': f'{player.user.username} has walked {dirs[direction]}.'})
+            for p_uuid in nextPlayerUUIDs:
+                pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
+                               'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
+            return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, "loc": nextRoom.id, "n": nextRoom.n, "s": nextRoom.s, "e": nextRoom.e, "w": nextRoom.w, 'error': False, 'error_msg': ""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'error': True, 'error_msg': "You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
@@ -81,9 +141,15 @@ def say(request):
     room = player.room()
     playerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in playerUUIDs:
+<<<<<<< HEAD
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
     
     players = room.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':message}, safe=True)
+=======
+        pusher.trigger(f'p-channel-p{p_uuid}', u'broadcast',
+                       {'message': f'{player.user.username}: {message}'})
+>>>>>>> 9a5605ce045f9e60b55db5a928bed295347e88f0
 
-    
+    players = room.playerNames(player_uuid)
+    return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'message': message}, safe=True)
