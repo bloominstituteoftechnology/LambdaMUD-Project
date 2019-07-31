@@ -10,7 +10,6 @@ import json
 import sys
 
 # instantiate pusher
-<<<<<<< HEAD
 pusher = Pusher(
     app_id=config('PUSHER_APP_ID'), 
     key=config('PUSHER_KEY'), 
@@ -18,11 +17,6 @@ pusher = Pusher(
     cluster=config('PUSHER_CLUSTER'),
     ssl=True,
 )
-=======
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config(
-    'PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
-
->>>>>>> 9a5605ce045f9e60b55db5a928bed295347e88f0
 
 @csrf_exempt
 @api_view(["GET"])
@@ -143,15 +137,7 @@ def say(request):
     room = player.room()
     playerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in playerUUIDs:
-<<<<<<< HEAD
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
     
     players = room.playerNames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':message}, safe=True)
-=======
-        pusher.trigger(f'p-channel-p{p_uuid}', u'broadcast',
-                       {'message': f'{player.user.username}: {message}'})
->>>>>>> 9a5605ce045f9e60b55db5a928bed295347e88f0
-
-    players = room.playerNames(player_uuid)
-    return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'message': message}, safe=True)
