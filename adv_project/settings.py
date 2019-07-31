@@ -26,7 +26,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ['.maze-mud-server.herokuapp.com','.maze-mud-client.herokuapp.com']
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
