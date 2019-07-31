@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+import sys
 
 # instantiate pusher
 <<<<<<< HEAD
@@ -39,45 +40,46 @@ def initialize(request):
     # max = 3 * (max_columns * max_columns) - 1
     # min = max - (max_columns * max_columns - 1)
 
-    columns_given = request.query_params.get('columns')
-    print(columns_given)
     try:
+        columns_given = request.query_params.get('columns')
         columns = int(columns_given)
-        print(columns)
     except:
         columns = 5
+        print("Unexpected error in columns:", sys.exc_info()[0])
 
-    user = request.user
-    player = user.player
-    player_id = player.user.id
-    uuid = player.uuid
-    Room.objects.all().delete()
-    # Todo: If creating more than 1 game at a time, refactor this:
-    Game.objects.all().delete()
+    try:
+        user = request.user
+        player = user.player
+        player_id = player.user.id
+        uuid = player.uuid
+        Room.objects.all().delete()
+        # Todo: If creating more than 1 game at a time, refactor this:
+        Game.objects.all().delete()
 
-    new_game = Game(map_columns=columns, in_progress=True)
-    new_game.generateRooms()
-    new_game.generateMaze()
-    new_game.generateEnding()
+        new_game = Game(map_columns=columns, in_progress=True)
+        new_game.generateRooms()
+        new_game.generateMaze()
+        new_game.generateEnding()
 
-    player.initialize()
-    room = player.room()
-    players = room.playerNames(player_id)
+        player.initialize()
+        room = player.room()
+        players = room.playerNames(player_id)
 
-    # loser = Player.objects.get(user=player_id)
-    # loser_room = Room.objects.get(id=loser.current_room)
-    # print(Room.objects.get())
-    # print(loser_room.title)
-    # print(loser_room.id)
-    # room_arr = []
-    # for room in :
-    #     room_arr.append(room)
-    rooms_arr = list(Room.objects.all())
-    print("ROOMS:  ", rooms_arr)
+        # loser = Player.objects.get(user=player_id)
+        # loser_room = Room.objects.get(id=loser.current_room)
+        # print(Room.objects.get())
+        # print(loser_room.title)
+        # print(loser_room.id)
+        # room_arr = []
+        # for room in :
+        #     room_arr.append(room)
+        rooms_arr = list(Room.objects.all())
+        print("ROOMS:  ", rooms_arr)
 
-    return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, "visited": room.visited,
-            "end": room.end,'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
-
+        return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, "visited": room.visited,
+                "end": room.end,'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
 
 # @csrf_exempt
 @api_view(["POST"])
