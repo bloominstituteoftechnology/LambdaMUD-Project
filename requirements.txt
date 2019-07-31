@@ -16,7 +16,6 @@ gunicorn==19.9.0
 idna==2.7
 ndg-httpsclient==0.5.1
 oauthlib==2.1.0
-psycopg2==2.7.5
 pusher==2.0.1
 pyasn1==0.4.4
 pycparser==2.19
