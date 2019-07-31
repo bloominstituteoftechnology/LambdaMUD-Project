@@ -113,6 +113,7 @@ if DEBUG:
         }
     }
 else:
+    DATABASES = {}
     DATABASES['default'] = dj_database_url.config(conn_max_age=500, ssl_require=True)
     DATABASES['default'] = dj_database_url.parse(config('DATABASE_URL'),conn_max_age=500)
 
