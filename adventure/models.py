@@ -198,9 +198,6 @@ class Player(models.Model):
     game_id = models.IntegerField(default=-1)
 
     def initialize(self, game_id, min_room_id):
-        print("\U0001F1E8\U0001F1EC")
-        print(type(min_room_id))
-        print(type(game_id))
         self.current_room = min_room_id
         self.game_id = game_id
 
