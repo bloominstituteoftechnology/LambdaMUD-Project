@@ -80,7 +80,7 @@ def joinlobby(request):
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
     except:
-        columns = 2
+        columns = 5
 
     user = request.user
     player = user.player
@@ -138,25 +138,21 @@ def joinlobby(request):
 @api_view(["POST"])
 def move(request):
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
+    direction = json.loads(request.body)['direction'].lower()
+
+    if direction not in dirs.keys():
+        return JsonResponse({"message": "Invalid Direction"}, safe=True)
+    else:
+        player = request.user.player
+        room = player.room()
+        next_room_id = model_to_dict(room).get(direction, -1)
+
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
-    player = request.user.player
     player_id = player.user.id
     player_uuid = player.uuid
-    data = json.loads(request.body)
-    direction = data['direction'].lower()
-    room = player.room()
-    next_room_id = None
-    if direction == "n":
-        next_room_id = room.n
-    elif direction == "s":
-        next_room_id = room.s
-    elif direction == "e":
-        next_room_id = room.e
-    elif direction == "w":
-        next_room_id = room.w
-
     game = player.game()
-    if next_room_id != -1 and game != None:
+
+    if next_room_id != -1 and game != None and game.in_progress:
         next_room = Room.objects.get(id=next_room_id)
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
@@ -181,6 +177,8 @@ def move(request):
             return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'error': False, 'error_msg': ""}, safe=True)
     elif game == None:
         return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
+    elif not game.in_progress:
+        return JsonResponse({"message": "Game has not started yet"}, safe=True)
     else:
         players = room.player_usernames(player_id)
         return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'error': True, 'error_msg': "You cannot move that way."}, safe=True)
