@@ -26,8 +26,11 @@ def initialize(request):
     player = request.user.player
     player_id = player.user.id
     game = player.game()
-    game.in_progress = True
-    game.save()
+    if game is not None:
+        game.in_progress = True
+        game.save()
+    else:
+        return JsonResponse({"message": "Game has endeed please join a new lobby"}, safe=True)
 
     room = player.room()
     min_room_id = game.min_room_id
