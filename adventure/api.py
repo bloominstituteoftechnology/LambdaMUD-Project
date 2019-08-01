@@ -151,7 +151,7 @@ def move(request):
         next_room_id = room.w
 
     game = player.game()
-    if next_room_id != -1 and game == None:
+    if next_room_id != -1 and game != None and game.in_progress:
         next_room = Room.objects.get(id=next_room_id)
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
@@ -176,6 +176,8 @@ def move(request):
             return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'error': False, 'error_msg': ""}, safe=True)
     elif game == None:
         return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
+    elif not game.in_progress:
+        return JsonResponse({"message": "Game has not started yet"}, safe=True)
     else:
         players = room.player_usernames(player_id)
         return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'error': True, 'error_msg': "You cannot move that way."}, safe=True)
