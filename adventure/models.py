@@ -6,15 +6,20 @@ from rest_framework.authtoken.models import Token
 import uuid
 from random import choice, randint
 from .create_maze import Maze
+from django.db.models import Max
 
 
 class Game(models.Model):
     in_progress = models.BooleanField(default=False)
-    map_columns = models.IntegerField(default=5)
+    # stackoverflow on writing a custom value validator if we want to implement size limiting https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
+    map_columns = models.PositiveIntegerField(default=5)
     min_room_id = models.IntegerField(default=0)
 
     def generate_rooms(self):
-        self.min_room_id = Room.objects.count()  # .filter()?
+        room = Room.objects.all().aggregate(Max('id'))['id__max']
+
+        print(room)
+        self.min_room_id = room
         self.save()
 
         total_rooms = self.total_rooms()
@@ -34,7 +39,7 @@ class Game(models.Model):
                     description=self.generate_description()
                 )
                 new_room.save()
-            print(new_room.title)
+            # print(new_room.title)
 
     def generate_maze(self):
 
@@ -196,21 +201,23 @@ class Player(models.Model):
     current_room = models.IntegerField(default=-1)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     game_id = models.IntegerField(default=-1)
+    moves = models.IntegerField(default=0)
 
     def initialize(self, game_id, min_room_id):
         self.current_room = min_room_id
         self.game_id = game_id
+        self.moves = 0
 
     def room(self):
         try:
-            print(f"searching for room: {self.current_room}")
+            # print(f"searching for room: {self.current_room}")
             return Room.objects.get(id=self.current_room)
         except Room.DoesNotExist:
             return None
 
     def game(self):
         try:
-            print(f"searching for game: {self.game_id}")
+            # print(f"searching for game: {self.game_id}")
             return Game.objects.get(id=self.game_id)
         except Game.DoesNotExist:
             return None

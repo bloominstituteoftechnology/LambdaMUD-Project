@@ -6,6 +6,7 @@ urlpatterns = [
     url('init', api.initialize),
     url('move', api.move),
     url('say', api.say),
+    url('end', api.end),
 ]
 
 # from django.contrib.auth.models import User
@@ -53,4 +54,3 @@ urlpatterns = [
 # for p in players:
 #   p.current_room=r_outside.id
 #   p.save()
-
