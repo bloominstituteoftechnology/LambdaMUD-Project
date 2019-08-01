@@ -30,7 +30,7 @@ def initialize(request):
         game.in_progress = True
         game.save()
     else:
-        return JsonResponse({"message": "Game has endeed please join a new lobby"}, safe=True)
+        return JsonResponse({"message": "Game has ended please join a new lobby"}, safe=True)
 
     room = player.room()
     min_room_id = game.min_room_id
@@ -141,7 +141,7 @@ def joinlobby(request):
         'maze': rooms_arr
     }, safe=True)
 
-# @csrf_exempt
+@csrf_exempt
 @api_view(["POST"])
 def move(request):
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
@@ -164,10 +164,11 @@ def move(request):
         player.moves += 1
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
-            Game.objects.all().delete()
-            print(f"Ended At: {next_room.title}")
-            print("Game has ended.. End of maze found")
-            return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
+            Game.objects.filter(id=game.id).delete()
+            return JsonResponse({
+                "in_progress": False,
+                "error": False,
+                "message": "Congratulations! You found the end of the maze!!"}, safe=True)
         else:
             player.current_room = next_room_id
             player.save()
@@ -184,19 +185,38 @@ def move(request):
                                'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
             return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'moves': player.moves, 'error': False, 'error_msg': ""}, safe=True)
     elif game == None:
-        return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
+        return JsonResponse({
+            "in_progress": False,
+            "error": True,
+            "message": "The game has already ended! Someone found the end of the maze!!"
+        }, safe=True)
     elif not game.in_progress:
-        return JsonResponse({"message": "Game has not started yet"}, safe=True)
+        return JsonResponse({
+            "in_progress": False,
+            "error": True,
+            "message": "Game has not started yet"
+        }, safe=True)
     else:
         players = room.player_usernames(player_id)
-        return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'error': True, 'error_msg': "You cannot move that way."}, safe=True)
+        return JsonResponse({
+            "in_progress": True,
+            "name": player.user.username,
+            "title": room.title,
+            "description": room.description,
+            "players": players,
+            "loc": room.id,
+            "n": room.n,
+            "s": room.s,
+            "e": room.e,
+            "w": room.w, 
+            "error": True,
+            "message": "You cannot move that way."
+            }, safe=True)
 
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    # return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
     player = request.user.player
     player_id = player.user.id
     player_uuid = player.uuid
