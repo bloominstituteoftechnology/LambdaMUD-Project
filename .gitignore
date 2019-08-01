@@ -3,7 +3,7 @@
 .vscode
 myenv/
 scripts/
-migrations/
+
 
 
 # Byte-compiled / optimized / DLL files
