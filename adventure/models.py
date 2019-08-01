@@ -6,6 +6,7 @@ from rest_framework.authtoken.models import Token
 import uuid
 from random import choice, randint
 from .create_maze import Maze
+from django.db.models import Max
 
 
 class Game(models.Model):
@@ -15,7 +16,10 @@ class Game(models.Model):
     min_room_id = models.IntegerField(default=0)
 
     def generate_rooms(self):
-        self.min_room_id = Room.objects.count()  # .filter()?
+        room = Room.objects.all().aggregate(Max('id'))['id__max']
+
+        print(room)
+        self.min_room_id = room
         self.save()
 
         total_rooms = self.total_rooms()

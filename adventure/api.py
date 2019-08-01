@@ -79,6 +79,7 @@ def initialize(request):
 @api_view(["GET"])
 def joinlobby(request):
 
+    no_preference = False
     try:
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
@@ -88,13 +89,16 @@ def joinlobby(request):
             columns = 2
     except:
         columns = 5
+        no_preference = True
 
     user = request.user
     player = user.player
     player_id = player.user.id
     uuid = player.uuid
 
-    if Game.objects.filter(in_progress=False):
+    if no_preference and Game.objects.filter(in_progress=False):
+        new_game = Game.objects.get(in_progress=False)
+    elif Game.objects.filter(in_progress=False, map_columns=columns):
         # Todo: If player already joined the lobby will this break??
         # It only calls player.initialize(new_game.id, new_game.min_room_id) so maybe not???
         new_game = Game.objects.get(in_progress=False)
@@ -141,6 +145,7 @@ def joinlobby(request):
         'maze': rooms_arr
     }, safe=True)
 
+
 @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -152,7 +157,14 @@ def move(request):
     else:
         player = request.user.player
         room = player.room()
-        next_room_id = model_to_dict(room).get(direction, -1)
+        if room:
+            next_room_id = model_to_dict(room).get(direction, -1)
+        else:
+            return JsonResponse({
+                "in_progress": False,
+                "error": True,
+                "message": "The game has already ended! Someone found the end of the maze!!"
+            }, safe=True)
 
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player_id = player.user.id
@@ -164,6 +176,10 @@ def move(request):
         player.moves += 1
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
+            min_room_id = game.min_room_id
+            max_room_id = min_room_id+game.total_rooms()
+            Room.objects.filter(id__gte=min_room_id,
+                                id__lte=max_room_id).delete()
             Game.objects.filter(id=game.id).delete()
             return JsonResponse({
                 "in_progress": False,
@@ -185,6 +201,7 @@ def move(request):
                                'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
             return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'moves': player.moves, 'error': False, 'error_msg': ""}, safe=True)
     elif game == None:
+
         return JsonResponse({
             "in_progress": False,
             "error": True,
@@ -208,10 +225,10 @@ def move(request):
             "n": room.n,
             "s": room.s,
             "e": room.e,
-            "w": room.w, 
+            "w": room.w,
             "error": True,
             "message": "You cannot move that way."
-            }, safe=True)
+        }, safe=True)
 
 
 @csrf_exempt
@@ -230,3 +247,25 @@ def say(request):
 
     players = room.player_usernames(player_uuid)
     return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'message': message}, safe=True)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def end(request):
+    player = request.user.player
+    game = player.game()
+    if game:
+        min_room_id = game.min_room_id
+        max_room_id = min_room_id+game.total_rooms()
+        Room.objects.filter(id__gte=min_room_id, id__lte=max_room_id).delete()
+        Game.objects.filter(id=game.id).delete()
+        return JsonResponse({
+            "in_progress": False,
+            "error": False,
+            "message": "Game quit!"}, safe=True)
+    else:
+        return JsonResponse({
+            "in_progress": False,
+            "error": True,
+            "message": "The game has already ended! Someone found the end of the maze!!"
+        }, safe=True)
