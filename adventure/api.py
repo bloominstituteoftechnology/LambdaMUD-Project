@@ -12,26 +12,31 @@ import sys
 
 # instantiate pusher
 pusher = Pusher(
-    app_id=config('PUSHER_APP_ID'), 
-    key=config('PUSHER_KEY'), 
-    secret=config('PUSHER_SECRET'), 
+    app_id=config('PUSHER_APP_ID'),
+    key=config('PUSHER_KEY'),
+    secret=config('PUSHER_SECRET'),
     cluster=config('PUSHER_CLUSTER'),
     ssl=True,
 )
 
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-    player = request.user.player ##
-    player_id = player.user.id ##
+    player = request.user.player
+    player_id = player.user.id
     game = player.game()
-    game.in_progress = True
-    game.save()
+    if game is not None:
+        game.in_progress = True
+        game.save()
+    else:
+        return JsonResponse({"message": "Game has endeed please join a new lobby"}, safe=True)
 
     room = player.room()
     min_room_id = game.min_room_id
     max_room_id = min_room_id+game.total_rooms()
-    rooms_arr = list(Room.objects.filter(id__gte=min_room_id,id__lte=max_room_id))
+    rooms_arr = list(Room.objects.filter(
+        id__gte=min_room_id, id__lte=max_room_id))
     for i in range(len(rooms_arr)):
         rooms_arr[i] = model_to_dict(rooms_arr[i])
 
@@ -53,7 +58,7 @@ def initialize(request):
             'description': room.description,
             "visited": room.visited,
             "end": room.end,
-            'players': room.player_usernames(player.user.id), ##
+            'players': room.player_usernames(player.user.id),
             "loc": room.id,
             "n": room.n,
             "s": room.s,
@@ -64,9 +69,11 @@ def initialize(request):
     }
 
     for p_uuid in uuids:
-        pusher.trigger(f'p-channel-{p_uuid}', u'game-started', {'message': f'game starting'})
+        pusher.trigger(
+            f'p-channel-{p_uuid}', u'game-started', {'message': f'game starting'})
 
     return JsonResponse(response_object, safe=True)
+
 
 @csrf_exempt
 @api_view(["GET"])
@@ -84,8 +91,8 @@ def joinlobby(request):
     uuid = player.uuid
 
     if Game.objects.filter(in_progress=False):
-        #Todo: If player already joined the lobby will this break??
-        #It only calls player.initialize(new_game.id, new_game.min_room_id) so maybe not???
+        # Todo: If player already joined the lobby will this break??
+        # It only calls player.initialize(new_game.id, new_game.min_room_id) so maybe not???
         new_game = Game.objects.get(in_progress=False)
     else:
         new_game = Game(map_columns=columns, in_progress=False)
@@ -99,7 +106,8 @@ def joinlobby(request):
 
     min_room_id = new_game.min_room_id
     max_room_id = min_room_id+new_game.total_rooms()
-    rooms_arr = list(Room.objects.filter(id__gte=min_room_id,id__lte=max_room_id))
+    rooms_arr = list(Room.objects.filter(
+        id__gte=min_room_id, id__lte=max_room_id))
     for i in range(len(rooms_arr)):
         rooms_arr[i] = model_to_dict(rooms_arr[i])
 
@@ -192,7 +200,8 @@ def say(request):
     room = player.room()
     player_UUIDs = room.player_UUIDs(player_id)
     for p_uuid in player_UUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
-    
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
+                       {'message': f'{player.user.username}: {message}'})
+
     players = room.player_usernames(player_uuid)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':message}, safe=True)
+    return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'message': message}, safe=True)

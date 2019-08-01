@@ -8,17 +8,17 @@ from random import choice, randint
 from .create_maze import Maze
 
 
-class Game(models.Model):   
+class Game(models.Model):
     in_progress = models.BooleanField(default=False)
     map_columns = models.IntegerField(default=5)
     min_room_id = models.IntegerField(default=0)
 
     def generate_rooms(self):
-        self.min_room_id = Room.objects.count() #.filter()?
+        self.min_room_id = Room.objects.count()  # .filter()?
         self.save()
 
         total_rooms = self.total_rooms()
-        for id in range(self.min_room_id,total_rooms+self.min_room_id):
+        for id in range(self.min_room_id, total_rooms+self.min_room_id):
             if id == 0:
                 new_room = Room(
                     id=id,
@@ -147,7 +147,8 @@ class Game(models.Model):
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
-    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    description = models.CharField(
+        max_length=500, default="DEFAULT DESCRIPTION")
     visited = models.BooleanField(default=False)
     end = models.BooleanField(default=False)
     n = models.IntegerField(default=-1)
@@ -190,7 +191,8 @@ class Room(models.Model):
 
 
 class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
     current_room = models.IntegerField(default=-1)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     game_id = models.IntegerField(default=-1)
@@ -208,7 +210,7 @@ class Player(models.Model):
             return Room.objects.get(id=self.current_room)
         except Room.DoesNotExist:
             return None
-    
+
     def game(self):
         try:
             print(f"searching for game: {self.game_id}")
