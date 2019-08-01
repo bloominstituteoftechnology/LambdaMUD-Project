@@ -76,7 +76,7 @@ def joinlobby(request):
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
     except:
-        columns = 5 
+        columns = 5
 
     user = request.user
     player = user.player
@@ -133,24 +133,20 @@ def joinlobby(request):
 @api_view(["POST"])
 def move(request):
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
+    direction = json.loads(request.body)['direction'].lower()
+
+    if direction not in dirs.keys():
+        return JsonResponse({"message": "Invalid Direction"}, safe=True)
+    else:
+        player = request.user.player
+        room = player.room()
+        next_room_id = model_to_dict(room).get(direction, -1)
+
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
-    player = request.user.player
     player_id = player.user.id
     player_uuid = player.uuid
-    data = json.loads(request.body)
-    direction = data['direction'].lower()
-    room = player.room()
-    next_room_id = None
-    if direction == "n":
-        next_room_id = room.n
-    elif direction == "s":
-        next_room_id = room.s
-    elif direction == "e":
-        next_room_id = room.e
-    elif direction == "w":
-        next_room_id = room.w
-
     game = player.game()
+
     if next_room_id != -1 and game != None and game.in_progress:
         next_room = Room.objects.get(id=next_room_id)
         if next_room.end:

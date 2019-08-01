@@ -53,7 +53,7 @@ class Game(models.Model):
         maze = Maze(self.map_columns)
         i = 0
         for room in maze.grid:
-            db_room = Room.objects.get(id=i)
+            db_room = Room.objects.get(id=i+self.min_room_id)
             db_room.n = -1 if room.north else room_north(i+self.min_room_id)
             db_room.s = -1 if room.south else room_south(i+self.min_room_id)
             db_room.e = -1 if room.east else room_east(i+self.min_room_id)
