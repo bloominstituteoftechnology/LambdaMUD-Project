@@ -11,12 +11,13 @@ import sys
 
 # instantiate pusher
 pusher = Pusher(
-    app_id=config('PUSHER_APP_ID'), 
-    key=config('PUSHER_KEY'), 
-    secret=config('PUSHER_SECRET'), 
+    app_id=config('PUSHER_APP_ID'),
+    key=config('PUSHER_KEY'),
+    secret=config('PUSHER_SECRET'),
     cluster=config('PUSHER_CLUSTER'),
     ssl=True,
 )
+
 
 @csrf_exempt
 @api_view(["GET"])
@@ -46,9 +47,9 @@ def initialize(request):
         player = user.player
         player_id = player.user.id
         uuid = player.uuid
-        Room.objects.all().delete()
+        # Room.objects.all().delete()
         # Todo: If creating more than 1 game at a time, refactor this:
-        Game.objects.all().delete()
+        # Game.objects.all().delete()
 
         new_game = Game(map_columns=columns, in_progress=True)
         new_game.generateRooms()
@@ -71,7 +72,7 @@ def initialize(request):
         print("ROOMS:  ", rooms_arr)
 
         return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, "visited": room.visited,
-                "end": room.end,'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
+                             "end": room.end, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
     except:
         print("Unexpected error:", sys.exc_info()[0])
 
@@ -137,7 +138,8 @@ def say(request):
     room = player.room()
     playerUUIDs = room.playerUUIDs(player_id)
     for p_uuid in playerUUIDs:
-        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
-    
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
+                       {'message': f'{player.user.username}: {message}'})
+
     players = room.playerNames(player_uuid)
-    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':message}, safe=True)
+    return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'message': message}, safe=True)
