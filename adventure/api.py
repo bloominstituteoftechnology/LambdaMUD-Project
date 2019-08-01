@@ -157,6 +157,7 @@ def move(request):
 
     if next_room_id != -1 and game != None and game.in_progress:
         next_room = Room.objects.get(id=next_room_id)
+        player.moves += 1
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
             Game.objects.all().delete()
@@ -177,7 +178,7 @@ def move(request):
             for p_uuid in next_player_UUIDs:
                 pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
                                'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-            return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'error': False, 'error_msg': ""}, safe=True)
+            return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'moves': player.moves, 'error': False, 'error_msg': ""}, safe=True)
     elif game == None:
         return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
     elif not game.in_progress:
