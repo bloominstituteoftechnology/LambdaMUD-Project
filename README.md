@@ -7,7 +7,7 @@
 - POST /api/registration/
 - POST /api/login/
 - POST /api/logout/
-- GET /api/join/
+- GET /api/joinlobby/
     - Creates Game if there's no Game object where in_progress is false
     - Otherwise, create a GamePlayers many to many relationship between the existing Game that's not in progress (lobby mode) and the Player ID
 - GET /api/adv/init/
@@ -67,14 +67,14 @@ Invalid Location Moves:
 ## Rooms
 ### Columns:
 ``` 
-loc - INTEGER - Grid Location (Primary Key)
+id - INTEGER - Grid Location (Primary Key)
 title - STRING - Room Name
 description - STRING - Room Description
 visited - BOOLEAN - Has the room been visited previously by any player?
-n - INTEGER - Room ID (Foreign Key)
-s - INTEGER - Room ID (Foreign Key)
-e - INTEGER - Room ID (Foreign Key)
-w - INTEGER - Room ID (Foreign Key)
+n - INTEGER - Room ID
+s - INTEGER - Room ID
+e - INTEGER - Room ID
+w - INTEGER - Room ID
 ```
 ### Methods:
 #### connectRooms(destinationRoom, direction)
@@ -101,8 +101,8 @@ currentPlayerID - INTEGER - User ID
 ### Columns:
 ```
 user - INTEGER - User ID (`id` and `username` properties available when queried for)
-current_room = INTEGER - Room ID (Foreign Key)
-game_id - INTEGER - Game ID (Foreign Key)
+current_room = INTEGER - Room ID
+game_id - INTEGER - Game ID
 uuid - STRING - Unique Player ID (supposedly used for Pusher)
 ```
 #### initialize()

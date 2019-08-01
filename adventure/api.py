@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
 from pusher import Pusher
 from django.http import JsonResponse
 from decouple import config
@@ -21,59 +22,109 @@ pusher = Pusher(
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    game = player.game()
+    game.in_progress = True
+    game.save()
 
-    # 1st game 25 rooms
-    # max = 1 * (max_columns * max_columns) - 1
-    # min = max - (max_columns * max_columns - 1)
+    room = player.room()
+    min_room_id = game.min_room_id
+    max_room_id = min_room_id+game.total_rooms()
+    rooms_arr = list(Room.objects.filter(id__gte=min_room_id,id__lte=max_room_id))
+    for i in range(len(rooms_arr)):
+        rooms_arr[i] = model_to_dict(rooms_arr[i])
 
-    # 2nd game +25 rooms = 50 rooms
-    # max = 2 * (max_columns * max_columns) - 1
-    # min = max - (max_columns * max_columns - 1)
+    uuids = room.player_UUIDs(player.user.id)
 
-    # 3nd game +25 rooms = 75 rooms
-    # max = 3 * (max_columns * max_columns) - 1
-    # min = max - (max_columns * max_columns - 1)
+    response_object = {
+        'user': {
+            'uuid': player.uuid,
+            'username': player.user.username,
+        },
+        'game': {
+            'id': game.id,
+            'uuids': uuids,
+            'usernames': room.player_usernames(player.user.id),
+        },
+        'current_room': {
+            'title': room.title,
+            'description': room.description,
+            "visited": room.visited,
+            "end": room.end,
+            'players': room.players,
+            "loc": room.id,
+            "n": room.n,
+            "s": room.s,
+            "e": room.e,
+            "w": room.w,
+        },
+        'maze': rooms_arr
+    }
+
+    for p_uuid in uuids:
+        pusher.trigger(f'p-channel-{p_uuid}', u'game-started', response_object)
+
+    return JsonResponse(response_object, safe=True)
+
+@csrf_exempt
+@api_view(["GET"])
+def joinlobby(request):
 
     try:
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
     except:
-        columns = 5
-        print("Unexpected error in columns:", sys.exc_info()[0])
+        columns = 5 
 
-    try:
-        user = request.user
-        player = user.player
-        player_id = player.user.id
-        uuid = player.uuid
-        Room.objects.all().delete()
-        # Todo: If creating more than 1 game at a time, refactor this:
-        Game.objects.all().delete()
+    user = request.user
+    player = user.player
+    player_id = player.user.id
+    uuid = player.uuid
 
-        new_game = Game(map_columns=columns, in_progress=True)
-        new_game.generateRooms()
-        new_game.generateMaze()
-        new_game.generateEnding()
+    if Game.objects.filter(in_progress=False):
+        #Todo: If player already joined the lobby will this break??
+        #It only calls player.initialize(new_game.id, new_game.min_room_id) so maybe not???
+        new_game = Game.objects.get(in_progress=False)
+    else:
+        new_game = Game(map_columns=columns, in_progress=False)
+        new_game.generate_rooms()
+        new_game.generate_maze()
+        new_game.generate_ending()
 
-        player.initialize()
-        room = player.room()
-        players = room.playerNames(player_id)
+    player.initialize(new_game.id, new_game.min_room_id)
+    player.save()
+    room = player.room()
 
-        # loser = Player.objects.get(user=player_id)
-        # loser_room = Room.objects.get(id=loser.current_room)
-        # print(Room.objects.get())
-        # print(loser_room.title)
-        # print(loser_room.id)
-        # room_arr = []
-        # for room in :
-        #     room_arr.append(room)
-        rooms_arr = list(Room.objects.all())
-        print("ROOMS:  ", rooms_arr)
+    min_room_id = new_game.min_room_id
+    max_room_id = min_room_id+new_game.total_rooms()
+    rooms_arr = list(Room.objects.filter(id__gte=min_room_id,id__lte=max_room_id))
+    for i in range(len(rooms_arr)):
+        rooms_arr[i] = model_to_dict(rooms_arr[i])
 
-        return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, "visited": room.visited,
-                "end": room.end,'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'maze': list(Room.objects.values())}, safe=True)
-    except:
-        print("Unexpected error:", sys.exc_info()[0])
+    return JsonResponse({
+        'user': {
+            'uuid': player.uuid,
+            'username': player.user.username,
+        },
+        'game': {
+            'id': new_game.id,
+            'in_progress': new_game.in_progress,
+            'uuids': room.player_UUIDs(player_id),
+            'usernames': room.player_usernames(player_id),
+        },
+        'current_room': {
+            'title': room.title,
+            'description': room.description,
+            "visited": room.visited,
+            "end": room.end,
+            'players': room.player_usernames(player_id),
+            "loc": room.id,
+            "n": room.n,
+            "s": room.s,
+            "e": room.e,
+            "w": room.w,
+        },
+        'maze': rooms_arr
+    }, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -86,41 +137,41 @@ def move(request):
     data = json.loads(request.body)
     direction = data['direction'].lower()
     room = player.room()
-    nextRoomId = None
+    next_room_id = None
     if direction == "n":
-        nextRoomId = room.n
+        next_room_id = room.n
     elif direction == "s":
-        nextRoomId = room.s
+        next_room_id = room.s
     elif direction == "e":
-        nextRoomId = room.e
+        next_room_id = room.e
     elif direction == "w":
-        nextRoomId = room.w
+        next_room_id = room.w
 
-    if nextRoomId != -1:
-        nextRoom = Room.objects.get(id=nextRoomId)
-        if nextRoom.end:
+    if next_room_id != -1:
+        next_room = Room.objects.get(id=next_room_id)
+        if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
             Game.objects.all().delete()
-            print(f"Ended At: {nextRoom.title}")
+            print(f"Ended At: {next_room.title}")
             print("Game has ended.. End of maze found")
             return JsonResponse({"message": "Game has ended.. End of maze found"}, safe=True)
         else:
-            player.current_room = nextRoomId
+            player.current_room = next_room_id
             player.save()
-            nextRoom.visited = True
-            nextRoom.save()
-            players = nextRoom.playerNames(player_id)
-            currentPlayerUUIDs = room.playerUUIDs(player_id)
-            nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
-            for p_uuid in currentPlayerUUIDs:
+            next_room.visited = True
+            next_room.save()
+            players = next_room.player_usernames(player_id)
+            current_player_UUIDs = room.player_UUIDs(player_id)
+            next_player_UUIDs = next_room.player_UUIDs(player_id)
+            for p_uuid in current_player_UUIDs:
                 pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
                                'message': f'{player.user.username} has walked {dirs[direction]}.'})
-            for p_uuid in nextPlayerUUIDs:
+            for p_uuid in next_player_UUIDs:
                 pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
                                'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-            return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, "loc": nextRoom.id, "n": nextRoom.n, "s": nextRoom.s, "e": nextRoom.e, "w": nextRoom.w, 'error': False, 'error_msg': ""}, safe=True)
+            return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'error': False, 'error_msg': ""}, safe=True)
     else:
-        players = room.playerNames(player_id)
+        players = room.player_usernames(player_id)
         return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, "loc": room.id, "n": room.n, "s": room.s, "e": room.e, "w": room.w, 'error': True, 'error_msg': "You cannot move that way."}, safe=True)
 
 
@@ -135,9 +186,9 @@ def say(request):
     data = json.loads(request.body)
     message = data['message']
     room = player.room()
-    playerUUIDs = room.playerUUIDs(player_id)
-    for p_uuid in playerUUIDs:
+    player_UUIDs = room.player_UUIDs(player_id)
+    for p_uuid in player_UUIDs:
         pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username}: {message}'})
     
-    players = room.playerNames(player_uuid)
+    players = room.player_usernames(player_uuid)
     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'message':message}, safe=True)
