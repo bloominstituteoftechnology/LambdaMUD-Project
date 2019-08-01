@@ -50,7 +50,8 @@
 **Protected Route** (Requires a Bearer Token)
 ### Valid Query Parameters:
 - **columns**
-    - INTEGER <= 10
+    - INTEGER
+    - Less than or equal to 10
     - Specifies the size of game world
 ### Example Response:
 ```
@@ -224,8 +225,9 @@
     "s": -1,
     "e": 1,
     "w": -1,
+    "in_progress: true,
     "error": true,
-    "error_msg": "You cannot move that way."
+    "message": "You cannot move that way."
 }
 ```
 
@@ -237,12 +239,14 @@ id - INTEGER - Game ID
 in_progress - BOOLEAN - Is the game in progress?
 map_columns - INTEGER - Number of columns on map grid
 min_room_id - INTEGER - The first Room's ID
-
 ```
+**Valid column integers are 2 to 10 (inclusive)**
+
+### Games Methods:
 #### generate_rooms()
 - Generate map and rooms
 #### generate_maze()
-- Make maze
+- Make maze, edit room walls, populate neighboring room IDs
 #### generate_ending()
 - Specify maze ending
 #### total_rooms()
@@ -265,7 +269,7 @@ s - INTEGER - Room ID
 e - INTEGER - Room ID
 w - INTEGER - Room ID
 ```
-### Methods:
+### Room Methods:
 #### playerNames(currentPlayerID)
 - Get current players in the room by username
 - The username whose ID is provided for currentPlayerID will not be returned
@@ -288,6 +292,7 @@ uuid - STRING - Unique Player ID (supposedly used for Pusher)
 game_id - INTEGER - Game ID
 moves - INTEGER - Number of Moves
 ```
+### Player Methods:
 #### initialize()
 - Reset the player to the start of the map
 #### room()
@@ -298,6 +303,7 @@ moves - INTEGER - Number of Moves
 # Map Generation And Info
 
 ## 5 x 5 Map Grid Example:
+Each number in the grid is equal to the Room ID in that specific location. The Room ID can be used to retrieve the room's information.
 ### Game 1:
 ```
 0   1   2   3   4
@@ -306,6 +312,7 @@ moves - INTEGER - Number of Moves
 15  16  17  18  19
 20  21  22  23  24
 ```
+The `min_room_id` column can be accessed on the Game table which will specify the starting integer of each specific game's map. This is calculated by getting the count of total Rooms in the database, so game 2 in these examples starts at Room ID 25
 ### Game 2:
 ```
 25  26  27  28  29
@@ -335,8 +342,7 @@ WEST == location - 1 < 0 || location - 1 // map_columns != location // map_colum
 - When at a dead-end it backtracks through the path until it reaches a cell with an unvisited neighbor, continuing the path generation by visiting this new, unvisited cell (creating a new junction).
 - This process continues until every cell has been visited, causing the computer to backtrack all the way back to the beginning cell. We can be sure every cell is visited.
 - As given above this algorithm involves deep recursion which may cause stack overflow issues on some computer architectures. The algorithm can be rearranged into a loop by storing backtracking information in the maze itself. This also provides a quick way to display a solution, by starting at any given point and backtracking to the beginning.
-
-- Cell by cell
+- Then traverse maze Cell by cell:
     - Wall to N? Valid move?
         - If true, assign proper Room ID
     - Wall to S? Valid move?
