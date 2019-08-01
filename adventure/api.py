@@ -82,6 +82,10 @@ def joinlobby(request):
     try:
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
+        if columns > 10:
+            columns = 10
+        elif columns < 2:
+            columns = 2
     except:
         columns = 5
 

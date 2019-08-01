@@ -10,7 +10,8 @@ from .create_maze import Maze
 
 class Game(models.Model):
     in_progress = models.BooleanField(default=False)
-    map_columns = models.IntegerField(default=5)
+    # stackoverflow on writing a custom value validator if we want to implement size limiting https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
+    map_columns = models.PositiveIntegerField(default=5)
     min_room_id = models.IntegerField(default=0)
 
     def generate_rooms(self):
