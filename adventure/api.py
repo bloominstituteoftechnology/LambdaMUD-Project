@@ -80,7 +80,7 @@ def joinlobby(request):
         columns_given = request.query_params.get('columns')
         columns = int(columns_given)
     except:
-        columns = 5
+        columns = 2
 
     user = request.user
     player = user.player
@@ -156,7 +156,7 @@ def move(request):
         next_room_id = room.w
 
     game = player.game()
-    if next_room_id != -1 and game == None:
+    if next_room_id != -1 and game != None:
         next_room = Room.objects.get(id=next_room_id)
         if next_room.end:
             # Todo: Refactor if more than 1 game going at the same time:
