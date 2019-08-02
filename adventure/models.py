@@ -1,9 +1,21 @@
+"""
+This models.py file contains the classes for the Player and Room
+Within each class, there are methods and variables for when new 
+instances of the Player and Room are created
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
+
+"""
+The Room class contains data and methods necessary to set up a room. The data
+includes the room title and description, as well as pointers to the rooms to the north,
+south, east and west
+"""
 
 
 class Room(models.Model):
@@ -36,21 +48,27 @@ class Room(models.Model):
             self.save()
 
     def playerNames(self, currentPlayerID):
-        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.user.id != int(currentPlayerID)]
+        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
     def playerUUIDs(self, currentPlayerID):
-        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.user.id != int(currentPlayerID)]
+        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+
+
+"""
+The Player class contains data and methods necessary to set up a player. The data
+includes the user field, current room and uuid
+"""
 
 
 class Player(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
     def initialize(self):
-        self.currentRoom = Room.objects.first().id
-        self.save()
+        if self.currentRoom == 0:
+            self.currentRoom = Room.objects.first().id
+            self.save()
 
     def room(self):
         try:
@@ -59,7 +77,7 @@ class Player(models.Model):
             self.initialize()
             return self.room()
 
-# These callbacks run after a row in the User document is saved
+
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
     if created:
