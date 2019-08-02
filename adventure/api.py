@@ -21,7 +21,7 @@ pusher = Pusher(
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(['GET'])
 def initialize(request):
     player = request.user.player
     player_id = player.user.id
@@ -30,7 +30,7 @@ def initialize(request):
         game.in_progress = True
         game.save()
     else:
-        return JsonResponse({"message": "Game has ended please join a new lobby"}, safe=True)
+        return JsonResponse({'message': 'Game has ended please join a new lobby'}, safe=True)
 
     room = player.room()
     min_room_id = game.min_room_id
@@ -56,14 +56,14 @@ def initialize(request):
         'current_room': {
             'title': room.title,
             'description': room.description,
-            "visited": room.visited,
-            "end": room.end,
+            'visited': room.visited,
+            'end': room.end,
             'players': room.player_usernames(player.user.id),
-            "loc": room.id,
-            "n": room.n,
-            "s": room.s,
-            "e": room.e,
-            "w": room.w,
+            'loc': room.id,
+            'n': room.n,
+            's': room.s,
+            'e': room.e,
+            'w': room.w,
         },
         'maze': rooms_arr
     }
@@ -76,7 +76,7 @@ def initialize(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(['GET'])
 def joinlobby(request):
 
     no_preference = False
@@ -133,27 +133,27 @@ def joinlobby(request):
         'current_room': {
             'title': room.title,
             'description': room.description,
-            "visited": room.visited,
-            "end": room.end,
+            'visited': room.visited,
+            'end': room.end,
             'players': room.player_usernames(player_id),
-            "loc": room.id,
-            "n": room.n,
-            "s": room.s,
-            "e": room.e,
-            "w": room.w,
+            'loc': room.id,
+            'n': room.n,
+            's': room.s,
+            'e': room.e,
+            'w': room.w,
         },
         'maze': rooms_arr
     }, safe=True)
 
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(['POST'])
 def move(request):
-    dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
+    dirs = {'n': 'north', 's': 'south', 'e': 'east', 'w': 'west'}
     direction = json.loads(request.body)['direction'].lower()
 
     if direction not in dirs.keys():
-        return JsonResponse({"message": "Invalid Direction"}, safe=True)
+        return JsonResponse({'message': 'Invalid Direction'}, safe=True)
     else:
         player = request.user.player
         room = player.room()
@@ -161,12 +161,12 @@ def move(request):
             next_room_id = model_to_dict(room).get(direction, -1)
         else:
             return JsonResponse({
-                "in_progress": False,
-                "error": True,
-                "message": "The game has already ended! Someone found the end of the maze!!"
+                'in_progress': False,
+                'error': True,
+                'message': 'The game has already ended! Someone found the end of the maze!!'
             }, safe=True)
 
-    reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
+    reverse_dirs = {'n': 'south', 's': 'north', 'e': 'west', 'w': 'east'}
     player_id = player.user.id
     player_uuid = player.uuid
     game = player.game()
@@ -182,9 +182,9 @@ def move(request):
                                 id__lte=max_room_id).delete()
             Game.objects.filter(id=game.id).delete()
             return JsonResponse({
-                "in_progress": False,
-                "error": False,
-                "message": "Congratulations! You found the end of the maze!!"}, safe=True)
+                'in_progress': False,
+                'error': False,
+                'message': 'Congratulations! You found the end of the maze!!'}, safe=True)
         else:
             player.current_room = next_room_id
             player.save()
@@ -199,40 +199,50 @@ def move(request):
             for p_uuid in next_player_UUIDs:
                 pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {
                                'message': f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-            return JsonResponse({'name': player.user.username, 'title': next_room.title, 'description': next_room.description, 'players': players, "loc": next_room.id, "n": next_room.n, "s": next_room.s, "e": next_room.e, "w": next_room.w, 'moves': player.moves, 'error': False, 'error_msg': ""}, safe=True)
+            return JsonResponse({
+                'name': player.user.username,
+                'title': next_room.title,
+                'description': next_room.description,
+                'players': players,
+                'loc': next_room.id,
+                'n': next_room.n,
+                's': next_room.s,
+                'e': next_room.e,
+                'w': next_room.w,
+                'moves': player.moves,
+                'error': False}, safe=True)
     elif game == None:
-
         return JsonResponse({
-            "in_progress": False,
-            "error": True,
-            "message": "The game has already ended! Someone found the end of the maze!!"
+            'in_progress': False,
+            'error': True,
+            'message': 'The game has already ended! Someone found their way to the end of the maze!!'
         }, safe=True)
     elif not game.in_progress:
         return JsonResponse({
-            "in_progress": False,
-            "error": True,
-            "message": "Game has not started yet"
+            'in_progress': False,
+            'error': True,
+            'message': 'Game has not started yet'
         }, safe=True)
     else:
         players = room.player_usernames(player_id)
         return JsonResponse({
-            "in_progress": True,
-            "name": player.user.username,
-            "title": room.title,
-            "description": room.description,
-            "players": players,
-            "loc": room.id,
-            "n": room.n,
-            "s": room.s,
-            "e": room.e,
-            "w": room.w,
-            "error": True,
-            "message": "You cannot move that way."
+            'in_progress': True,
+            'name': player.user.username,
+            'title': room.title,
+            'description': room.description,
+            'players': players,
+            'loc': room.id,
+            'n': room.n,
+            's': room.s,
+            'e': room.e,
+            'w': room.w,
+            'error': True,
+            'message': 'You cannot move that way.'
         }, safe=True)
 
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(['POST'])
 def say(request):
     player = request.user.player
     player_id = player.user.id
@@ -250,7 +260,7 @@ def say(request):
 
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(['GET'])
 def end(request):
     player = request.user.player
     game = player.game()
@@ -260,12 +270,12 @@ def end(request):
         Room.objects.filter(id__gte=min_room_id, id__lte=max_room_id).delete()
         Game.objects.filter(id=game.id).delete()
         return JsonResponse({
-            "in_progress": False,
-            "error": False,
-            "message": "Game quit!"}, safe=True)
+            'in_progress': False,
+            'error': False,
+            'message': 'Game quit!'}, safe=True)
     else:
         return JsonResponse({
-            "in_progress": False,
-            "error": True,
-            "message": "The game has already ended! Someone found the end of the maze!!"
+            'in_progress': False,
+            'error': True,
+            'message': 'The game has already ended! Someone found the end of the maze!!'
         }, safe=True)
