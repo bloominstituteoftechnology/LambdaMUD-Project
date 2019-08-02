@@ -87,6 +87,9 @@ class Game(models.Model):
     def total_rooms(self):
         return self.map_columns * self.map_columns
 
+    def num_players(self):        
+        return Player.objects.filter(game_id=self.id).count()
+
     @staticmethod
     def generate_title():
         adjectives = [

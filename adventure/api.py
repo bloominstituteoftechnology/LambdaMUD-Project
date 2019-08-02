@@ -52,6 +52,7 @@ def initialize(request):
             'in_progress': game.in_progress,
             'uuids': uuids,
             'usernames': room.player_usernames(player.user.id),
+            'num_players': len(uuids) + 1
         },
         'current_room': {
             'title': room.title,
@@ -129,6 +130,7 @@ def joinlobby(request):
             'in_progress': new_game.in_progress,
             'uuids': room.player_UUIDs(player_id),
             'usernames': room.player_usernames(player_id),
+            'num_players': new_game.num_players()
         },
         'current_room': {
             'title': room.title,
@@ -153,7 +155,10 @@ def move(request):
     direction = json.loads(request.body)['direction'].lower()
 
     if direction not in dirs.keys():
-        return JsonResponse({'message': 'Invalid Direction'}, safe=True)
+        return JsonResponse({
+                'in_progress': True,
+                'error': True,
+                'message': 'Invalid Direction'}, safe=True)
     else:
         player = request.user.player
         room = player.room()
@@ -204,6 +209,7 @@ def move(request):
                 'title': next_room.title,
                 'description': next_room.description,
                 'players': players,
+                'num_players': game.num_players(),
                 'loc': next_room.id,
                 'n': next_room.n,
                 's': next_room.s,
@@ -232,6 +238,7 @@ def move(request):
             'title': room.title,
             'description': room.description,
             'players': players,
+            'num_players': game.num_players(),
             'loc': room.id,
             'n': room.n,
             's': room.s,
@@ -265,7 +272,7 @@ def say(request):
 def end(request):
     player = request.user.player
     game = player.game()
-    if game:
+    if game and game.num_players() == 1:
         min_room_id = game.min_room_id
         max_room_id = min_room_id+game.total_rooms()
         Room.objects.filter(id__gte=min_room_id, id__lte=max_room_id).delete()
@@ -274,6 +281,12 @@ def end(request):
             'in_progress': False,
             'error': False,
             'message': 'Game quit!'}, safe=True)
+    elif game and game.num_players() > 1:
+        return JsonResponse({
+            'in_progress': True,
+            'error': True,
+            'message': 'There are other players in this game, so you can not end it!'
+        }, safe=True)
     else:
         return JsonResponse({
             'in_progress': False,
