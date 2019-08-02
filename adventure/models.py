@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.forms.models import model_to_dict
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import uuid
@@ -87,8 +88,16 @@ class Game(models.Model):
     def total_rooms(self):
         return self.map_columns * self.map_columns
 
-    def num_players(self):        
+    def num_players(self):
         return Player.objects.filter(game_id=self.id).count()
+
+    def get_games_UUIDs(self):
+        players_list = list(Player.objects.filter(game_id=self.id))
+        for i in range(len(players_list)):
+
+            players_list[i] = model_to_dict(players_list[i]).uuid
+
+        return players_list
 
     @staticmethod
     def generate_title():

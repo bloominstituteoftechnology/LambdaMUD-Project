@@ -97,6 +97,12 @@ def joinlobby(request):
     player_id = player.user.id
     uuid = player.uuid
 
+    if player.game() is not None:
+        return JsonResponse({
+            'in_progress': True,
+            'error': True,
+            'message': 'Currently in a game, Cannot join a new one'}, safe=True)
+
     if no_preference and Game.objects.filter(in_progress=False):
         new_game = Game.objects.get(in_progress=False)
     elif Game.objects.filter(in_progress=False, map_columns=columns):
@@ -156,9 +162,9 @@ def move(request):
 
     if direction not in dirs.keys():
         return JsonResponse({
-                'in_progress': True,
-                'error': True,
-                'message': 'Invalid Direction'}, safe=True)
+            'in_progress': True,
+            'error': True,
+            'message': 'Invalid Direction'}, safe=True)
     else:
         player = request.user.player
         room = player.room()
@@ -268,6 +274,22 @@ def say(request):
 
 
 @csrf_exempt
+@api_view(['POST'])
+def shout(request):
+    player = request.user.player
+    player_id = player.user.id
+    player_uuid = player.uuid
+    data = json.loads(request.body)
+    message = data['message']
+    game = player.game()
+    game_UUIDS = game.player_UUIDs().filter(lambda p_uuid: p_uuid != player_uuid)
+    for p_uuid in game_UUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast',
+                       {'message': f'{player.user.username}: {message}'})
+    return JsonResponse({'message_to_channel': message}, safe=True)
+
+
+@csrf_exempt
 @api_view(['GET'])
 def end(request):
     player = request.user.player
@@ -293,3 +315,17 @@ def end(request):
             'error': True,
             'message': 'The game has already ended! Someone found the end of the maze!!'
         }, safe=True)
+
+
+@csrf_exempt
+@api_view(['GET'])
+def get_maze(request):
+    player = request.user.player
+    game = player.game()
+    min_room_id = game.min_room_id
+    max_room_id = min_room_id+game.total_rooms()
+    rooms_arr = list(Room.objects.filter(
+        id__gte=min_room_id, id__lte=max_room_id))
+    for i in range(len(rooms_arr)):
+        rooms_arr[i] = model_to_dict(rooms_arr[i])
+    return JsonResponse({'maze': rooms_arr})
