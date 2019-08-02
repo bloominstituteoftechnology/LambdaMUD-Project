@@ -1,4 +1,17 @@
-# Adventure Project Week
+# Team K
+
+|   [**tactnician**](https://github.com/tactnician)  |   [**tfolbrecht**](tfolbrecht)   | 
+|:----------------:|:----------------:|
+| [<img src="https://github.com/tactnician.png?s=80" width="80">](https://github.com/tactnician) | [<img src="https://github.com/tfolbrecht.png?s=80" width="80">](https://github.com/tfolbrecht)  |
+
+
+[Trello Board](https://trello.com/b/hIikkmWk/mud-planning)
+[GitHub Project](https://github.com/orgs/lloyd-tom-mud/projects)
+[Slack Channel](https://app.slack.com/client/T4JUEB3ME/GLNRSR873)
+
+
+
+## Adventure Project Week
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
@@ -33,13 +46,13 @@ creative guide.
 
 ## Trello Set Up:
 
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
+- [x] Create a Trello account if you don't have one already
+- [x] Create a new board called "LambdaMUD - {Your Name}"
+- [x] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
+- [x] Fill in the `To Do` list with the MVP features listed below
+- [x] Fill in the `backlog` list with all the extra features listed below
+- [x] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
+- [x] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
 
 ## MVP Features:
 
@@ -70,13 +83,13 @@ Request comment:
 ```markdown
 ## Trello Set Up:
 
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
+- [x] Create a Trello account if you don't have one already
+- [x] Create a new board called "LambdaMUD - {Your Name}"
+- [x] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
+- [x] Fill in the `To Do` list with the MVP features listed below
+- [x] Fill in the `backlog` list with all the extra features listed below
+- [x] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
+- [x] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
 
 ## MVP Features:
 
@@ -93,7 +106,7 @@ Request comment:
 - [ ] Alert the player when someone in the current room says something (server implementation incomplete)
 
 #### Server
-- [ ] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
+- [x] Create a new API endpoint for `say` which broadcasts a message to other players in the current room
 - [ ] Deploy to Heroku
 
 #### General
@@ -177,32 +190,32 @@ MVP as soon as you can and get working the list of features.
 ### Registration
 * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password1":"testpassword", "password2":"testpassword"}' localhost:8000/api/registration/`
 * Response:
-  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
+  * `{"key":"3fccdfc824ccae3374904f85cdface87c9fa1394"}`
 
 ### Login
 * Request:
   * `curl -X POST -H "Content-Type: application/json" -d '{"username":"testuser", "password":"testpassword"}' localhost:8000/api/login/`
 * Response:
-  * `{"key":"6b7b9d0f33bd76e75b0a52433f268d3037e42e66"}`
+  * `{"key":"3fccdfc824ccae3374904f85cdface87c9fa1394"}`
 
 ### Initialize
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X GET -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' localhost:8000/api/adv/init/`
+  * `curl -X GET -H 'Authorization: Token 3fccdfc824ccae3374904f85cdface87c9fa1394' localhost:8000/api/adv/init/`
 * Response:
   * `{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b", "name": "testuser", "title": "Outside Cave Entrance", "description": "North of you, the cave mount beckons", "players": []}`
 
 ### Move
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
+  * `curl -X POST -H 'Authorization: Token 3fccdfc824ccae3374904f85cdface87c9fa1394' -H "Content-Type: application/json" -d '{"direction":"n"}' localhost:8000/api/adv/move/`
 * Response:
   * `{"name": "testuser", "title": "Foyer", "description": "Dim light filters in from the south. Dusty\npassages run north and east.", "players": [], "error_msg": ""}`
 * Pusher broadcast:
   * Players in previous room receive a message: `<name> has walked north.`
   * Players in next room receive a message: `<name> has entered from the south.`
 
-### Say (NOT YET IMPLEMENTED)
+### Say *dabs*
 * Request:  (Replace token string with logged in user's auth token)
-  * `curl -X POST -H 'Authorization: Token 6b7b9d0f33bd76e75b0a52433f268d3037e42e66' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
+  * `curl -X POST -H 'Authorization: Token 3fccdfc824ccae3374904f85cdface87c9fa1394' -H "Content-Type: application/json" -d '{"message":"Hello, world!"}' localhost:8000/api/adv/say/`
 * Pusher broadcast:
   * Players in current room receive a message: `<name> says "Hello, world!"`
 
