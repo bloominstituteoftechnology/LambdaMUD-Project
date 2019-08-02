@@ -210,6 +210,7 @@ def move(request):
                 'e': next_room.e,
                 'w': next_room.w,
                 'moves': player.moves,
+                'in_progress': True,
                 'error': False}, safe=True)
     elif game == None:
         return JsonResponse({
