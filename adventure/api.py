@@ -95,9 +95,12 @@ def move(request):
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         for p_uuid in currentPlayerUUIDs:
+            print('currentPlayerUUID has walked [direction]: ', p_uuid)
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         for p_uuid in nextPlayerUUIDs:
+            print('currentPlayerUUID has entered from [direction]: ', p_uuid)
             pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
+            print('check')
         return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_uuid)
@@ -115,7 +118,9 @@ def say(request):
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     data = json.loads(request.body)
     sayText = data['sayText']
+    
     for p_uuid in currentPlayerUUIDs:
+        print(p_uuid)
         pusher.trigger(f'p-channel-{p_uuid}', u'sayEvent', {'message':f'{player.user.username} says {sayText}.'})
     # pusher.trigger(f'p-channel-{player_uuid}', u'sayEvent', {'message':f'{player.user.username} says {sayText}.'})
     # pusher.trigger(f'p-channel-{player_uuid}', u'say', {'message':f'{player.user.username} says ahoy back to server.'})
