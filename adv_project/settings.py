@@ -95,17 +95,17 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # # FOR RUNNING DATABASE ON LOCAL SERVER
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# # FOR RUNNING DATABASE ON HEROKU SERVER
 # DATABASES = {
-#     'default': dj_database_url.config(default = config('DATABASE_URL')),
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
 # }
+
+# FOR RUNNING DATABASE ON HEROKU SERVER
+DATABASES = {
+    'default': dj_database_url.config(default = config('DATABASE_URL')),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -164,5 +164,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 import django_heroku
 django_heroku.settings(locals())
 
-# # FOR RUNNING DATABASE ON LOCAL SERVER
-del DATABASES['default']['OPTIONS']['sslmode']
+# # # FOR RUNNING DATABASE ON LOCAL SERVER
+# del DATABASES['default']['OPTIONS']['sslmode']
