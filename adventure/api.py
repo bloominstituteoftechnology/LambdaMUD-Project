@@ -63,5 +63,18 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    # IMPLEMENT - borrowed lines 67 to 72 from lines 31 to 36
+        player = request.user.player # request player
+        player_id = player.id # set player id
+        player_uuid = player.uuid # set player uuid
+        data = json.loads(request.body) # load data
+        message = data['message'] # set message data
+        room = player.room() # set room
+        players = room.playerUUIDs(player_id) # set players in room (borrowed from line 51)
+        if message: # check for a message
+            for player_by_id in players:
+                pusher.trigger(f'p-channel-{player_by_id}', u'broadcast', {'message':f'{message}'}) # use pusher to broadcast message to players in room
+            return JsonResponse({'name':player.user.username, 'message':message, 'error_msg':""}, safe=True)
+        else:
+            return JsonResponse({'error':"Sorry John Mayer, you can't 'Say what you need to say'"}, safe=True, status=500)
+        
