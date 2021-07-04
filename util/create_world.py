@@ -44,4 +44,3 @@ players=Player.objects.all()
 for p in players:
   p.currentRoom=r_outside.id
   p.save()
-
