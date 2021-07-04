@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
-pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+pusher = Pusher(app_id="607070", key="dac79d52d64228f70d36", secret="98284b58f3fbcc102c4e", cluster="us2")
 
 @csrf_exempt
 @api_view(["GET"])
@@ -63,5 +63,15 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    data = json.loads(request.body)
+    message = data['message']
+    room = player.room()
+    player_id = player.id
+    currentPlayerUUIDs = room.playerUUIDs(player_id)
+    players = room.playerNames(player_id)
+
+    for p_uuid in currentPlayerUUIDs:
+        pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message': f'"{message}" says {player.user.username}.'})
+ 
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players,}, safe=True)
