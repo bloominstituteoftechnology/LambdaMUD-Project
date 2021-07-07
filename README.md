@@ -1,4 +1,11 @@
-# Adventure Project Week
+## Heroku Deploy Address
+https://lambdamudmboegner.herokuapp.com
+
+## Trello Link
+
+https://trello.com/invite/b/3hujmYDG/c561a193316e4ad199d57cb2b80c74e3/lambdamud-project
+
+## Adventure Project Week 
 
 This week you'll be implementing a frontend interface for a multi-user
 dungeon (MUD) game called _LambdaMUD_. The backend is partially written
