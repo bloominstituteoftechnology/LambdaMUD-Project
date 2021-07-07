@@ -15,6 +15,7 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @api_view(["GET"])
 def initialize(request):
     user = request.user
+    print(user)
     player = user.player
     player_id = player.id
     uuid = player.uuid
@@ -63,5 +64,13 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    player_id = player.id
+    room = player.room()
+    data = json.loads(request.body)
+    message = data['message']
+    currUsers = room.playerNames(player_id)
+    currPlayerIDs = room.playerUUIDs(player_id)
+    for p_id in currPlayerIDs:
+        pusher.trigger(f'p-channel-{p_id}', u'broadcast', {'message': f'{player.user.username} says {message}'})
+    return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':currUsers}, safe=True)
