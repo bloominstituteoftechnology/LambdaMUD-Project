@@ -1,3 +1,7 @@
+"""
+This file defines the response details for each API request.
+"""
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pusher import Pusher
@@ -14,6 +18,11 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+    """
+    This function handles initial user information when the game starts.
+    Returns a JsonResponse of a user's information.
+    """
+    
     user = request.user
     player = user.player
     player_id = player.id
@@ -26,6 +35,11 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    """
+    This function handles directional commands for all players.  
+    Returns a JsonResponse for players that enter/leave a room or provide incorrect directions. 
+    """
+    
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
@@ -63,5 +77,23 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    """
+    This function handles requests with user messages.
+    Returns a JsonResponse of the user's message. 
+    """
+    
+    data = json.loads(request.body)
+    player = request.user.player
+    player_id = player.id
+    username = player.user.username
+    message = data['message']
+    room = player.room()
+
+    if message:
+        currentPlayerUUIDs = room.playerUUIDs(player_id)
+        for p_uuid in currentPlayerUUIDs:
+            pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{username} says {message}'})
+        message = ' '.join(message)
+        return JsonResponse({'message':f'{username} says {message}'}, safe=True, status=200)
+    else: 
+        return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
